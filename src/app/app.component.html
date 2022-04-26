@@ -5,11 +5,14 @@
   Afficher le cercle
   <input type="checkbox" [(ngModel)]="displayCircle" />
 </label>
-
+<div id="authetification">
+  <app-authentification></app-authentification>
+</div>
 <div style="height: 300px;"
-     leaflet 
+     leaflet
      [leafletOptions]="options"
      [leafletLayers]="otherLayers">
 
      <div *ngIf="displayCircle" [leafletLayer]="layerCircle"></div>
 </div>
+

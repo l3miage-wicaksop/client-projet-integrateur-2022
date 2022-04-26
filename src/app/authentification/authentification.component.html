@@ -1,0 +1,10 @@
+<p>authentification works!</p>
+<div >
+
+<button (click)="this.nameUser===undefined? this.login():this.logout()">
+  {{this.nameState}}
+</button>
+<div *ngIf="this.photoUrl!=undefined">
+  <img [src]="this.photoUrl">
+</div>
+</div>

@@ -12,6 +12,7 @@ import { initializeApp } from 'firebase/app';
 
 // Initialize Firebase
 
+//https://projetintegrateur-2ed35.web.app/
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
