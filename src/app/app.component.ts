@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
-
-import { initializeApp } from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -12,12 +12,16 @@ import { initializeApp } from 'firebase/app';
 
 // Initialize Firebase
 
+@Injectable({
+  providedIn: 'root',
+})
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title: any = 'ProjetIntegrateur';
   options: MapOptions = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -32,4 +36,8 @@ export class AppComponent {
 
   displayCircle = false;
   layerCircle: Layer = circle([45.188529, 5.724524], { radius: 500 });
+
+  currentUser: null | firebase.User | undefined;
+  auteur: string | undefined | null;
+
 }

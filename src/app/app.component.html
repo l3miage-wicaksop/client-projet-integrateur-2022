@@ -1,5 +1,6 @@
+<app-connexion></app-connexion>
 <h1>Projet intégrateur L3 Miage 2022</h1>
-<h2>BIenvenu chez les chamis</h2>
+<h2>Bienvenu chez les chamis</h2>
 
 <label>
   Afficher le cercle
@@ -7,9 +8,10 @@
 </label>
 
 <div style="height: 300px;"
-     leaflet 
+     leaflet
      [leafletOptions]="options"
      [leafletLayers]="otherLayers">
 
      <div *ngIf="displayCircle" [leafletLayer]="layerCircle"></div>
 </div>
+

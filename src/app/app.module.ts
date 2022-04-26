@@ -6,17 +6,23 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ConnexionComponent } from './connexion/connexion.component';
+// import { AngularFireAuthModule } from '@angular/fire/auth';
+
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ConnexionComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     LeafletModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(environment.firebaseConfig)
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  
+}
+
