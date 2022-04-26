@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Chamis,Chami } from './iterfaces';
-import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
