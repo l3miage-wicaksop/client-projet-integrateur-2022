@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 
+
 @Component({
   selector: 'app-connexion',
   templateUrl: './connexion.component.html',
@@ -9,7 +10,7 @@ import firebase from 'firebase/compat/app';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConnexionComponent implements OnInit {
-  
+
   dataIconGoogle = 'assets/images/iconGoogle.png';
 
   constructor(public auth: AngularFireAuth) {
@@ -29,5 +30,6 @@ export class ConnexionComponent implements OnInit {
   }
 
 }
+
 
 
