@@ -1,0 +1,38 @@
+<p>table-vue works!</p>
+<div *ngIf="this.decider==='Chamis'">
+  Table Chamis
+  <table>
+    <tr *ngFor="let chami of this.tableChamis">
+    <td>
+      {{chami.auteur}}
+    </td>
+    <td>
+      {{chami.age}}
+    </td>
+    <td>
+      {{chami.defiCreated}}
+    </td>
+    </tr>
+  </table>
+</div>
+<div *ngIf="this.decider==='Defis'">
+  Table of defi
+
+  <table>
+    <tr *ngFor="let defi of this.tableDefis">
+     <td>
+      {{defi.idDefi}}
+     </td>
+     <td>
+      {{defi.titre}}
+     </td>
+     <td>
+      {{defi.description}}
+     </td>
+     <td>
+      {{defi.dateCreation}}
+     </td>
+    </tr>
+  </table>
+</div>
+

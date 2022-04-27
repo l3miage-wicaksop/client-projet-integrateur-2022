@@ -2,7 +2,7 @@ import { AuthServiceService } from './../auth-service.service';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { AngularFirestore, DocumentReference } from '@angular/fire/compat/firestore';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-authentification',
@@ -40,7 +40,7 @@ export class AuthentificationComponent implements OnInit {
         }
         else{
           console.log("Else pass here ,if you have an error so then nameUser is not a string")
-          //post to backend for registre user
+          // new user what should he do?
         }
 
       }

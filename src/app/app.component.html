@@ -8,6 +8,12 @@
 <div id="authetification">
   <app-authentification></app-authentification>
 </div>
+<div id="tableChamis">
+  <app-table-vue [decider]="'Chamis'"></app-table-vue>
+</div>
+<div id="tableDefis">
+  <app-table-vue [decider]="'Defis'"></app-table-vue>
+</div>
 <div style="height: 300px;"
      leaflet
      [leafletOptions]="options"
