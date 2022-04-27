@@ -1,37 +1,39 @@
-<p>table-vue works!</p>
+
 <div *ngIf="this.decider==='Chamis'">
-  Table Chamis
+  <h4>Table Chamis</h4>
   <table>
+    <tr>
+      <th>Auteur</th>
+      <th>Age</th>
+      <th>Défis créés</th>
+    </tr>
+
     <tr *ngFor="let chami of this.tableChamis">
-    <td>
-      {{chami.auteur}}
-    </td>
-    <td>
-      {{chami.age}}
-    </td>
-    <td>
-      {{chami.defiCreated}}
-    </td>
+    <td>{{chami.auteur}}</td>
+    <td>{{chami.age}}</td>
+    <td>{{chami.defiCreated}}</td>
     </tr>
   </table>
 </div>
+
 <div *ngIf="this.decider==='Defis'">
-  Table of defi
+
+  <h4>Table de defi</h4>
 
   <table>
+    <tr>
+      <th>Défi</th>
+      <th>Titre</th>
+      <th>Date de création</th>
+      <th>Auteur</th>
+    </tr>
+    
     <tr *ngFor="let defi of this.tableDefis">
-     <td>
-      {{defi.idDefi}}
-     </td>
-     <td>
-      {{defi.titre}}
-     </td>
-     <td>
-      {{defi.description}}
-     </td>
-     <td>
-      {{defi.dateCreation}}
-     </td>
+     <td>{{defi.idDefi}}</td>
+     <td>{{defi.titre}}</td>
+    <td>{{defi.dateCreation}}</td>
+     <!-- <td>{{defi.description}}</td> -->
+
     </tr>
   </table>
 </div>

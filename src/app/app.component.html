@@ -1,19 +1,18 @@
 <h1>Projet intégrateur L3 Miage 2022</h1>
-<h2>BIenvenu chez les chamis</h2>
+<h2>Bienvenu chez les chamis</h2>
+
+<pre>
+  <app-authentification></app-authentification>
+</pre>
+
+<app-table-vue [decider]="'Chamis'"></app-table-vue>
+
+<app-table-vue [decider]="'Defis'"></app-table-vue>
 
 <label>
   Afficher le cercle
   <input type="checkbox" [(ngModel)]="displayCircle" />
 </label>
-<div id="authetification">
-  <app-authentification></app-authentification>
-</div>
-<div id="tableChamis">
-  <app-table-vue [decider]="'Chamis'"></app-table-vue>
-</div>
-<div id="tableDefis">
-  <app-table-vue [decider]="'Defis'"></app-table-vue>
-</div>
 <div style="height: 300px;"
      leaflet
      [leafletOptions]="options"
