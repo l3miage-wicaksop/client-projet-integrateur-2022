@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConnexionComponent } from './connexion.component';
+import { TableVueComponent } from './table-vue.component';
 
-describe('ConnexionComponent', () => {
-  let component: ConnexionComponent;
-  let fixture: ComponentFixture<ConnexionComponent>;
+describe('TableVueComponent', () => {
+  let component: TableVueComponent;
+  let fixture: ComponentFixture<TableVueComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ConnexionComponent ]
+      declarations: [ TableVueComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConnexionComponent);
+    fixture = TestBed.createComponent(TableVueComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

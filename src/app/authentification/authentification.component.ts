@@ -2,14 +2,13 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 
-
 @Component({
-  selector: 'app-connexion',
-  templateUrl: './connexion.component.html',
-  styleUrls: ['./connexion.component.scss'],
+  selector: 'app-authentification',
+  templateUrl: './authentification.component.html',
+  styleUrls: ['./authentification.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ConnexionComponent implements OnInit {
+export class AuthentificationComponent implements OnInit {
 
   dataIconGoogle = 'assets/images/iconGoogle.png';
 
@@ -30,6 +29,3 @@ export class ConnexionComponent implements OnInit {
   }
 
 }
-
-
-

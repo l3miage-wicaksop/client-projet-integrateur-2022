@@ -105,6 +105,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "l3m-pi-2022-client:build:production",
+            "firebaseProject": "projetintegrateur-2ed35",
+            "firebaseHostingSite": "projetintegrateur-2ed35"
+          }
         }
       }
     }

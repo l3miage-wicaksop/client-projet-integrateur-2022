@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "projetintegrateur-2ed35": {
+      "hosting": {
+        "l3m-pi-2022-client": [
+          "projetintegrateur-2ed35"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "projetintegrateur-2ed35"
+  }
+}
