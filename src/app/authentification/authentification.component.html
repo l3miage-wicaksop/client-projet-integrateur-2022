@@ -1,9 +1,12 @@
-<p>authentification works!</p>
-<button (click)="this.nameUser==undefined? this.login():this.logout()">
-  {{this.nameState}}
-</button>
+<div *ngIf="auth.user | async as user; else showLogin">
 
-<div *ngIf="this.photoUrl!=undefined">
-  <img [src]="this.photoUrl">
+  <h1><img [src]="user.photoURL"> Hello {{ user.displayName }}!</h1>
+
+  <button (click)="logout()">Logout</button>
+
 </div>
-<app-regstration-frame></app-regstration-frame>
+
+<ng-template #showLogin>
+  <h3>Please login </h3>
+  <button (click)="login()">Login with Google</button>
+</ng-template>
