@@ -23,7 +23,7 @@ describe('AppComponent', () => {
   it(`should have as title 'l3m-pi-2022-client'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('l3m-pi-2022-client');
+    expect(app['title']).toEqual('l3m-pi-2022-client');
   });
 
   it('should render title', () => {
