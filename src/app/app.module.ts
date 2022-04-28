@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { environment } from 'src/environments/environment';
@@ -10,17 +10,19 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AuthentificationComponent } from './authentification/authentification.component';
-import { HttpClientModule,HttpClientJsonpModule} from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { TableVueComponent } from './table-vue/table-vue.component';
 import { RegstrationFrameComponent } from './regstration-frame/regstration-frame.component';
+import { ModalComponent } from './modal/modal.component';
 @NgModule({
-  declarations: [AppComponent, AuthentificationComponent, TableVueComponent, RegstrationFrameComponent],
+  declarations: [AppComponent, AuthentificationComponent, TableVueComponent, RegstrationFrameComponent, ModalComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
     LeafletModule,
+    ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
