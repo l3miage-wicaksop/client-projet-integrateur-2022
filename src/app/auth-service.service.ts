@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
-import { Chamis, Chami, Defi, DefiVue } from './iterfaces';
+import { Chamis, Chami, Defi } from './iterfaces';
 
 
 @Injectable({
@@ -12,7 +12,6 @@ export class AuthServiceService {
   apiDefis:string ="https://projet-integrateur-2022.herokuapp.com/api/defis/"
   allUsers:Chamis={all:[]}//Change!!!!
   allDefis:Defi[] | undefined
-  allDefisVue:DefiVue[]=[]
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -100,17 +99,6 @@ export class AuthServiceService {
     return this.allDefis;
   }
 
-  async getDefisVue(){
-    this.getDefis().then((defis)=>{
-      if(defis)
-      for (let i=0;i<this.allUsers.all.length;i++)
-        for (let j=0;j<defis.length;j++){
-          const temp={defi:defis[j].idDefi,auteur:this.allUsers.all[i].login,titre:defis[j].titre,date:defis[j].dateCreation}
-          defis[j].idDefi==this.allUsers.all[i].userId ?
-           this.allDefisVue.push(temp) : false
-      }}
-    )
-    return this.allDefisVue;
-  }
+
 
 }

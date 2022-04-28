@@ -22,6 +22,7 @@ export interface Defi{
   titre:string
   description:string
   dateCreation:Timestamp
+  auteur:string
 }
 export interface DefiVue{
   defi:string
