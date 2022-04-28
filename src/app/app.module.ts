@@ -12,8 +12,9 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { AuthentificationComponent } from './authentification/authentification.component';
 import { HttpClientModule,HttpClientJsonpModule} from '@angular/common/http';
 import { TableVueComponent } from './table-vue/table-vue.component';
+import { RegstrationFrameComponent } from './regstration-frame/regstration-frame.component';
 @NgModule({
-  declarations: [AppComponent, AuthentificationComponent, TableVueComponent],
+  declarations: [AppComponent, AuthentificationComponent, TableVueComponent, RegstrationFrameComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

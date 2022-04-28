@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
-import { Chamis,Chami,Defi } from './iterfaces';
-import { throwError } from 'rxjs';
+import { Chamis, Chami, Defi, DefiVue } from './iterfaces';
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ export class AuthServiceService {
   apiDefis:string ="https://projet-integrateur-2022.herokuapp.com/api/defis/"
   allUsers:Chamis={all:[]}//Change!!!!
   allDefis:Defi[] | undefined
+  allDefisVue:DefiVue[]=[]
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -19,9 +20,7 @@ export class AuthServiceService {
     })
   };
 
-  constructor(private http : HttpClient) {
-
-  }
+  constructor(private http : HttpClient) {}
 
   async getResponseUsers(){
     return new Promise((resolve,err)=>{
@@ -80,7 +79,8 @@ export class AuthServiceService {
       return ChamiVue
     }
     catch(exception){
-       throw Error("Error in getChamis ,couldnt set up users ")
+        console.log("Error in getChamis ,couldnt set up users ")
+        return []
     }
   }
 
@@ -98,6 +98,19 @@ export class AuthServiceService {
     if(this.allDefis?.length==0)
        await this.setupDefis()
     return this.allDefis;
+  }
+
+  async getDefisVue(){
+    this.getDefis().then((defis)=>{
+      if(defis)
+      for (let i=0;i<this.allUsers.all.length;i++)
+        for (let j=0;j<defis.length;j++){
+          const temp={defi:defis[j].idDefi,auteur:this.allUsers.all[i].login,titre:defis[j].titre,date:defis[j].dateCreation}
+          defis[j].idDefi==this.allUsers.all[i].userId ?
+           this.allDefisVue.push(temp) : false
+      }}
+    )
+    return this.allDefisVue;
   }
 
 }
