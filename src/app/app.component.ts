@@ -19,6 +19,7 @@ import { initializeApp } from 'firebase/app';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  [x: string]: any;
   options: MapOptions = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
