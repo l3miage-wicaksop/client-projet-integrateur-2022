@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ModalService } from '../services/modal.service';
 
@@ -7,7 +7,7 @@ import { ModalService } from '../services/modal.service';
   templateUrl: './regstration-frame.component.html',
   styleUrls: ['./regstration-frame.component.scss']
 })
-export class RegstrationFrameComponent implements OnInit {
+export class RegstrationFrameComponent implements OnInit,AfterViewInit {
   bodyText: string | undefined;
 
   checkoutForm = this.formBuilder.group({
@@ -24,7 +24,7 @@ export class RegstrationFrameComponent implements OnInit {
 
   ngOnInit() {
       this.bodyText = 'This text can be updated in modal 1';
-
+      console.log("registreFramess")
   }
 
   openModal(id: string) {
@@ -41,5 +41,9 @@ export class RegstrationFrameComponent implements OnInit {
     this.checkoutForm.reset();
     if(this.trigger)
       this.closeModal(this.trigger)
+
+  }
+  ngAfterViewInit(){
+    this.openModal("registreForm")
   }
 }

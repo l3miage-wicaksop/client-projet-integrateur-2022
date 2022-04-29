@@ -1,6 +1,35 @@
 
-<h1>Registre</h1>
-<div><button (click)="this.openModal('registreForm')">D</button></div>
+<!--
+<div><button (click)="this.openModal('registreForm')">Registre yourself to have a score</button></div>
+ -->
 
+
+
+<jw-modal [id]="'registreForm'">
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+    <p>
+      <label for="firstname">First Name </label>
+      <input type="text" id="firstname" name="firstname" formControlName="name">
+    </p>
+    <p>
+      <label for="surname">Surname </label>
+      <input type="text" id="surname" name="surname" formControlName="surname">
+    </p>
+    <p>
+      <label for="city">City </label>
+      <input type="text" id="city" name="city" formControlName="city">
+    </p>
+    <p>
+      <label for="age">Age</label>
+      <input type="text" id="age" name="age" formControlName="age">
+    </p>
+    <p>
+      <label for="description">Description</label>
+      <input type="text" id="description" name="description" formControlName="description">
+    </p>
+  </form>
+  <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
+  <button (click)="closeModal('registreForm');">Send</button>
+</jw-modal>
 
 

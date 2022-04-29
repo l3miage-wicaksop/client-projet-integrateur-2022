@@ -1,6 +1,6 @@
 import { ModalService } from './../services/modal.service';
 import { AuthServiceService } from './../auth-service.service';
-import { Component, OnInit ,OnChanges } from '@angular/core';
+import { Component, OnInit ,OnChanges, AfterViewInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { ChangeDetectorRef} from '@angular/core';
@@ -13,7 +13,7 @@ import { ChangeDetectorRef} from '@angular/core';
   templateUrl: './authentification.component.html',
   styleUrls: ['./authentification.component.scss']
 })
-export class AuthentificationComponent implements OnInit ,OnChanges {
+export class AuthentificationComponent implements OnInit ,AfterViewInit{
 
   userNotUndefined=false
   userLogIn=false
@@ -29,10 +29,7 @@ export class AuthentificationComponent implements OnInit ,OnChanges {
 
   ngOnInit(): void {
     this.logout()
-    if(this.userLogIn){
-      this.userNotUndefined=true
-      console.log("lol")
-    }
+
   }
 
 
@@ -43,9 +40,11 @@ export class AuthentificationComponent implements OnInit ,OnChanges {
         this.currentUser=firebase.auth().currentUser;
         this.currentUser?.providerData.forEach( async profile=> {
           this.photoUrl=profile?.photoURL
+          console.log(this.photoUrl)
           this.nameUser=profile?.displayName
           this.nameState=this.nameUser + " .Woud you like to logout?"
           this.userLogIn=true
+          this.ngAfterViewInit()
         })
       }
     // ).then(
@@ -63,19 +62,15 @@ export class AuthentificationComponent implements OnInit ,OnChanges {
     ).catch((error)=>{
       console.log("Got error ,No user has been found :",error);})
   }
-  ngOnChanges(){
-    //this.controllerAuth("")
-    if(this.userLogIn){
-      this.userNotUndefined=true
-      console.log("lol")
-    }
-  }
+
 
 
   logout() {
     this.auth.signOut();
     this.nameUser=undefined
     this.photoUrl=undefined
+    this.userLogIn=false
+    this.userNotUndefined=false
     this.nameState="Loggin"
   }
 
@@ -87,17 +82,20 @@ export class AuthentificationComponent implements OnInit ,OnChanges {
   }
 
   controllerAuth(){
-    this.authServ.checkExistingUser(this.nameUser).then((val)=>{
-      console.log("here0")
-      console.log(val)
-      console.log("here1")
       if(typeof(this.nameUser)==="string" && this.authServ.checkExistingUser(this.nameUser)){
-        this.userNotUndefined=val as boolean
-      }}
+        this.userNotUndefined=true
+        //this.initFrameRegistre()
 
-    )
+      }
+
   }
-
+  ngAfterViewInit(){
+    Promise.resolve().then(()=>{
+      if(this.userLogIn){
+        this.controllerAuth()
+      }
+    })
+  }
 
 
 

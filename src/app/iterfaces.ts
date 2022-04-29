@@ -24,9 +24,3 @@ export interface Defi{
   dateCreation:Timestamp
   auteur:string
 }
-export interface DefiVue{
-  defi:string
-  titre:string
-  auteur:string
-  date:Timestamp
-}

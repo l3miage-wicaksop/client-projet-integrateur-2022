@@ -61,17 +61,16 @@ export class AuthServiceService {
 
   async checkExistingUser(name: string)
   {
-    return new Promise(async (resolve,err)=>{
       await this.setupUsers()
-      console.log("pls")
-      const iterationEl=0
+      let iterationEl=0
       while(iterationEl<this.allUsers.all.length){
         if(this.allUsers.all[iterationEl].login===name)
-           resolve(true)
+          return true
+        iterationEl++
       }
-       resolve(false)
-    })
+      return false
   }
+
 
   async getChamis(){
     try{

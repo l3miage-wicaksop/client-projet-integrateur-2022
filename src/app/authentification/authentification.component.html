@@ -7,17 +7,8 @@
   <img [src]="this.photoUrl">
 </div>
 
-<div *ngIf="userLogIn">
-  privet
-  {{this.controllerAuth()}}
-</div>
+
 <div *ngIf="userNotUndefined">
-  poka
+  <app-regstration-frame></app-regstration-frame>
 </div>
-<!-- <div *ngIf="userLogIn">
-  {{this.controllerAuth()}}
-</div>
-<div *ngIf="userNotUndefined">
-  heyt
-</div> -->
 
