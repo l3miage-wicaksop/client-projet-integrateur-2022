@@ -1,0 +1,25 @@
+
+
+<jw-modal [id]="'registreForm'">
+  <h1>Please give share with us some information</h1>
+  <form>
+    <label  for="fname">First Name:</label>
+    <input type="text" id="fname" name="fname"><br/>
+    <label  for="lname">Last Name:</label>
+    <input type="text" id="lname" name="lname"><br/>
+    <label for="city">City :</label>
+    <input type="text" id="city" name="city"><br/>
+    <label for="age">Age :</label>
+    <input type="text" id="age" name="age"><br/>
+    <label for="description">Description :</label>
+    <input type="text" id="description" name="description"><br/>
+
+  </form>
+
+  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  </form>
+  <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
+  <button (click)="closeModal('registreForm');">Send</button>
+</jw-modal>
+
+

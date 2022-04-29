@@ -6,7 +6,8 @@ export const environment = {
   firebase: {
     projectId: 'premierprojet-9c7d8',
     appId: '1:394949715793:web:d660e6b31029bad8421570',
-    databaseURL: 'https://premierprojet-9c7d8-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+      'https://premierprojet-9c7d8-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'premierprojet-9c7d8.appspot.com',
     locationId: 'europe-west',
     apiKey: 'AIzaSyDW-DEvtZJhNXgSJvogxHinLCVtpfzk50U',

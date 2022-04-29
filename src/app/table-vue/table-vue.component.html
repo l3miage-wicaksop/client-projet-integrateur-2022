@@ -1,0 +1,46 @@
+
+<div *ngIf="this.decider==='Chamis'">
+  <h4>Table Chamis</h4>
+  <table>
+    <tr>
+      <th>Auteur</th>
+      <th>Age</th>
+      <th>Défis créés</th>
+    </tr>
+
+    <tr *ngFor="let chami of this.tableChamis">
+    <td>{{chami.auteur}}</td>
+    <td>{{chami.age}}</td>
+    <td>{{chami.defiCreated}}</td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="this.decider==='Defis'">
+
+  <h4>Table de defi</h4>
+
+  <table>
+    <tr>
+      <th>Défi</th>
+      <th>Titre</th>
+      <th>Date de création</th>
+      <th>Auteur</th>
+    </tr>
+
+    <tr *ngFor="let defi of this.tableDefis">
+      <td>
+        <button (click)="openModal(defi.idDefi)">{{defi.idDefi}}</button>
+      </td>
+
+     <td>{{defi.titre}}</td>
+    <td>{{defi.dateCreation}}</td>
+    <td>{{defi.auteur}}</td>
+     <!-- <td>{{defi.description}}</td> -->
+     <jw-modal [id]="defi.idDefi">hui</jw-modal>
+    </tr>
+  </table>
+
+<div></div>
+</div>
+

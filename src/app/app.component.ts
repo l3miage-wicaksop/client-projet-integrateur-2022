@@ -3,7 +3,7 @@ import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { rejects } from 'assert';
+//import { rejects } from 'assert';
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -16,6 +16,8 @@ import { rejects } from 'assert';
 @Injectable({
   providedIn: 'root',
 })
+//https://projetintegrateur-2ed35.web.app/
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -23,6 +25,9 @@ import { rejects } from 'assert';
 })
 export class AppComponent {
   title: any = 'PROJETDEMERDE';
+
+  [x: string]: any;
+
   options: MapOptions = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
