@@ -4,8 +4,11 @@ export interface Chami{
   age:number;
   login:string;
   description:string;
-  userId:string;
+  name:string;
+  city:string;
+  surname:string;
 }
+
 
 export interface Chamis{
   all:Chami[]

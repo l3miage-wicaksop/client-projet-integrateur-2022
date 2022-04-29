@@ -6,7 +6,7 @@
 
 
 <jw-modal [id]="'registreForm'">
-  <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+  <form [formGroup]="checkoutForm" >
     <p>
       <label for="firstname">First Name </label>
       <input type="text" id="firstname" name="firstname" formControlName="name">
@@ -29,7 +29,7 @@
     </p>
   </form>
   <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
-  <button (click)="closeModal('registreForm');">Send</button>
+  <button (click)="onSubmit()">Send</button>
 </jw-modal>
 
 

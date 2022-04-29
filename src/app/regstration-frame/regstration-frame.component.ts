@@ -1,6 +1,9 @@
+import { PostService } from './../post.service';
 import { Component, Input, OnInit, AfterViewInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ModalService } from '../services/modal.service';
+import { Chami } from '../iterfaces';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'app-regstration-frame',
@@ -9,18 +12,19 @@ import { ModalService } from '../services/modal.service';
 })
 export class RegstrationFrameComponent implements OnInit,AfterViewInit {
   bodyText: string | undefined;
-
+  @Input() login :string|undefined
   checkoutForm = this.formBuilder.group({
     name: '',
     surname: '',
     city: '',
     age :'',
-    description:''
+    description:'',
+    login:''
   });
 
 
   @Input() trigger:string | undefined;
-  constructor(private modalService: ModalService,private formBuilder: FormBuilder,) { }
+  constructor(private post :PostService,private modalService: ModalService,private formBuilder: FormBuilder,) { }
 
   ngOnInit() {
       this.bodyText = 'This text can be updated in modal 1';
@@ -37,12 +41,19 @@ export class RegstrationFrameComponent implements OnInit,AfterViewInit {
 
   onSubmit(): void {
     // Process checkout data here
+    console.log("submit form")
     console.warn('Your order has been submitted', this.checkoutForm.value);
+    if(this.login){
+      this.checkoutForm.patchValue({login:this.login})
+      console.log("chami a post ",this.checkoutForm.value)
+      console.log("postingUsers do")
+      this.post.postingUsers(this.checkoutForm.value as Chami)
+      console.log("postingUsers posle")
+    }
     this.checkoutForm.reset();
-    if(this.trigger)
-      this.closeModal(this.trigger)
-
+    this.closeModal("registreForm")//this.trigger
   }
+
   ngAfterViewInit(){
     this.openModal("registreForm")
   }
