@@ -55,13 +55,13 @@ export class TableVueComponent implements OnInit {
   }
 
   treatementDefis(text: String) {
-    var a = text.replace(/n-/g, '<br />');
+    var a = text.replace(/\\n-/gi, '');
     return a;
 
-    /*   var textArray: string[] = text.split();
+    /*var textArray: string[] = text.split('-');
     console.log('HERTERWE' + textArray);
     for (let i = 0; i < textArray.length; i++) {
-      if (textArray[i] === ',') textArray[i] = textArray[i] + ;
+      if (textArray[i] === ',') textArray. = textArray[i] + '\n<br>';
     }
     return textArray;*/
   }

@@ -51,7 +51,7 @@
   </button>
 
       <jw-modal  [id]="defi.idDefi" [defiAffichage]="defi.description">
-        <div> {{treatementDefis(defi.description)}} </div>
+        <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
           <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
