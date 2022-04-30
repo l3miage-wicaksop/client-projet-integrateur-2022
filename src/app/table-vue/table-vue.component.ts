@@ -50,4 +50,19 @@ export class TableVueComponent implements OnInit {
   openModal(defiName: string) {
     this.modal.open(defiName);
   }
+  closeModal(defiName: string) {
+    this.modal.close(defiName);
+  }
+
+  treatementDefis(text: String) {
+    var a = text.replace(/n-/g, '<br />');
+    return a;
+
+    /*   var textArray: string[] = text.split();
+    console.log('HERTERWE' + textArray);
+    for (let i = 0; i < textArray.length; i++) {
+      if (textArray[i] === ',') textArray[i] = textArray[i] + ;
+    }
+    return textArray;*/
+  }
 }

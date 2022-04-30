@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ModalService {
@@ -16,8 +16,6 @@ export class ModalService {
 
   open(id: string) {
     // open modal specified by id
-    console.log('Pizda' + id);
-    console.log(this.modals);
     const modal = this.modals.find((x) => x.id === id);
     modal.open();
   }
