@@ -9,15 +9,15 @@
   <form [formGroup]="checkoutForm" >
     <p>
       <label for="firstname">First Name </label>
-      <input type="text" id="firstname" name="firstname" formControlName="name">
+      <input type="text" id="firstname" name="firstname" formControlName="prenom">
     </p>
     <p>
       <label for="surname">Surname </label>
-      <input type="text" id="surname" name="surname" formControlName="surname">
+      <input type="text" id="surname" name="surname" formControlName="nom">
     </p>
     <p>
       <label for="city">City </label>
-      <input type="text" id="city" name="city" formControlName="city">
+      <input type="text" id="city" name="city" formControlName="ville">
     </p>
     <p>
       <label for="age">Age</label>
@@ -28,7 +28,7 @@
       <input type="text" id="description" name="description" formControlName="description">
     </p>
   </form>
-  <p>Home page text: <input type="text" [(ngModel)]="bodyText" /></p>
+  <p>{{this.bodyText}}</p>
   <button (click)="onSubmit()">Send</button>
 </jw-modal>
 

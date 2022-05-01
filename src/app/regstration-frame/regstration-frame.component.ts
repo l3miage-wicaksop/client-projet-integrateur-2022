@@ -14,9 +14,9 @@ export class RegstrationFrameComponent implements OnInit,AfterViewInit {
   bodyText: string | undefined;
   @Input() login :string|undefined
   checkoutForm = this.formBuilder.group({
-    name: '',
-    surname: '',
-    city: '',
+    nom: '',
+    prenom: '',
+    ville: '',
     age :'',
     description:'',
     login:''
@@ -27,7 +27,7 @@ export class RegstrationFrameComponent implements OnInit,AfterViewInit {
   constructor(private post :PostService,private modalService: ModalService,private formBuilder: FormBuilder,) { }
 
   ngOnInit() {
-      this.bodyText = 'This text can be updated in modal 1';
+      this.bodyText = 'Thanks for your information';
       console.log("registreFramess")
   }
 

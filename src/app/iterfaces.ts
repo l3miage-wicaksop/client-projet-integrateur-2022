@@ -4,9 +4,11 @@ export interface Chami{
   age:number;
   login:string;
   description:string;
-  name:string;
-  city:string;
-  surname:string;
+  nom:string;
+  ville:string;
+  prenom:string;
+  defis:Defi[]
+  visites:[  ]
 }
 
 

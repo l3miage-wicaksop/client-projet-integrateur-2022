@@ -20,6 +20,15 @@ export class PostService {
 
   postingUsers(user:Chami){
     console.log("vnutri postingUsers")
-    this.http.post(this.userPost,user,this.httpOptions)
+    this.http.post(this.userPost,user,this.httpOptions).subscribe((val)=>{
+      console.log("observable in postingUsers with value ",val)
+    },
+      response=>{
+        console.log("error is posting Users ",response)
+      },
+      ()=>{
+        console.log("observable finished")
+      }
+    )
   }
 }
