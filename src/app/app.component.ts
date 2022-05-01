@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, Injectable } from '@angular/core';
 import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
-
-import { initializeApp } from 'firebase/app';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
+//import { rejects } from 'assert';
 
 // TODO: Add SDKs for Firebase products that you want to use
 
@@ -12,14 +13,21 @@ import { initializeApp } from 'firebase/app';
 
 // Initialize Firebase
 
+@Injectable({
+  providedIn: 'root',
+})
 //https://projetintegrateur-2ed35.web.app/
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  title: any = 'PROJETDEMERDE';
+
   [x: string]: any;
+
   options: MapOptions = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -34,4 +42,50 @@ export class AppComponent {
 
   displayCircle = false;
   layerCircle: Layer = circle([45.188529, 5.724524], { radius: 500 });
+
+  currentUser: null | firebase.User | undefined;
+  auteur: string | undefined | null;
+
+  constructor(public auth: AngularFireAuth) {}
+
+  verificationUser() {
+    /*this.serviceX.readAllUsers().subscribe(
+      {next: (obj) => {
+        if(this.auther in ALLNAMESCHAMISAUTEURS)
+        return PROMISE.resolve
+        else
+        return Promise.reject
+
+      },
+        error: (e) => console.error(e),
+        complete: () => console.info('complete')
+      }})*/
+    return new Promise<number>((resolve, reject) => {
+      resolve(1);
+    });
+  }
+
+  login() {
+    this.auth
+      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+      .then(async () => {
+        this.currentUser = firebase.auth().currentUser;
+        this.currentUser?.providerData.forEach(async (profile) => {
+          this.auteur = profile?.displayName;
+          console.log('setted');
+          await this.verificationUser().then(
+            (val) => console.log(val)
+            //case1 when we know auteur
+            //case2 when we dont know auteur we go to REGISTRATION FORM
+          );
+        });
+      })
+      .catch((error) => {
+        console.log('Got error ,No user has been found :', error);
+      });
+  }
+
+  logout() {
+    this.auth.signOut();
+  }
 }
