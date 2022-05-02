@@ -8,12 +8,7 @@ export interface Chami{
   ville:string;
   prenom:string;
   defis:Defi[]
-  visites:[  ]
-}
-
-
-export interface Chamis{
-  all:Chami[]
+  visites:[]
 }
 
 export interface AuteurVue{
@@ -27,5 +22,12 @@ export interface Defi{
   titre:string
   description:string
   dateCreation:Timestamp
-  auteur:string
+  auteur:Chami
+}
+
+export interface InfoDefi{
+  idDefi:string
+  titre:string
+  lat:number
+  long:number
 }

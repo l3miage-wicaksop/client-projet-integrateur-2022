@@ -1,4 +1,4 @@
-import { Chami } from './iterfaces';
+import { Chami } from '../iterfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 

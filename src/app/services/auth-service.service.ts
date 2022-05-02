@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
-import { Chamis, Chami, Defi } from './iterfaces';
+import { Chami, Defi } from '../iterfaces';
 
 
 @Injectable({
@@ -10,7 +10,8 @@ export class AuthServiceService {
 
   apiUsers:string ="https://projet-integrateur-2022.herokuapp.com/api/chamis/"
   apiDefis:string ="https://projet-integrateur-2022.herokuapp.com/api/defis/"
-  allUsers:Chamis={all:[]}//Change!!!!
+  //allUsers:Chamis={all:[]}//Change!!!!
+  allUsers:Chami[]=[]
   allDefis:Defi[] | undefined
 
   httpOptions = {
@@ -47,7 +48,7 @@ export class AuthServiceService {
 
   async setupUsers(){
     await this.getResponseUsers().then((val)=>{
-      this.allUsers={all:val as Chami[]}
+      this.allUsers=val as Chami[]
       }).catch((val)=>console.log("Error in httpResponse ",val)
       )
   }
@@ -63,8 +64,8 @@ export class AuthServiceService {
   {
       await this.setupUsers()
       let iterationEl=0
-      while(iterationEl<this.allUsers.all.length){
-        if(this.allUsers.all[iterationEl].login===name)
+      while(iterationEl<this.allUsers.length){
+        if(this.allUsers[iterationEl].login===name)
           return true
         iterationEl++
       }
@@ -74,9 +75,9 @@ export class AuthServiceService {
 
   async getChamis(){
     try{
-      if(this.allUsers.all.length==0)
+      if(this.allUsers.length==0)
         await this.setupUsers()
-      const ChamiVue=this.allUsers.all.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers.all)})
+      const ChamiVue=this.allUsers.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers)})
       return ChamiVue
     }
     catch(exception){

@@ -1,8 +1,10 @@
-import { Component, Injectable } from '@angular/core';
+import { Component, Injectable, OnInit, AfterViewInit, AfterContentInit } from '@angular/core';
 import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
+import {  InfoDefi } from './iterfaces';
+import * as L from 'leaflet';
 //import { rejects } from 'assert';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -23,7 +25,7 @@ import firebase from 'firebase/compat/app';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit{
   title: any = 'PROJETDEMERDE';
 
   [x: string]: any;
@@ -38,54 +40,72 @@ export class AppComponent {
     zoom: 15,
     center: latLng(45.188529, 5.724524),
   };
-  otherLayers: Layer[] = [marker([45.188529, 5.724524])];
+
+  optionsGeo = {
+    enableHighAccuracy: true,
+    timeout: 10000,
+    maximumAge: 0
+  };
+
+  defiIcon = L.icon({
+  iconUrl: 'https://cdn-icons-png.flaticon.com/512/1388/1388262.png',
+  iconSize: [32, 32]
+  });
+
+  currentPos = L.icon({
+    iconUrl: 'https://cdn1.iconfinder.com/data/icons/travello-map-navigation/64/Nearby-512.png',
+    iconSize: [32, 32]
+  });
+
+  otherLayers: Layer[] = [L.marker([45.188529, 5.724524],{icon:this.defiIcon})];
 
   displayCircle = false;
   layerCircle: Layer = circle([45.188529, 5.724524], { radius: 500 });
 
+  position:any=[]
+  longitudeUser=0
+  latitudeUser=0
+
   currentUser: null | firebase.User | undefined;
   auteur: string | undefined | null;
+  userDefis: InfoDefi[]|undefined;
 
-  constructor(public auth: AngularFireAuth) {}
+  constructor(public auth: AngularFireAuth)  {
 
-  verificationUser() {
-    /*this.serviceX.readAllUsers().subscribe(
-      {next: (obj) => {
-        if(this.auther in ALLNAMESCHAMISAUTEURS)
-        return PROMISE.resolve
-        else
-        return Promise.reject
 
-      },
-        error: (e) => console.error(e),
-        complete: () => console.info('complete')
-      }})*/
-    return new Promise<number>((resolve, reject) => {
-      resolve(1);
-    });
   }
 
-  login() {
-    this.auth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then(async () => {
-        this.currentUser = firebase.auth().currentUser;
-        this.currentUser?.providerData.forEach(async (profile) => {
-          this.auteur = profile?.displayName;
-          console.log('setted');
-          await this.verificationUser().then(
-            (val) => console.log(val)
-            //case1 when we know auteur
-            //case2 when we dont know auteur we go to REGISTRATION FORM
-          );
-        });
-      })
-      .catch((error) => {
-        console.log('Got error ,No user has been found :', error);
-      });
+  ngAfterViewInit(){
+    this.currentLocation()
+    console.log("wassup")
   }
 
-  logout() {
-    this.auth.signOut();
+  initDefisOnMap(defis:InfoDefi[]){
+    defis.forEach(element=>{
+      const temp= L.marker([element.lat, element.long],{icon:this.defiIcon}).on("mouseover",event=>{
+        event.target.bindPopup(element.titre).openPopup()
+      }).on("mouseover",event=>event.target.closePopup())
+      this.otherLayers.push(temp)
+    })
+  }
+
+  currentLocation(){
+    if (navigator.geolocation)
+      navigator.geolocation.getCurrentPosition(this.setMarkerOnCurrLocation.bind(this),this.errorFunction,this.optionsGeo);
+    else
+    console.log("Your browser doesnt support geolocation feature\n")
+  }
+
+  setMarkerOnCurrLocation(pos:any){
+    console.log(pos)
+    console.log(pos.coords.accuracy)
+    console.log(pos.coords.altitudeAccuracy)
+    const me= L.marker([pos.coords.latitude,pos.coords.longitude],{icon:this.currentPos})
+    this.otherLayers.push(me)
+
+  }
+
+  errorFunction(err:any){
+    console.warn("you have got error: ",err);
   }
 }

@@ -1,6 +1,6 @@
 import { ModalService } from './../services/modal.service';
-import { AuthServiceService } from './../auth-service.service';
-import { Component, OnInit ,OnChanges, AfterViewInit } from '@angular/core';
+import { AuthServiceService } from '../services/auth-service.service';
+import { Component, OnInit , AfterViewInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { ChangeDetectorRef} from '@angular/core';
@@ -21,7 +21,7 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
   currentUser: firebase.User | undefined|null
   photoUrl:string|undefined|null;
   nameUser:string|undefined|null|any;
-  nameState:string="Loggin"
+  nameState:string="Login"
   city:string|undefined
   age:number|undefined
 
@@ -47,18 +47,6 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
           this.ngAfterViewInit()
         })
       }
-    // ).then(
-    //   ()=>{
-    //     if(typeof(this.nameUser)==="string" && this.authServ.checkExistingUser(this.nameUser)){
-    //       //download mes defis and mes visite
-    //       console.log("ok")
-    //       this.logout()
-    //     }
-    //     else{
-    //       console.log("Else pass here ,if you have an error so then nameUser is not a string")
-    //       // new user what should he do?
-    //       //frame
-    //     }
     ).catch((error)=>{
       console.log("Got error ,No user has been found :",error);})
   }
@@ -74,29 +62,24 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
     this.nameState="Loggin"
   }
 
-  initFrameRegistre(){
-    this.modal.open("registreForm");
-  }
-  closeFrameRegistre(){
-    this.modal.close("registreForm");
-  }
-
   controllerAuth(){
       if(typeof(this.nameUser)==="string" && this.authServ.checkExistingUser(this.nameUser)){
         this.userNotUndefined=true
-        //this.initFrameRegistre()
-
       }
-
   }
+
   ngAfterViewInit(){
     Promise.resolve().then(()=>{
       if(this.userLogIn){
-        this.controllerAuth()
+        if(typeof(this.nameUser)==="string" && !this.authServ.checkExistingUser(this.nameUser)){
+          console.log("user doesnt Exist")
+          this.userNotUndefined=true
+        }
+        else{
+          console.log("user exists or name of user is not string")
+        }
       }
     })
   }
-
-
 
 }

@@ -13,11 +13,15 @@
   Afficher le cercle
   <input type="checkbox" [(ngModel)]="displayCircle" />
 </label>
-<div style="height: 300px;"
+<div style="height: 500px;"
      leaflet
      [leafletOptions]="options"
      [leafletLayers]="otherLayers">
 
      <div *ngIf="displayCircle" [leafletLayer]="layerCircle"></div>
 </div>
+<button (click)="this.currentLocation()">Where are you?</button>
+<footer>
+Some footer
+</footer>
 

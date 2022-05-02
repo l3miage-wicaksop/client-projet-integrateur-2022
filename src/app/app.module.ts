@@ -8,7 +8,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { AfficheDefisComponent } from './affiche-defis/affiche-defis.component';
 
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
@@ -25,8 +24,7 @@ import { ModalComponent } from './modal/modal.component';
     AuthentificationComponent,
     TableVueComponent,
     RegstrationFrameComponent,
-    ModalComponent,
-    AfficheDefisComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

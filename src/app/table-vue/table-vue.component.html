@@ -38,43 +38,25 @@
       <th>Date de création</th>
       <th>Auteur</th>
     </tr>
-
     <tr *ngFor="let defi of this.tableDefis">
       <td>
-
-
-
-
   <!-- Trigger the modal with a button -->
-  <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >{{defi.idDefi}}
-
-  </button>
-
-      <jw-modal  [id]="defi.idDefi" [defiAffichage]="defi.description">
-        <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
-          <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-
-      </jw-modal>
-
-
-
-
-
-
-
+      <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >
+        {{defi.idDefi}}
+      </button>
+          <jw-modal  [id]="defi.idDefi" [defiAffichage]="defi.description">
+            <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
+              <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </jw-modal>
       </td>
-
      <td>{{defi.titre}}</td>
     <td>{{defi.dateCreation}}</td>
-    <td>{{defi.auteur}}</td>
-     <!-- <td>{{defi.description}}</td> -->
-
+    <td>{{defi.auteur.login}}</td>
     </tr>
   </table>
-
 </div>
 
 
