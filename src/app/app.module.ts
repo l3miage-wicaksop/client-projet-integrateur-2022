@@ -6,9 +6,6 @@ import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
@@ -17,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableVueComponent } from './table-vue/table-vue.component';
 import { RegstrationFrameComponent } from './regstration-frame/regstration-frame.component';
 import { ModalComponent } from './modal/modal.component';
+import { VisitesComponent } from './visites/visites.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +22,8 @@ import { ModalComponent } from './modal/modal.component';
     AuthentificationComponent,
     TableVueComponent,
     RegstrationFrameComponent,
-    ModalComponent
+    ModalComponent,
+    VisitesComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { VisitesService } from './../services/visites.service';
 import { Defi, Visite } from './../iterfaces';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
@@ -19,9 +20,11 @@ export class TableVueComponent implements OnInit {
   @Input() Visites:Visite[]|undefined
   @Input() mesDefis:Defi[]|undefined//we can optimise it but later
 
+
   constructor(
     public authServ: AuthServiceService,
-    private modal: ModalService
+    private modal: ModalService,
+    public visiteServ:VisitesService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -65,5 +68,9 @@ export class TableVueComponent implements OnInit {
     const regex = /\\n|\\r\\n|\\n\\r|\\r/g;
     const temp=text.replace(regex, '\n');
     return temp;
+  }
+
+  notification(text:string){
+    alert(text);
   }
 }

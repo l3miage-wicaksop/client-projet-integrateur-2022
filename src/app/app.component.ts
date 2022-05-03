@@ -67,8 +67,7 @@ export class AppComponent implements AfterViewInit{
   layerCircle: Layer = circle([45.188529, 5.724524], { radius: 500 });
 
   position:any=[]
-  longitudeUser=0
-  latitudeUser=0
+
 
   currentUser: null | firebase.User | undefined;
   auteur: string | undefined | null;

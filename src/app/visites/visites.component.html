@@ -1,0 +1,22 @@
+
+  <jw-modal [id]="'Visite'">
+      <form [formGroup]="visiteForm">
+        <p>
+          <label for="indice">Indice</label>
+          <input type="text" id="indice" name="indice" formControlName="indice">
+        </p>
+        <p>
+          <label for="comment">Surname </label>
+          <input type="text" id="comment" name="comment" formControlName="comment">
+        </p>
+      </form>
+      <button class="btn btn-default" (click)="this.onSubmit()">
+        Accepte Visite
+      </button>
+      <button (click)="closeModal('Visite')" class="btn btn-default" data-dismiss="modal">Close</button>
+    </jw-modal>
+
+
+
+
+
