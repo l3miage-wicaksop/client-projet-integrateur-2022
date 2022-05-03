@@ -12,7 +12,7 @@ export class AuthServiceService {
   apiDefis:string ="https://projet-integrateur-2022.herokuapp.com/api/defis/"
   //allUsers:Chamis={all:[]}//Change!!!!
   allUsers:Chami[]=[]
-  allDefis:Defi[] | undefined
+  allDefis:Defi[]=[]
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -75,8 +75,8 @@ export class AuthServiceService {
 
   async getChamis(){
     try{
-      if(this.allUsers.length==0)
-        await this.setupUsers()
+      // if(this.allUsers.length==0)
+      //   await this.setupUsers()
       const ChamiVue=this.allUsers.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers)})
       return ChamiVue
     }
@@ -96,12 +96,14 @@ export class AuthServiceService {
     return {auteur,age,defiCreated}
   }
 
-  async getDefis(){
-    if(this.allDefis?.length==0)
-       await this.setupDefis()
+   getDefis(){
+    // if(this.allDefis?.length==0)
+    //    await this.setupDefis()
     return this.allDefis;
   }
 
-
+  usersDefi(name:string){
+      return this.allDefis.filter(function(element){return element.auteur.login===name})
+  }
 
 }
