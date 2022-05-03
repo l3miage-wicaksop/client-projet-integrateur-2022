@@ -39,8 +39,6 @@ export class VisitesComponent implements OnInit {
       this.bodyText = 'Thanks for your visite';
       await this.visiteServ.getVisites().then(val=>{this.allVisites=val})
       this.createVisite(this.defi!!)
-      console.log("hey")
-      console.log(this.visite?.idVisite)
   }
 
   openModal(id: string) {
@@ -70,12 +68,6 @@ export class VisitesComponent implements OnInit {
     const temp=this.allVisites[this.allVisites.length-1].idVisite.substring(1)
     var visiteNum=Number(temp)+1
     var visiteStr=this.allVisites.length===0?'V1':String(visiteNum)
-    // const current = new Date();
-    // current.setHours(0)
-    // current.setMinutes(0)
-    // current.setSeconds(0)
-    // current.setMilliseconds(0)
-    // const timestamp = current.getTime();
     const time=Timestamp.now()
     this.visite={indice:"",commentaire:"",idDefi:defi,idVisite:visiteStr,dateDeVisite:time,points:1,score:0,temps:'0',mode:false,status:true}
     this.setCurrentVisite(this.visite)

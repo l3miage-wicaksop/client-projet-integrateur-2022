@@ -60,6 +60,11 @@ export class TableVueComponent implements OnInit {
     this.modal.open(defiName);
   }
 
+  openModalVisite(vesiteID:string,defiName: string) {
+    this.modal.open(vesiteID);
+    this.modal.close(defiName);
+  }
+
   closeModal(defiName: string) {
     this.modal.close(defiName);
   }
@@ -70,7 +75,4 @@ export class TableVueComponent implements OnInit {
     return temp;
   }
 
-  notification(text:string){
-    alert(text);
-  }
 }

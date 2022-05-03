@@ -1,8 +1,9 @@
+
 import { PostService } from './post.service';
-import { Timestamp } from 'firebase/firestore';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Defi, Visite } from '../iterfaces';
+
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +11,14 @@ import { Defi, Visite } from '../iterfaces';
 export class VisitesService {
   apiVisites:string="https://projet-integrateur-2022.herokuapp.com/api/visites/"
   allVisites:Visite[]=[]
-
   currentVisite:Visite|undefined
   userLong=0
   userLat=0
   accesVisite=false
   tempDefi:Defi|undefined
+  isUserNear=false
 
-  constructor(private http : HttpClient,private postServ:PostService) { }
+  constructor(private http : HttpClient,private postServ:PostService) { this.sec()}
 
   async getResponseVisites(){
     return new Promise((resolve,err)=>{
@@ -49,20 +50,30 @@ export class VisitesService {
     console.log(this.allVisites)
     return this.allVisites
   }
+  async sec(){
+    await this.currentLocation()
+  }
+
+  setToZero(){
+    this.userLat=0
+    this.userLong=0
+  }
 
 
   isUserOnPlace(defi:Defi){
-    const place=defi.arret
-    this.currentLocation()
-    const distance=this.getDistanceFromLatLonInKm(place.latitude,place.longitude,this.userLat,this.userLong)
-    if(distance>10)//10 meters
+    let place=defi.arret
+    let distance=this.getDistanceFromLatLonInKm(place.latitude,place.longitude,this.userLat,this.userLong)
+    this.setToZero()
+    if(distance>0.1) //10 meters
       return false
+    console.log(distance)
     this.accesVisite=true
     this.tempDefi=defi
     return true
   }
 
   getDistanceFromLatLonInKm(lat1:number, lon1:number, lat2:number, lon2:number) {
+
     var R = 6371; // Radius of the earth in km
     var dLat = this.deg2rad(lat2-lat1);  // deg2rad below
     var dLon = this.deg2rad(lon2-lon1);
@@ -81,15 +92,17 @@ export class VisitesService {
   }
 
 
-  currentLocation(){
+
+  async currentLocation(){
     if (navigator.geolocation)
-      navigator.geolocation.getCurrentPosition(this.setLatLongUsers.bind(this),this.errorFunction,this.optionsGeo);
+       navigator.geolocation.getCurrentPosition(this.setLatLongUsers.bind(this), this.errorFunction, this.optionsGeo);
     else
     console.log("Your browser doesnt support geolocation feature\n")
   }
   setLatLongUsers(pos:any){
     //pos.coords.latitude,pos.coords.longitude
-    this.userLong=pos.coords.longitutde
+    console.log("our position",pos)
+    this.userLong=pos.coords.longitude
     this.userLat=pos.coords.latitude
   }
 
@@ -102,5 +115,8 @@ export class VisitesService {
 //     return this.allVisites.filter(function(element){return element.login===name})
 // }
 
+  notification(text:string){
+    alert(text);
+  }
 
 }

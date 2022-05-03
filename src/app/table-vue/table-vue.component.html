@@ -5,9 +5,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <div class="container"></div>
-
 <div *ngIf="this.decider==='Chamis'">
-
   <h4>Table Chamis</h4>
   <div class="table-responsive">
   <table class="table">
@@ -16,7 +14,6 @@
       <th>Age</th>
       <th>Défis créés</th>
     </tr>
-
     <tr *ngFor="let chami of this.tableChamis">
     <td>{{chami.auteur}}</td>
     <td>{{chami.age}}</td>
@@ -29,8 +26,9 @@
 
 
 
-<div *ngIf="this.decider==='Visites'">
 
+
+<div *ngIf="this.decider==='Visites'">
   <h4>Table Chamis</h4>
   <div class="table-responsive">
   <table class="table" *ngFor="let visite of this.Visites">
@@ -44,7 +42,6 @@
       <th>Status</th>
       <th>Temp</th>
     </tr>
-
     <tr >
     <td>{{visite.idVisite}}</td>
     <td>{{visite.idDefi}}</td>
@@ -81,7 +78,7 @@
             <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Je veux repondre aux questions</button>
-              <button (click)="this.visiteServ.isUserOnPlace(defi)?openModal('Visite'):notification('Cannot create visite')" class="btn btn-default">Faire la visite(je suis sur place)</button>
+              <button (click)="this.visiteServ.isUserOnPlace(defi)?this.openModalVisite('Visite',defi.idDefi):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
               <button class="btn btn-default">Voir les visites de ce Defi</button>
               <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
@@ -93,9 +90,7 @@
     </tr>
   </table>
 </div>
-
-
-
-<div *ngIf="this.visiteServ.accesVisite">
+<!-- <div *ngIf="this.visiteServ.accesVisite">
   <app-visites [defi]="this.visiteServ.tempDefi"></app-visites>
-</div>
+</div> -->
+

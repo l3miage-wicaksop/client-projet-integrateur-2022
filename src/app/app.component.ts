@@ -75,7 +75,7 @@ export class AppComponent implements AfterViewInit{
 
   AllVisites:Visite[]|undefined
   visitesButton:boolean=false;
-  constructor(public auth: AngularFireAuth,private authentif:AuthServiceService,private visites:VisitesService,
+  constructor(public auth: AngularFireAuth,private authentif:AuthServiceService,public visites:VisitesService,
     private modal:ModalService)  {
 
 
