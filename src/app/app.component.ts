@@ -1,9 +1,12 @@
-import { Component, Injectable, OnInit, AfterViewInit, AfterContentInit } from '@angular/core';
+import { ModalService } from './services/modal.service';
+import { VisitesService } from './services/visites.service';
+import { AuthServiceService } from './services/auth-service.service';
+import { Component, Injectable, OnInit, AfterViewInit } from '@angular/core';
 import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import {  InfoDefi } from './iterfaces';
+import { Defi, InfoDefi, Visite } from './iterfaces';
 import * as L from 'leaflet';
 //import { rejects } from 'assert';
 
@@ -57,7 +60,8 @@ export class AppComponent implements AfterViewInit{
     iconSize: [32, 32]
   });
 
-  otherLayers: Layer[] = [L.marker([45.188529, 5.724524],{icon:this.defiIcon})];
+  //L.marker([45.188529, 5.724524],{icon:this.defiIcon})
+  otherLayers: Layer[] = [];
 
   displayCircle = false;
   layerCircle: Layer = circle([45.188529, 5.724524], { radius: 500 });
@@ -70,20 +74,26 @@ export class AppComponent implements AfterViewInit{
   auteur: string | undefined | null;
   userDefis: InfoDefi[]|undefined;
 
-  constructor(public auth: AngularFireAuth)  {
+  AllVisites:Visite[]|undefined
+  visitesButton:boolean=false;
+  constructor(public auth: AngularFireAuth,private authentif:AuthServiceService,private visites:VisitesService,
+    private modal:ModalService)  {
 
 
   }
 
-  ngAfterViewInit(){
+  async ngAfterViewInit(){
     this.currentLocation()
-    console.log("wassup")
+    if(this.authentif.allDefis?.length==0)
+      await this.authentif.setupDefis()
+    this.initDefisOnMap(this.authentif.allDefis)
+    this.setVisites()
   }
 
-  initDefisOnMap(defis:InfoDefi[]){
+  initDefisOnMap(defis:Defi[]){
     defis.forEach(element=>{
-      const temp= L.marker([element.lat, element.long],{icon:this.defiIcon}).on("mouseover",event=>{
-        event.target.bindPopup(element.titre).openPopup()
+      const temp= L.marker([element.arret.latitude, element.arret.longitude],{icon:this.defiIcon}).on("mouseover",event=>{
+        event.target.bindPopup(element.idDefi).openPopup()
       }).on("mouseover",event=>event.target.closePopup())
       this.otherLayers.push(temp)
     })
@@ -97,15 +107,25 @@ export class AppComponent implements AfterViewInit{
   }
 
   setMarkerOnCurrLocation(pos:any){
-    console.log(pos)
-    console.log(pos.coords.accuracy)
-    console.log(pos.coords.altitudeAccuracy)
     const me= L.marker([pos.coords.latitude,pos.coords.longitude],{icon:this.currentPos})
     this.otherLayers.push(me)
-
   }
 
   errorFunction(err:any){
     console.warn("you have got error: ",err);
+  }
+
+  setVisites(){
+    this.visites.getVisites().then(val=>{this.AllVisites=val as Visite[]
+    })
+  }
+
+
+  openModal(id: string) {
+    this.modal.open(id);
+  }
+
+  closeModal(id: string) {
+    this.modal.close(id);
   }
 }

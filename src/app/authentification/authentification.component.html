@@ -7,8 +7,34 @@
   <img [src]="this.photoUrl">
 </div>
 
+<ng-container
+  *ngIf="userNotUndefined; then NoUser">
+</ng-container>
 
-<div *ngIf="userNotUndefined">
+<ng-template #NoUser>
+ <app-regstration-frame [login]="this.nameUser" [indetificator]="'registreForm'"></app-regstration-frame>
+</ng-template>
+<!-- <div *ngIf="userNotUndefined">
   <app-regstration-frame [login]="this.nameUser" [indetificator]="'registreForm'"></app-regstration-frame>
+</div> -->
+<div *ngIf="userLogIn">
+  <button class="btn btn-default">
+    Mes Visites
+  </button>
+  <button class="btn btn-default" (click)="this.openModal('MesDefis')">
+    Mes Defi
+  </button>
+  <button class="btn btn-default">
+    Creer un Defi
+  </button>
 </div>
+<jw-modal [id]="'MesDefis'">
+  <app-table-vue [mesDefis]="this.mesDefis" [decider]="'Defi'"></app-table-vue>
+  <button (click)="this.closeModal('MesDefis')">
+    Close
+  </button>
+</jw-modal>
 
+<jw-modal [id]="'MesVisites'">
+
+</jw-modal>

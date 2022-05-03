@@ -4,10 +4,19 @@
 <pre>
   <app-authentification></app-authentification>
 </pre>
-
+<button (click)="this.openModal('AllVisites')" class="btn btn-default">
+  Show all visites
+</button>
 <app-table-vue [decider]="'Chamis'"></app-table-vue>
 
 <app-table-vue [decider]="'Defis'"></app-table-vue>
+
+<jw-modal [id]="'AllVisites'">
+  <app-table-vue [Visites]="AllVisites" [decider]="'Visites'"></app-table-vue>
+  <button (click)="this.closeModal('AllVisites')">
+    Close
+  </button>
+</jw-modal>
 
 <label>
   Afficher le cercle
@@ -20,7 +29,7 @@
 
      <div *ngIf="displayCircle" [leafletLayer]="layerCircle"></div>
 </div>
-<button (click)="this.currentLocation()">Where are you?</button>
+
 <footer>
 Some footer
 </footer>

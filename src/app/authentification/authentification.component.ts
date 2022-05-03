@@ -1,9 +1,11 @@
+import { VisitesService } from './../services/visites.service';
 import { ModalService } from './../services/modal.service';
 import { AuthServiceService } from '../services/auth-service.service';
 import { Component, OnInit , AfterViewInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { ChangeDetectorRef} from '@angular/core';
+import { Defi, Visite } from '../iterfaces';
 
 
 
@@ -25,7 +27,11 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
   city:string|undefined
   age:number|undefined
 
-  constructor(public auth:AngularFireAuth,public modal:ModalService,public authServ:AuthServiceService,private cdref: ChangeDetectorRef) { }
+  mesVisistes:Visite[]=[]
+  mesDefis:Defi[]=[]
+
+  constructor(public auth:AngularFireAuth,public modalService:ModalService,
+    public authServ:AuthServiceService,private visiteServ:VisitesService) { }
 
   ngOnInit(): void {
     this.logout()
@@ -44,6 +50,8 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
           this.nameUser=profile?.displayName
           this.nameState=this.nameUser + " .Woud you like to logout?"
           this.userLogIn=true
+          this.mesDefis=this.authServ.usersDefi(this.nameUser)
+          //this.mesVisites=this.visiteServ.usersVisites(this.nameUser)
           this.ngAfterViewInit()
         })
       }
@@ -70,16 +78,20 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
 
   ngAfterViewInit(){
     Promise.resolve().then(()=>{
-      if(this.userLogIn){
+      if(this.userLogIn)
         if(typeof(this.nameUser)==="string" && !this.authServ.checkExistingUser(this.nameUser)){
           console.log("user doesnt Exist")
-          this.userNotUndefined=true
-        }
-        else{
+          this.userNotUndefined=true}
+        else
           console.log("user exists or name of user is not string")
-        }
-      }
     })
   }
 
+  openModal(id: string) {
+    this.modalService.open(id);
+}
+
+  closeModal(id: string) {
+      this.modalService.close(id);
+  }
 }

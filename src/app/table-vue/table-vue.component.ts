@@ -1,4 +1,4 @@
-import { Defi } from './../iterfaces';
+import { Defi, Visite } from './../iterfaces';
 import { Component, Input, OnInit } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
 import { AuteurVue } from '../iterfaces';
@@ -11,11 +11,14 @@ import { ModalService } from '../services/modal.service';
 })
 
 export class TableVueComponent implements OnInit {
+
   tableChamis: AuteurVue[] = [];
   tableDefis: Defi[] = [];
   display: boolean = false;
   @Input() decider = '';
-  lol="dadada\nczcz\nczxcz\n"
+  @Input() Visites:Visite[]|undefined
+  @Input() mesDefis:Defi[]|undefined//we can optimise it but later
+
   constructor(
     public authServ: AuthServiceService,
     private modal: ModalService
@@ -36,12 +39,13 @@ export class TableVueComponent implements OnInit {
   }
 
   async downloadDefis() {
-    this.authServ
-      .getDefis()
-      .then((tableDefi) => {
-        this.tableDefis = tableDefi as Defi[];
-      })
-      .catch((error) => console.log('error in download defis ', error));
+    // this.authServ
+    //   .getDefis()
+    //   .then((tableDefi) => {
+    //     this.tableDefis = tableDefi as Defi[];
+    //   })
+    //   .catch((error) => console.log('error in download defis ', error));
+    this.tableDefis=this.authServ.getDefis()
   }
 
   //On click defis

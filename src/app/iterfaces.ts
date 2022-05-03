@@ -23,6 +23,17 @@ export interface Defi{
   description:string
   dateCreation:Timestamp
   auteur:Chami
+  arret:Arret
+}
+
+export interface Arret{
+  codeArret:string
+  googlemap:string
+  latitude:number
+  longitude:number
+  nomArret:string
+  openstreetmap:string
+  ville:string
 }
 
 export interface InfoDefi{
@@ -30,4 +41,17 @@ export interface InfoDefi{
   titre:string
   lat:number
   long:number
+}
+
+export interface Visite{
+  idVisite:string
+  idDefi:Defi
+  dateDeVisite:Timestamp
+  mode:boolean
+  points:number
+  score:number
+  status:boolean
+  temps:string
+  indice:string
+  commentaire:string
 }
