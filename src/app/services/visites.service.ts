@@ -119,4 +119,7 @@ export class VisitesService {
     alert(text);
   }
 
+  usersVisites(defi:Defi){
+        return this.allVisites.filter(function(element){return element.idDefi.idDefi===defi.idDefi})
+     }
 }

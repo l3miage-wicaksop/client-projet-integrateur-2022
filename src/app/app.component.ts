@@ -6,7 +6,7 @@ import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { Defi, InfoDefi, Visite } from './iterfaces';
+import { Defi, InfoDefi, Visite, Position } from './iterfaces';
 import * as L from 'leaflet';
 //import { rejects } from 'assert';
 
@@ -82,7 +82,7 @@ export class AppComponent implements AfterViewInit{
   }
 
   async ngAfterViewInit(){
-    this.currentLocation()
+    await this.currentLocation()
     if(this.authentif.allDefis?.length==0)
       await this.authentif.setupDefis()
     this.initDefisOnMap(this.authentif.allDefis)
@@ -98,14 +98,14 @@ export class AppComponent implements AfterViewInit{
     })
   }
 
-  currentLocation(){
+  async currentLocation(){
     if (navigator.geolocation)
       navigator.geolocation.getCurrentPosition(this.setMarkerOnCurrLocation.bind(this),this.errorFunction,this.optionsGeo);
     else
     console.log("Your browser doesnt support geolocation feature\n")
   }
 
-  setMarkerOnCurrLocation(pos:any){
+  async setMarkerOnCurrLocation(pos:any){
     const me= L.marker([pos.coords.latitude,pos.coords.longitude],{icon:this.currentPos})
     this.otherLayers.push(me)
   }
@@ -126,5 +126,8 @@ export class AppComponent implements AfterViewInit{
 
   closeModal(id: string) {
     this.modal.close(id);
+  }
+  setPosition(position:Position){
+    this.otherLayers[0]=L.marker([position.lat ,position.long],{icon:this.currentPos})
   }
 }

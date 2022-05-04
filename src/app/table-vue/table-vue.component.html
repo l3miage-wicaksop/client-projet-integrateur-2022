@@ -29,7 +29,7 @@
 
 
 <div *ngIf="this.decider==='Visites'">
-  <h4>Table Chamis</h4>
+  <h4>Table Visite</h4>
   <div class="table-responsive">
   <table class="table" *ngFor="let visite of this.Visites">
     <tr>
@@ -78,8 +78,8 @@
             <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Je veux repondre aux questions</button>
-              <button (click)="this.visiteServ.isUserOnPlace(defi)?this.openModalVisite('Visite',defi.idDefi):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
-              <button class="btn btn-default">Voir les visites de ce Defi</button>
+              <button (click)="this.visiteServ.isUserOnPlace(defi)?this.openModalParticulier('Visite',defi):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
+              <button (click)="this.openModalParticulier('VisiteAll',defi)"class="btn btn-default">Voir les visites de ce Defi</button>
               <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </jw-modal>

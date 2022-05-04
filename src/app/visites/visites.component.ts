@@ -1,10 +1,11 @@
 import { VisitesService } from './../services/visites.service';
 import { PostService } from './../services/post.service';
 import { ModalService } from './../services/modal.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Defi, Visite } from '../iterfaces';
+import { Defi, Visite,Position } from '../iterfaces';
 import { Timestamp } from 'firebase/firestore';
+
 
 @Component({
   selector: 'app-visites',
@@ -13,6 +14,7 @@ import { Timestamp } from 'firebase/firestore';
 })
 export class VisitesComponent implements OnInit {
 
+  @Output() posEvent = new EventEmitter<Position>();
   bodyText: string | undefined;
   allVisites:Visite[]=[]
   visite:Visite|undefined
@@ -30,7 +32,7 @@ export class VisitesComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,private modalService:ModalService,private post:PostService,
-    private visiteServ:VisitesService) {
+    public visiteServ:VisitesService) {
 
 
     }
@@ -39,6 +41,7 @@ export class VisitesComponent implements OnInit {
       this.bodyText = 'Thanks for your visite';
       await this.visiteServ.getVisites().then(val=>{this.allVisites=val})
       this.createVisite(this.defi!!)
+      this.outPutEventPosition()
   }
 
   openModal(id: string) {
@@ -84,6 +87,13 @@ export class VisitesComponent implements OnInit {
 
   setIndiceVisite(indice:string){
     this.visite?.indice!!=indice
+  }
+
+  outPutEventPosition(){
+    const lat=this.visiteServ.userLat
+    const long=this.visiteServ.userLong
+    const temp={lat,long} as Position
+    this.posEvent.emit(temp)
   }
 
 }

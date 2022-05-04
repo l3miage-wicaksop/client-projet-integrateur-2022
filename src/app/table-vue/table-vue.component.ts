@@ -60,10 +60,12 @@ export class TableVueComponent implements OnInit {
     this.modal.open(defiName);
   }
 
-  openModalVisite(vesiteID:string,defiName: string) {
+  openModalParticulier(vesiteID:string,defi:Defi) {
     this.modal.open(vesiteID);
-    this.modal.close(defiName);
+    this.modal.close(defi.idDefi);
+    this.visiteServ.tempDefi=defi
   }
+
 
   closeModal(defiName: string) {
     this.modal.close(defiName);

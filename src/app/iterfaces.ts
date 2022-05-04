@@ -55,3 +55,7 @@ export interface Visite{
   indice:string
   commentaire:string
 }
+export interface Position{
+  lat:number
+  long:number
+}
