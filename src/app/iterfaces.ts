@@ -45,7 +45,7 @@ export interface InfoDefi{
 
 export interface Visite{
   idVisite:string
-  idDefi:Defi
+  defi:Defi
   dateDeVisite:Timestamp
   mode:boolean
   points:number
@@ -54,6 +54,7 @@ export interface Visite{
   temps:string
   indice:string
   commentaire:string
+  chami:Chami
 }
 export interface Position{
   lat:number

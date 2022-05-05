@@ -3,6 +3,7 @@ import { PostService } from './post.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Defi, Visite } from '../iterfaces';
+import { lastValueFrom } from 'rxjs';
 
 
 @Injectable({
@@ -18,18 +19,25 @@ export class VisitesService {
   tempDefi:Defi|undefined
   isUserNear=false
 
-  constructor(private http : HttpClient,private postServ:PostService) { this.sec()}
+  constructor(private http : HttpClient,private postServ:PostService) { this.currentLocation()}
+
+  // async getResponseVisites(){
+  //   return new Promise((resolve,err)=>{
+  //     try{
+  //       this.http.get(this.apiVisites).subscribe((data)=>{
+  //         resolve(data)})
+  //     }
+  //   catch(exception){
+  //     err(exception)
+  //   }
+  //   })
+  // }
 
   async getResponseVisites(){
-    return new Promise((resolve,err)=>{
-      try{
-        this.http.get(this.apiVisites).subscribe((data)=>{
-          resolve(data)})
-      }
-    catch(exception){
-      err(exception)
-    }
-    })
+    this.allVisites=await lastValueFrom(this.http.get(this.apiVisites)) as Visite[]
+  //   this.http.get(this.apiVisites).subscribe((data=>{
+  //    this.allVisites=data as Visite[]
+  //  }))
   }
 
   optionsGeo = {
@@ -38,21 +46,12 @@ export class VisitesService {
     maximumAge: 0
   };
 
-  async setupVisites(){
-    await this.getResponseVisites().then((val)=>{
-      this.allVisites=val as Visite[]
-      }).catch((val)=>console.log("Error in httpResponse ",val))
-  }
 
-  async getVisites(){
-    if (this.allVisites.length==0)
-      await this.setupVisites()
-    console.log(this.allVisites)
+
+  getVisites(){
     return this.allVisites
   }
-  async sec(){
-    await this.currentLocation()
-  }
+
 
   setToZero(){
     this.userLat=0
@@ -93,7 +92,7 @@ export class VisitesService {
 
 
 
-  async currentLocation(){
+  currentLocation(){
     if (navigator.geolocation)
        navigator.geolocation.getCurrentPosition(this.setLatLongUsers.bind(this), this.errorFunction, this.optionsGeo);
     else
@@ -111,15 +110,22 @@ export class VisitesService {
   }
 
 
-//   usersVisites(name:string){
-//     return this.allVisites.filter(function(element){return element.login===name})
-// }
+  userVisites(name:string){
+    try{
+      return this.allVisites.filter(function(element){return element.chami.login===name})
+    }
+    catch{
+      return []
+    }
+  }
 
   notification(text:string){
     alert(text);
   }
 
-  usersVisites(defi:Defi){
-        return this.allVisites.filter(function(element){return element.idDefi.idDefi===defi.idDefi})
-     }
+  visiteOfDefi(defi:Defi){
+    if(defi===undefined)
+      return []
+    return this.allVisites.filter(function(element){return element.defi===defi})
+   }
 }

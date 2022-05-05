@@ -27,7 +27,7 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
   city:string|undefined
   age:number|undefined
 
-  mesVisistes:Visite[]=[]
+  mesVisites:Visite[]=[]
   mesDefis:Defi[]=[]
 
   constructor(public auth:AngularFireAuth,public modalService:ModalService,
@@ -51,6 +51,7 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
           this.nameState=this.nameUser + " .Woud you like to logout?"
           this.userLogIn=true
           this.mesDefis=this.authServ.usersDefi(this.nameUser)
+          this.mesVisites=this.visiteServ.userVisites(this.nameUser)
           //this.mesVisites=this.visiteServ.usersVisites(this.nameUser)
           this.ngAfterViewInit()
         })

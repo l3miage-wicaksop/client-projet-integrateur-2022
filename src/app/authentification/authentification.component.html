@@ -14,27 +14,29 @@
 <ng-template #NoUser>
  <app-regstration-frame [login]="this.nameUser" [indetificator]="'registreForm'"></app-regstration-frame>
 </ng-template>
-<!-- <div *ngIf="userNotUndefined">
-  <app-regstration-frame [login]="this.nameUser" [indetificator]="'registreForm'"></app-regstration-frame>
-</div> -->
+
 <div *ngIf="userLogIn">
-  <button class="btn btn-default">
+  <button class="btn btn-default" (click)="this.openModal('mesVisites')">
     Mes Visites
   </button>
-  <button class="btn btn-default" (click)="this.openModal('MesDefis')">
+  <button class="btn btn-default" (click)="this.openModal('mesDefis')">
     Mes Defi
   </button>
   <button class="btn btn-default">
     Creer un Defi
   </button>
 </div>
-<jw-modal [id]="'MesDefis'">
-  <app-table-vue [mesDefis]="this.mesDefis" [decider]="'Defi'"></app-table-vue>
-  <button (click)="this.closeModal('MesDefis')">
+
+<jw-modal [id]="'mesDefis'">
+  <app-table-vue [mesDefis]="this.authServ.usersDefi(this.nameUser)" [decider]="'MesDefis'"></app-table-vue>
+  <button (click)="this.closeModal('mesDefis')">
     Close
   </button>
 </jw-modal>
 
-<jw-modal [id]="'MesVisites'">
-
+<jw-modal [id]="'mesVisites'">
+  <app-table-vue [mesVisites]="this.mesVisites" [decider]="'MesVisites'"></app-table-vue>
+  <button (click)="this.closeModal('mesVisites')">
+    Close
+  </button>
 </jw-modal>

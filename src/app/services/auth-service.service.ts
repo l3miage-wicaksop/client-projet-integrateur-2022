@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
 import { Chami, Defi } from '../iterfaces';
-
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -22,47 +22,57 @@ export class AuthServiceService {
 
   constructor(private http : HttpClient) {}
 
+  // async getResponseUsers(){
+  //   return new Promise((resolve,err)=>{
+  //     try{
+  //       this.http.get(this.apiUsers).subscribe((data)=>{
+  //         resolve(data)})
+  //     }
+  //   catch(exception){
+  //     err(exception)
+  //   }
+  //   })
+  // }
+
   async getResponseUsers(){
-    return new Promise((resolve,err)=>{
-      try{
-        this.http.get(this.apiUsers).subscribe((data)=>{
-          resolve(data)})
-      }
-    catch(exception){
-      err(exception)
-    }
-    })
+    this.allUsers=await lastValueFrom(this.http.get(this.apiUsers)) as Chami[]
   }
+
+
+  // async getResponseDefis(){
+  //   return new Promise((resolve,err)=>{
+  //     try{
+  //       this.http.get(this.apiDefis).subscribe((data)=>{
+  //         resolve(data)})
+  //     }
+  //   catch(exception){
+  //     err(exception)
+  //   }
+  //   })
+  // }
 
   async getResponseDefis(){
-    return new Promise((resolve,err)=>{
-      try{
-        this.http.get(this.apiDefis).subscribe((data)=>{
-          resolve(data)})
-      }
-    catch(exception){
-      err(exception)
-    }
-    })
+    this.allDefis=await lastValueFrom(this.http.get(this.apiDefis)) as Defi[]
   }
 
-  async setupUsers(){
-    await this.getResponseUsers().then((val)=>{
-      this.allUsers=val as Chami[]
-      }).catch((val)=>console.log("Error in httpResponse ",val)
-      )
-  }
+  // async setupUsers(){
+  //   await this.getResponseUsers().then((val)=>{
+  //     this.allUsers=val as Chami[]
+  //     }).catch((val)=>console.log("Error in httpResponse ",val)
+  //     )
+  // }
 
-  async setupDefis(){
-    await this.getResponseDefis().then((val)=>{
-      this.allDefis=val as Defi[]
-      }).catch((val)=>console.log("Error in httpResponse ",val)
-      )
-  }
+  // async setupDefis(){
+  //   await this.getResponseDefis().then((val)=>{
+  //     this.allDefis=val as Defi[]
+  //     }).catch((val)=>console.log("Error in httpResponse ",val)
+  //     )
+  // }
 
-  async checkExistingUser(name: string)
+
+  checkExistingUser(name: string)
   {
-      await this.setupUsers()
+
       let iterationEl=0
       while(iterationEl<this.allUsers.length){
         if(this.allUsers[iterationEl].login===name)
@@ -73,10 +83,8 @@ export class AuthServiceService {
   }
 
 
-  async getChamis(){
+   getChamis(){
     try{
-      // if(this.allUsers.length==0)
-      //   await this.setupUsers()
       const ChamiVue=this.allUsers.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers)})
       return ChamiVue
     }
@@ -96,10 +104,15 @@ export class AuthServiceService {
     return {auteur,age,defiCreated}
   }
 
-   getDefis(){
+  getDefis(){
+  // if(this.allDefis?.length==0)
+  //    await this.setupDefis()
+    return this.allDefis;
+  }
+  getUsers(){
     // if(this.allDefis?.length==0)
     //    await this.setupDefis()
-    return this.allDefis;
+    return this.allUsers;
   }
 
   usersDefi(name:string){

@@ -28,7 +28,7 @@ import * as L from 'leaflet';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit{
+export class AppComponent implements OnInit{
   title: any = 'PROJETDEMERDE';
 
   [x: string]: any;
@@ -73,19 +73,19 @@ export class AppComponent implements AfterViewInit{
   auteur: string | undefined | null;
   userDefis: InfoDefi[]|undefined;
 
-  AllVisites:Visite[]|undefined
+  allVisites:Visite[]|undefined
   visitesButton:boolean=false;
-  constructor(public auth: AngularFireAuth,private authentif:AuthServiceService,public visites:VisitesService,
+  constructor(public auth: AngularFireAuth,public authentif:AuthServiceService,public visites:VisitesService,
     private modal:ModalService)  {
 
 
   }
 
-  async ngAfterViewInit(){
-    await this.currentLocation()
-    if(this.authentif.allDefis?.length==0)
-      await this.authentif.setupDefis()
-    this.initDefisOnMap(this.authentif.allDefis)
+
+  async ngOnInit(){
+    await Promise.all([this.authentif.getResponseDefis(),this.currentLocation(),this.authentif.getResponseUsers(),this.visites.getResponseVisites()])
+    this.visites.tempDefi=this.authentif.getDefis()[this.authentif.getDefis().length-1]
+    this.initDefisOnMap(this.authentif.getDefis())
     this.setVisites()
   }
 
@@ -115,9 +115,9 @@ export class AppComponent implements AfterViewInit{
   }
 
   setVisites(){
-    this.visites.getVisites().then(val=>{this.AllVisites=val as Visite[]
-    })
-  }
+    this.allVisites=this.visites.getVisites()
+    }
+
 
 
   openModal(id: string) {
@@ -130,4 +130,5 @@ export class AppComponent implements AfterViewInit{
   setPosition(position:Position){
     this.otherLayers[0]=L.marker([position.lat ,position.long],{icon:this.currentPos})
   }
+
 }

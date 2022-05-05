@@ -31,7 +31,7 @@
 <div *ngIf="this.decider==='Visites'">
   <h4>Table Visite</h4>
   <div class="table-responsive">
-  <table class="table" *ngFor="let visite of this.Visites">
+  <table class="table" *ngFor="let visite of this.getVisites()">
     <tr>
       <th>Your id of visite</th>
       <th>Defi</th>
@@ -44,7 +44,7 @@
     </tr>
     <tr >
     <td>{{visite.idVisite}}</td>
-    <td>{{visite.idDefi}}</td>
+    <!-- <td>{{visite.defi.idDefi}}</td> uncomment because the data inst good-->
     <td>{{visite.dateDeVisite}}</td>
     <td>{{visite.mode}}</td>
     <td>{{visite.points}}</td>
@@ -55,8 +55,14 @@
     Commentaire: {{visite.commentaire}}
   </table>
 </div >
+</div>
+
+
+<div *ngIf="this.decider==='MesDefis'">
+
 
 </div>
+
 
 
 <div *ngIf="this.decider==='Defis'">
@@ -79,7 +85,7 @@
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Je veux repondre aux questions</button>
               <button (click)="this.visiteServ.isUserOnPlace(defi)?this.openModalParticulier('Visite',defi):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
-              <button (click)="this.openModalParticulier('VisiteAll',defi)"class="btn btn-default">Voir les visites de ce Defi</button>
+              <button (click)="this.openModalParticulier('allVisitesDeDefi',defi)"class="btn btn-default">Voir les visites de ce Defi</button>
               <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </jw-modal>
@@ -94,3 +100,9 @@
   <app-visites [defi]="this.visiteServ.tempDefi"></app-visites>
 </div> -->
 
+<!-- <div *ngIf="this.visiteWithDefi">
+  <app-visites [defi]="this.visiteServ.tempDefi"
+(posEvent)="this.passToParentPosition($event)"
+[allVisites]="this.visiteServ.allVisites"
+></app-visites>
+</div> -->
