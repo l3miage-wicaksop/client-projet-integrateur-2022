@@ -1,0 +1,10 @@
+<jw-modal  [id]="">
+  <p>{{etape!.description}}</p>
+  <app-question [question]="etape!.question"></app-question>
+  <button (click)="useIndice()"></button>
+  <div *ngIf="this.usingIndice">
+    <p>
+      {{etape!.indice}}
+    </p>
+  </div>
+</jw-modal>

@@ -5,7 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Defi, Visite,Position, Chami } from '../iterfaces';
 import { Timestamp } from 'firebase/firestore';
-import {  lastValueFrom } from 'rxjs';
+
 
 @Component({
   selector: 'app-visites',
@@ -34,8 +34,6 @@ export class VisitesComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private modalService:ModalService,private post:PostService,
     public visiteServ:VisitesService) {
-
-
     }
 
  async ngOnInit() {

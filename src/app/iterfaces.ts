@@ -8,7 +8,8 @@ export interface Chami{
   ville:string;
   prenom:string;
   defis:Defi[]
-  visites:[]
+  visites:Visite[]
+  pointTotal:number
 }
 
 export interface AuteurVue{
@@ -59,4 +60,21 @@ export interface Visite{
 export interface Position{
   lat:number
   long:number
+}
+
+export interface Etape{
+  description:string
+  indice:Indice
+  image:string
+  question:Question
+}
+export interface Question{
+  sujet:string
+  reponses:string[]
+  solution:string
+  point :number
+}
+export interface Indice{
+  indice:string
+  point :number
 }

@@ -48,11 +48,11 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
           this.photoUrl=profile?.photoURL
           console.log(this.photoUrl)
           this.nameUser=profile?.displayName
+          this.authServ.loginUser=this.nameUser
           this.nameState=this.nameUser + " .Woud you like to logout?"
           this.userLogIn=true
           this.mesDefis=this.authServ.usersDefi(this.nameUser)
           this.mesVisites=this.visiteServ.userVisites(this.nameUser)
-          //this.mesVisites=this.visiteServ.usersVisites(this.nameUser)
           this.ngAfterViewInit()
         })
       }
@@ -79,7 +79,6 @@ export class AuthentificationComponent implements OnInit ,AfterViewInit{
 
   ngAfterViewInit(){
     Promise.resolve().then(()=>{
-      if(this.userLogIn)
         if(typeof(this.nameUser)==="string" && !this.authServ.checkExistingUser(this.nameUser)){
           console.log("user doesnt Exist")
           this.userNotUndefined=true}

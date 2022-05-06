@@ -15,6 +15,10 @@ import { TableVueComponent } from './table-vue/table-vue.component';
 import { RegstrationFrameComponent } from './regstration-frame/regstration-frame.component';
 import { ModalComponent } from './modal/modal.component';
 import { VisitesComponent } from './visites/visites.component';
+import { DefiComponent } from './defi/defi.component';
+import { EtapeComponent } from './etape/etape.component';
+import { QuestionComponent } from './question/question.component';
+import { IndicationComponent } from './indication/indication.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { VisitesComponent } from './visites/visites.component';
     TableVueComponent,
     RegstrationFrameComponent,
     ModalComponent,
-    VisitesComponent
+    VisitesComponent,
+    DefiComponent,
+    EtapeComponent,
+    QuestionComponent,
+    IndicationComponent
   ],
   imports: [
     BrowserModule,

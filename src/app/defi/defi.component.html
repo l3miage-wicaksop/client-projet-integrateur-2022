@@ -1,0 +1,9 @@
+<jw-modal  [id]="defi!.idDefi" [defiAffichage]="defi!.description">
+  <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi!.description)}} </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Commencez ce defi</button>
+    <button (click)="this.visiteServ.isUserOnPlace(defi!)?this.openModalParticulier('Visite',defi!):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
+    <button (click)="this.openModalParticulier('allVisitesDeDefi',defi!)"class="btn btn-default">Voir les visites de ce Defi</button>
+    <button (click)="closeModal(defi!.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+</jw-modal>
