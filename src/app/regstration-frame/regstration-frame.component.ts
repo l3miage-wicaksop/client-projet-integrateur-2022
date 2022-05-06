@@ -45,8 +45,10 @@ export class RegstrationFrameComponent implements OnInit,AfterViewInit {
     console.warn('Your order has been submitted', this.checkoutForm.value);
     if(this.login){
       this.checkoutForm.patchValue({login:this.login})
-      this.post.postingUsers(this.checkoutForm.value as Chami)
-    }
+      this.post.postingUsersPromise(this.checkoutForm.value as Chami).then(
+        response=>{
+          response?console.log("ok, we posted User in Db"):console.log("error ,post user doesnt have status 200")}
+      )}
     this.checkoutForm.reset();
     if(this.indetificator)
       this.closeModal(this.indetificator)//this.trigger

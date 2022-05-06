@@ -60,11 +60,12 @@ export class VisitesComponent implements OnInit {
     const commentAndVisite=this.visiteForm.value
     this.setCommentVisite(commentAndVisite.comment)
     this.setIndiceVisite(commentAndVisite.indice)
-    this.post.postingVisite(this.visite!!)
+    this.post.postingVisitePromise(this.visite!!).then(respose=>{
+      respose?console.log("ok,we posted visite in db"):console.log("error ,post viste doesnt have status 200")
+    })
     this.visiteForm.reset();
     if(this.visite?.idVisite)
       this.closeModal(this.visite?.idVisite)//this.trigger
-    //this.visite=
   }
 
   async createVisite(defi:Defi)

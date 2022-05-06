@@ -3,7 +3,7 @@ import { PostService } from './post.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Defi, Visite } from '../iterfaces';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -46,6 +46,9 @@ export class VisitesService {
     maximumAge: 0
   };
 
+  getResponseVisites2():Observable<Object>{
+    return this.http.get(this.apiVisites)
+  }
 
 
   getVisites(){
@@ -115,7 +118,7 @@ export class VisitesService {
       return this.allVisites.filter(function(element){return element.chami.login===name})
     }
     catch{
-      return []
+      return []//in  the case when we have no visites
     }
   }
 
@@ -125,7 +128,7 @@ export class VisitesService {
 
   visiteOfDefi(defi:Defi){
     if(defi===undefined)
-      return []
+      return []//in the case when defi have no visites
     return this.allVisites.filter(function(element){return element.defi===defi})
    }
 }

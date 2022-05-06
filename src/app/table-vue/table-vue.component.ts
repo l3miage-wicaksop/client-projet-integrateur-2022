@@ -14,7 +14,7 @@ import { ModalService } from '../services/modal.service';
 export class TableVueComponent implements OnInit {
 
 
-  @Input() tableChamis: AuteurVue[]|undefined ;
+  @Input() tableChamis: Chami[]|undefined ;
   @Input() tableDefis: Defi[] |undefined;
 
   display: boolean = false;
@@ -34,28 +34,7 @@ export class TableVueComponent implements OnInit {
 
   ngOnInit() {
     this.visiteWithDefi=false
-    // this.tableChamis=this.authServ.getChamis()
-    // this.tableDefis=this.authServ.getDefis()
   }
-
-  // async downloadChamis() {
-  //   this.authServ
-  //     .getChamis()
-  //     .then((tableChamis) => {
-  //       this.tableChamis = tableChamis as AuteurVue[];
-  //     })
-  //     .catch((error) => console.log('error in download chamis ', error));
-  // }
-
-  // async downloadDefis() {
-  //   // this.authServ
-  //   //   .getDefis()
-  //   //   .then((tableDefi) => {
-  //   //     this.tableDefis = tableDefi as Defi[];
-  //   //   })
-  //   //   .catch((error) => console.log('error in download defis ', error));
-  //   this.tableDefis=this.authServ.getDefis()
-  // }
 
   //On click defis
   onClickDefis() {
@@ -68,7 +47,6 @@ export class TableVueComponent implements OnInit {
 
   openModalParticulier(visiteID:string,defi:Defi) {
     if(visiteID==="allVisitesDeDefi"){
-      console.log("zdes ok")
       this.visiteWithDefi=true
       this.visiteServ.tempDefi=defi
     }
@@ -94,10 +72,5 @@ export class TableVueComponent implements OnInit {
     this.posEventTab.emit(position)
   }
 
-  getVisites(){
-    if(this.visites===undefined)
-      return []
-    else return this.visites
 
-  }
 }

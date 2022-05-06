@@ -2,7 +2,7 @@ import { Defi } from './../iterfaces';
 import { Chami, Visite } from '../iterfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subject, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +16,7 @@ export class PostService {
     headers: new HttpHeaders({
       'Content-type':  'application/json'
     }),
+    observe:'resposnse' as 'response'
 
   };
 
@@ -23,30 +24,37 @@ export class PostService {
   constructor(private http : HttpClient) {
   }
 
+  private _refreshrequired = new Subject<void>();
+
+  get Refreshrequired() {
+    return this._refreshrequired;
+  }
+
   postingUsers(user:Chami){
     console.log("vnutri postingUsers")
-    this.http.post(this.userPost,user,this.httpOptions).subscribe((val)=>{
-      console.log("observable in postingUsers with value ",val)
-    },
-      response=>{
-        console.log("error is posting Users ",response)
-      },
-      ()=>{
-        console.log("observable finished")
-      }
+    this.http.post(this.userPost,user,this.httpOptions).pipe(
+      tap(()=>{
+      this.Refreshrequired.next()
+    })
     )
   }
+
+
   async postingUsersPromise(user:Chami): Promise<boolean> {
     try {
       const R = await lastValueFrom( this.http.post(this.userPost,user,this.httpOptions) );
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      console.log("observable in postingUsers with value ",R)
-      return true;
+      if(R.status==200){
+        this.Refreshrequired.next()//to get trigger for updating in realtime
+        console.log("observable in postingUsers with value ",R)
+        return true}
+      return false
     } catch (err) {
       console.error("Error postingUsers", user, "\n", err);
       return false;
     }
   }
+
 
 
   postingVisite(visite:Visite){
@@ -65,10 +73,14 @@ export class PostService {
 
   async postingDefiPromise(defi:Defi): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.post(this.defiPost,defi,this.httpOptions) );
+      let R = await lastValueFrom( this.http.post(this.defiPost,defi,this.httpOptions) );
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      console.log("observable in postingUsers with value ",R)
-      return true;
+
+      if(R.status==200){
+        this.Refreshrequired.next()
+        console.log("observable in postingDefi with value ",R)
+        return true}
+      return false
     } catch (err) {
       console.error("Error postingUsers", defi, "\n", err);
       return false;
@@ -79,8 +91,11 @@ export class PostService {
     try {
       const R = await lastValueFrom( this.http.post(this.visitePost,visite,this.httpOptions) );
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      console.log("observable in postingUsers with value ",R)
-      return true;
+      if(R.status==200){
+        this.Refreshrequired.next()
+        console.log("observable in postingVisite with value ",R)
+        return true}
+      return false
     } catch (err) {
       console.error("Error postingUsers", visite, "\n", err);
       return false;
@@ -100,5 +115,6 @@ export class PostService {
       }
     )
   }
+
 
 }

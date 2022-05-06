@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
 import { Chami, Defi } from '../iterfaces';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class AuthServiceService {
   apiUsers:string ="https://projet-integrateur-2022.herokuapp.com/api/chamis/"
   apiDefis:string ="https://projet-integrateur-2022.herokuapp.com/api/defis/"
   //allUsers:Chamis={all:[]}//Change!!!!
+
   allUsers:Chami[]=[]
   allDefis:Defi[]=[]
 
@@ -38,6 +39,12 @@ export class AuthServiceService {
     this.allUsers=await lastValueFrom(this.http.get(this.apiUsers)) as Chami[]
   }
 
+  getResponseUsers2():Observable<Object>{
+    return this.http.get(this.apiUsers)
+  }
+  getResponseDefi2():Observable<Object>{
+    return this.http.get(this.apiDefis)
+  }
 
   // async getResponseDefis(){
   //   return new Promise((resolve,err)=>{
@@ -72,10 +79,9 @@ export class AuthServiceService {
 
   checkExistingUser(name: string)
   {
-
       let iterationEl=0
-      while(iterationEl<this.allUsers.length){
-        if(this.allUsers[iterationEl].login===name)
+      while(iterationEl<this.allUsers!.length){
+        if(this.allUsers![iterationEl].login===name)
           return true
         iterationEl++
       }
@@ -85,7 +91,7 @@ export class AuthServiceService {
 
    getChamis(){
     try{
-      const ChamiVue=this.allUsers.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers)})
+      const ChamiVue=this.allUsers!.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers!)})
       return ChamiVue
     }
     catch(exception){
@@ -116,7 +122,7 @@ export class AuthServiceService {
   }
 
   usersDefi(name:string){
-      return this.allDefis.filter(function(element){return element.auteur.login===name})
+      return this.allDefis!.filter(function(element){return element.auteur.login===name})
   }
 
 }

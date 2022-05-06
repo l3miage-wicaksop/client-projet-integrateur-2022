@@ -7,9 +7,9 @@
 <button (click)="this.openModal('AllVisites')" class="btn btn-default">
   Show all visites
 </button>
-<app-table-vue [decider]="'Chamis'" [tableChamis]="this.authentif.getChamis()" (posEventTab)="this.setPosition($event)"></app-table-vue>
+<app-table-vue [decider]="'Chamis'" [tableChamis]="this.allChamis" (posEventTab)="this.setPosition($event)"></app-table-vue>
 
-<app-table-vue [decider]="'Defis'" [tableDefis]="this.authentif.getDefis()"></app-table-vue>
+<app-table-vue [decider]="'Defis'" [tableDefis]="this.allDefis"></app-table-vue>
 
 <jw-modal [id]="'AllVisites'">
   <app-table-vue [visites]="allVisites" [decider]="'Visites'"></app-table-vue>

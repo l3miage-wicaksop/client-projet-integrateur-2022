@@ -15,9 +15,9 @@
       <th>Défis créés</th>
     </tr>
     <tr *ngFor="let chami of this.tableChamis">
-    <td>{{chami.auteur}}</td>
+    <td>{{chami.login}}</td>
     <td>{{chami.age}}</td>
-    <td>{{chami.defiCreated}}</td>
+    <td>{{chami.defis.length}}</td>
     </tr>
   </table>
 </div >
@@ -31,7 +31,7 @@
 <div *ngIf="this.decider==='Visites'">
   <h4>Table Visite</h4>
   <div class="table-responsive">
-  <table class="table" *ngFor="let visite of this.getVisites()">
+  <table class="table" *ngFor="let visite of this.visites">
     <tr>
       <th>Your id of visite</th>
       <th>Defi</th>
@@ -44,7 +44,6 @@
     </tr>
     <tr >
     <td>{{visite.idVisite}}</td>
-    <!-- <td>{{visite.defi.idDefi}}</td> uncomment because the data inst good-->
     <td>{{visite.dateDeVisite}}</td>
     <td>{{visite.mode}}</td>
     <td>{{visite.points}}</td>

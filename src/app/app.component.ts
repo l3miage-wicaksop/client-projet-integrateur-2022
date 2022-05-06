@@ -1,3 +1,4 @@
+import { PostService } from './services/post.service';
 import { ModalService } from './services/modal.service';
 import { VisitesService } from './services/visites.service';
 import { AuthServiceService } from './services/auth-service.service';
@@ -6,8 +7,10 @@ import { circle, latLng, Layer, MapOptions, marker, tileLayer } from 'leaflet';
 // Import the functions you need from the SDKs you need
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
-import { Defi, InfoDefi, Visite, Position } from './iterfaces';
+import { Defi, InfoDefi, Visite, Position, Chami } from './iterfaces';
 import * as L from 'leaflet';
+import * as Rx from "rxjs";
+import { ThisReceiver } from '@angular/compiler';
 //import { rejects } from 'assert';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -74,19 +77,26 @@ export class AppComponent implements OnInit{
   userDefis: InfoDefi[]|undefined;
 
   allVisites:Visite[]|undefined
+  allChamis:Chami[]|undefined
+  allDefis:Defi[]|undefined
+
   visitesButton:boolean=false;
   constructor(public auth: AngularFireAuth,public authentif:AuthServiceService,public visites:VisitesService,
-    private modal:ModalService)  {
+    private modal:ModalService,private post:PostService)  {
 
 
   }
 
 
   async ngOnInit(){
-    await Promise.all([this.authentif.getResponseDefis(),this.currentLocation(),this.authentif.getResponseUsers(),this.visites.getResponseVisites()])
-    this.visites.tempDefi=this.authentif.getDefis()[this.authentif.getDefis().length-1]
-    this.initDefisOnMap(this.authentif.getDefis())
-    this.setVisites()
+    this.getAll()
+    this.post.Refreshrequired.subscribe(
+      response=>{
+        this.getAll()
+      }
+    )
+    this.currentLocation()
+
   }
 
   initDefisOnMap(defis:Defi[]){
@@ -114,10 +124,11 @@ export class AppComponent implements OnInit{
     console.warn("you have got error: ",err);
   }
 
-  setVisites(){
-    this.allVisites=this.visites.getVisites()
-    }
-
+  getAll(){
+    this.getUsers()
+    this.getDefis()
+    this.getVisites()
+  }
 
 
   openModal(id: string) {
@@ -131,4 +142,24 @@ export class AppComponent implements OnInit{
     this.otherLayers[0]=L.marker([position.lat ,position.long],{icon:this.currentPos})
   }
 
+  getUsers() {
+    this.authentif.getResponseUsers2().subscribe(result=>{
+      this.allChamis=result as Chami[];
+      this.authentif.allUsers=result as Chami[]
+    })
+  }
+  getDefis() {
+    this.authentif.getResponseDefi2().subscribe(result=>{
+      const data=result as Defi[]
+      this.allDefis=data
+      this.authentif.allDefis=data
+      this.visites.tempDefi=data[data.length-1]
+      this.initDefisOnMap(data)
+    })
+  }
+  getVisites(){
+    this.visites.getResponseVisites2().subscribe(result=>{
+      this.allVisites=result as Visite[]
+    })
+  }
 }
