@@ -10,6 +10,7 @@ import { lastValueFrom, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class VisitesService {
+
   apiVisites:string="https://projet-integrateur-2022.herokuapp.com/api/visites/"
   allVisites:Visite[]=[]
   currentVisite:Visite|undefined
@@ -21,23 +22,10 @@ export class VisitesService {
 
   constructor(private http : HttpClient,private postServ:PostService) { this.currentLocation()}
 
-  // async getResponseVisites(){
-  //   return new Promise((resolve,err)=>{
-  //     try{
-  //       this.http.get(this.apiVisites).subscribe((data)=>{
-  //         resolve(data)})
-  //     }
-  //   catch(exception){
-  //     err(exception)
-  //   }
-  //   })
-  // }
 
   async getResponseVisites(){
     this.allVisites=await lastValueFrom(this.http.get(this.apiVisites)) as Visite[]
-  //   this.http.get(this.apiVisites).subscribe((data=>{
-  //    this.allVisites=data as Visite[]
-  //  }))
+
   }
 
   optionsGeo = {
@@ -131,4 +119,5 @@ export class VisitesService {
       return []//in the case when defi have no visites
     return this.allVisites.filter(function(element){return element.defi===defi})
    }
+
 }

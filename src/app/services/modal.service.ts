@@ -1,5 +1,6 @@
 import { Injectable, Input } from '@angular/core';
 
+
 @Injectable({ providedIn: 'root' })
 export class ModalService {
   private modals: any[] = [];
@@ -24,5 +25,13 @@ export class ModalService {
     // close modal specified by id
     const modal = this.modals.find((x) => x.id === id);
     modal.close();
+  }
+  next(idCurrent:string,idNext:string){
+    this.open(idNext)
+    this.close(idCurrent)
+  }
+  previous(idCurrent:string,idPrevious:string){
+    this.close(idCurrent)
+    this.open(idPrevious)
   }
 }

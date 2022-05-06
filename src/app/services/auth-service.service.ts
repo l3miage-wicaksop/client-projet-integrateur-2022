@@ -1,3 +1,4 @@
+import { PutService } from './put.service';
 import { Injectable, Input } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
 import { Chami, Defi } from '../iterfaces';
@@ -10,10 +11,11 @@ export class AuthServiceService {
 
   apiUsers:string ="https://projet-integrateur-2022.herokuapp.com/api/chamis/"
   apiDefis:string ="https://projet-integrateur-2022.herokuapp.com/api/defis/"
-  //allUsers:Chamis={all:[]}//Change!!!!
 
   allUsers:Chami[]=[]
   allDefis:Defi[]=[]
+
+  loginUser:string|undefined
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -21,19 +23,8 @@ export class AuthServiceService {
     })
   };
 
-  constructor(private http : HttpClient) {}
+  constructor(private http : HttpClient,private put:PutService) {}
 
-  // async getResponseUsers(){
-  //   return new Promise((resolve,err)=>{
-  //     try{
-  //       this.http.get(this.apiUsers).subscribe((data)=>{
-  //         resolve(data)})
-  //     }
-  //   catch(exception){
-  //     err(exception)
-  //   }
-  //   })
-  // }
 
   async getResponseUsers(){
     this.allUsers=await lastValueFrom(this.http.get(this.apiUsers)) as Chami[]
@@ -46,35 +37,12 @@ export class AuthServiceService {
     return this.http.get(this.apiDefis)
   }
 
-  // async getResponseDefis(){
-  //   return new Promise((resolve,err)=>{
-  //     try{
-  //       this.http.get(this.apiDefis).subscribe((data)=>{
-  //         resolve(data)})
-  //     }
-  //   catch(exception){
-  //     err(exception)
-  //   }
-  //   })
-  // }
+
 
   async getResponseDefis(){
     this.allDefis=await lastValueFrom(this.http.get(this.apiDefis)) as Defi[]
   }
 
-  // async setupUsers(){
-  //   await this.getResponseUsers().then((val)=>{
-  //     this.allUsers=val as Chami[]
-  //     }).catch((val)=>console.log("Error in httpResponse ",val)
-  //     )
-  // }
-
-  // async setupDefis(){
-  //   await this.getResponseDefis().then((val)=>{
-  //     this.allDefis=val as Defi[]
-  //     }).catch((val)=>console.log("Error in httpResponse ",val)
-  //     )
-  // }
 
 
   checkExistingUser(name: string)
@@ -89,14 +57,15 @@ export class AuthServiceService {
   }
 
 
-   getChamis(){
+getCurrentUser(){
     try{
-      const ChamiVue=this.allUsers!.map((element)=>{return this.countForEachAuthor(element.login,element.age,this.allUsers!)})
-      return ChamiVue
+      const CurrentUser=this.allUsers.filter((element)=>element.login=this.loginUser!)
+      return CurrentUser[0]
     }
     catch(exception){
-        console.log("Error in getChamis ,couldnt set up users ")
-        return []
+        console.log("Error in getChamis ,couldnt set up users ",exception)
+        alert("YOU HAVENT SIGN UP ")
+        return null
     }
   }
 
@@ -111,13 +80,9 @@ export class AuthServiceService {
   }
 
   getDefis(){
-  // if(this.allDefis?.length==0)
-  //    await this.setupDefis()
     return this.allDefis;
   }
   getUsers(){
-    // if(this.allDefis?.length==0)
-    //    await this.setupDefis()
     return this.allUsers;
   }
 
@@ -125,4 +90,18 @@ export class AuthServiceService {
       return this.allDefis!.filter(function(element){return element.auteur.login===name})
   }
 
+  decreasePointOfUser(point:number){
+    if(this.loginUser){
+      const curretnUser=this.getCurrentUser()
+      if(curretnUser!=null){
+        curretnUser.pointTotal=curretnUser.pointTotal-point
+        this.put.updateUser(curretnUser.login,curretnUser).then(response=>{
+          response?console.log("user have been updated with new points "):console.log("error occured while updating users points ")
+        })
+      }
+    }
+    else{
+      alert("you are not loggin your points would be count bitch")
+    }
+  }
 }
