@@ -7,17 +7,36 @@
   <img [src]="this.photoUrl">
 </div>
 
-<div *ngIf="userLogIn">
-  privet
-  {{this.controllerAuth()}}
-</div>
-<div *ngIf="userNotUndefined">
-  poka
-</div>
-<!-- <div *ngIf="userLogIn">
-  {{this.controllerAuth()}}
-</div>
-<div *ngIf="userNotUndefined">
-  heyt
-</div> -->
+<ng-container
+  *ngIf="userNotUndefined; then NoUser">
+</ng-container>
 
+<ng-template #NoUser>
+ <app-regstration-frame [login]="this.nameUser" [indetificator]="'registreForm'"></app-regstration-frame>
+</ng-template>
+
+<div *ngIf="userLogIn">
+  <button class="btn btn-default" (click)="this.openModal('mesVisites')">
+    Mes Visites
+  </button>
+  <button class="btn btn-default" (click)="this.openModal('mesDefis')">
+    Mes Defi
+  </button>
+  <button class="btn btn-default">
+    Creer un Defi
+  </button>
+</div>
+
+<jw-modal [id]="'mesDefis'">
+  <app-table-vue [mesDefis]="this.authServ.usersDefi(this.nameUser)" [decider]="'MesDefis'"></app-table-vue>
+  <button (click)="this.closeModal('mesDefis')">
+    Close
+  </button>
+</jw-modal>
+
+<jw-modal [id]="'mesVisites'">
+  <app-table-vue [mesVisites]="this.mesVisites" [decider]="'MesVisites'"></app-table-vue>
+  <button (click)="this.closeModal('mesVisites')">
+    Close
+  </button>
+</jw-modal>

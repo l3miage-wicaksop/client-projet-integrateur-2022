@@ -4,11 +4,11 @@ export interface Chami{
   age:number;
   login:string;
   description:string;
-  userId:string;
-}
-
-export interface Chamis{
-  all:Chami[]
+  nom:string;
+  ville:string;
+  prenom:string;
+  defis:Defi[]
+  visites:[]
 }
 
 export interface AuteurVue{
@@ -22,11 +22,41 @@ export interface Defi{
   titre:string
   description:string
   dateCreation:Timestamp
-  auteur:string
+  auteur:Chami
+  arret:Arret
 }
-export interface DefiVue{
-  defi:string
+
+export interface Arret{
+  codeArret:string
+  googlemap:string
+  latitude:number
+  longitude:number
+  nomArret:string
+  openstreetmap:string
+  ville:string
+}
+
+export interface InfoDefi{
+  idDefi:string
   titre:string
-  auteur:string
-  date:Timestamp
+  lat:number
+  long:number
+}
+
+export interface Visite{
+  idVisite:string
+  defi:Defi
+  dateDeVisite:Timestamp
+  mode:boolean
+  points:number
+  score:number
+  status:boolean
+  temps:string
+  indice:string
+  commentaire:string
+  chami:Chami
+}
+export interface Position{
+  lat:number
+  long:number
 }

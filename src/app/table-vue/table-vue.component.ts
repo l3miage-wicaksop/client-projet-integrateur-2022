@@ -1,6 +1,7 @@
-import { Defi } from './../iterfaces';
-import { Component, Input, OnInit } from '@angular/core';
-import { AuthServiceService } from '../auth-service.service';
+import { VisitesService } from './../services/visites.service';
+import { Chami, Defi, Position, Visite } from './../iterfaces';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
+import { AuthServiceService } from '../services/auth-service.service';
 import { AuteurVue } from '../iterfaces';
 import { ModalService } from '../services/modal.service';
 
@@ -9,60 +10,94 @@ import { ModalService } from '../services/modal.service';
   templateUrl: './table-vue.component.html',
   styleUrls: ['./table-vue.component.scss'],
 })
+
 export class TableVueComponent implements OnInit {
-  tableChamis: AuteurVue[] = [];
-  tableDefis: Defi[] = [];
+
+
+  @Input() tableChamis: AuteurVue[]|undefined ;
+  @Input() tableDefis: Defi[] |undefined;
+
   display: boolean = false;
+  visiteWithDefi:boolean|undefined
   @Input() decider = '';
+  @Input() visites:Visite[]|undefined
+  @Input() mesDefis:Defi[]|undefined//we can optimise it but later
+  @Input() mesVisites:Visite[]|undefined
+
+  @Output() posEventTab = new EventEmitter<Position>();
+
   constructor(
     public authServ: AuthServiceService,
-    private modal: ModalService
+    private modal: ModalService,
+    public visiteServ:VisitesService
   ) {}
 
-  async ngOnInit(): Promise<void> {
-    await Promise.all([this.authServ.setupDefis(), this.authServ.setupUsers()]);
-    await Promise.all([this.downloadChamis(), this.downloadDefis()]);
+  ngOnInit() {
+    this.visiteWithDefi=false
+    // this.tableChamis=this.authServ.getChamis()
+    // this.tableDefis=this.authServ.getDefis()
   }
 
-  async downloadChamis() {
-    this.authServ
-      .getChamis()
-      .then((tableChamis) => {
-        this.tableChamis = tableChamis as AuteurVue[];
-      })
-      .catch((error) => console.log('error in download chamis ', error));
-  }
-  async downloadDefis() {
-    this.authServ
-      .getDefis()
-      .then((tableDefi) => {
-        this.tableDefis = tableDefi as Defi[];
-      })
-      .catch((error) => console.log('error in download defis ', error));
-  }
+  // async downloadChamis() {
+  //   this.authServ
+  //     .getChamis()
+  //     .then((tableChamis) => {
+  //       this.tableChamis = tableChamis as AuteurVue[];
+  //     })
+  //     .catch((error) => console.log('error in download chamis ', error));
+  // }
+
+  // async downloadDefis() {
+  //   // this.authServ
+  //   //   .getDefis()
+  //   //   .then((tableDefi) => {
+  //   //     this.tableDefis = tableDefi as Defi[];
+  //   //   })
+  //   //   .catch((error) => console.log('error in download defis ', error));
+  //   this.tableDefis=this.authServ.getDefis()
+  // }
 
   //On click defis
   onClickDefis() {
-    console.log('ICI' + this.display);
     this.display ? (this.display = false) : (this.display = true);
-    console.log('ICI' + this.display);
   }
+
   openModal(defiName: string) {
     this.modal.open(defiName);
   }
-  closeModal(defiName: string) {
-    this.modal.close(defiName);
+
+  openModalParticulier(visiteID:string,defi:Defi) {
+    if(visiteID==="allVisitesDeDefi"){
+      console.log("zdes ok")
+      this.visiteWithDefi=true
+      this.visiteServ.tempDefi=defi
+    }
+    this.modal.open(visiteID);
+    this.modal.close(defi.idDefi);
+    this.visiteServ.tempDefi=defi
+  }
+
+
+  closeModal(name: string) {
+    if(name==="allVisitesDeDefi")
+      this.visiteWithDefi=false
+    this.modal.close(name);
   }
 
   treatementDefis(text: String) {
-    var a = text.replace(/\\n-/gi, '');
-    return a;
+    const regex = /\\n|\\r\\n|\\n\\r|\\r/g;
+    const temp=text.replace(regex, '\n');
+    return temp;
+  }
 
-    /*var textArray: string[] = text.split('-');
-    console.log('HERTERWE' + textArray);
-    for (let i = 0; i < textArray.length; i++) {
-      if (textArray[i] === ',') textArray. = textArray[i] + '\n<br>';
-    }
-    return textArray;*/
+  passToParentPosition(position:Position){
+    this.posEventTab.emit(position)
+  }
+
+  getVisites(){
+    if(this.visites===undefined)
+      return []
+    else return this.visites
+
   }
 }

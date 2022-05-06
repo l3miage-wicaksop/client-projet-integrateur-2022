@@ -1,9 +1,11 @@
+import { VisitesService } from './../services/visites.service';
 import { ModalService } from './../services/modal.service';
-import { AuthServiceService } from './../auth-service.service';
-import { Component, OnInit ,OnChanges } from '@angular/core';
+import { AuthServiceService } from '../services/auth-service.service';
+import { Component, OnInit , AfterViewInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { ChangeDetectorRef} from '@angular/core';
+import { Defi, Visite } from '../iterfaces';
 
 
 
@@ -13,7 +15,7 @@ import { ChangeDetectorRef} from '@angular/core';
   templateUrl: './authentification.component.html',
   styleUrls: ['./authentification.component.scss']
 })
-export class AuthentificationComponent implements OnInit ,OnChanges {
+export class AuthentificationComponent implements OnInit ,AfterViewInit{
 
   userNotUndefined=false
   userLogIn=false
@@ -21,18 +23,19 @@ export class AuthentificationComponent implements OnInit ,OnChanges {
   currentUser: firebase.User | undefined|null
   photoUrl:string|undefined|null;
   nameUser:string|undefined|null|any;
-  nameState:string="Loggin"
+  nameState:string="Login"
   city:string|undefined
   age:number|undefined
 
-  constructor(public auth:AngularFireAuth,public modal:ModalService,public authServ:AuthServiceService,private cdref: ChangeDetectorRef) { }
+  mesVisites:Visite[]=[]
+  mesDefis:Defi[]=[]
+
+  constructor(public auth:AngularFireAuth,public modalService:ModalService,
+    public authServ:AuthServiceService,private visiteServ:VisitesService) { }
 
   ngOnInit(): void {
     this.logout()
-    if(this.userLogIn){
-      this.userNotUndefined=true
-      console.log("lol")
-    }
+
   }
 
 
@@ -43,62 +46,53 @@ export class AuthentificationComponent implements OnInit ,OnChanges {
         this.currentUser=firebase.auth().currentUser;
         this.currentUser?.providerData.forEach( async profile=> {
           this.photoUrl=profile?.photoURL
+          console.log(this.photoUrl)
           this.nameUser=profile?.displayName
           this.nameState=this.nameUser + " .Woud you like to logout?"
           this.userLogIn=true
+          this.mesDefis=this.authServ.usersDefi(this.nameUser)
+          this.mesVisites=this.visiteServ.userVisites(this.nameUser)
+          //this.mesVisites=this.visiteServ.usersVisites(this.nameUser)
+          this.ngAfterViewInit()
         })
       }
-    // ).then(
-    //   ()=>{
-    //     if(typeof(this.nameUser)==="string" && this.authServ.checkExistingUser(this.nameUser)){
-    //       //download mes defis and mes visite
-    //       console.log("ok")
-    //       this.logout()
-    //     }
-    //     else{
-    //       console.log("Else pass here ,if you have an error so then nameUser is not a string")
-    //       // new user what should he do?
-    //       //frame
-    //     }
     ).catch((error)=>{
       console.log("Got error ,No user has been found :",error);})
   }
-  ngOnChanges(){
-    //this.controllerAuth("")
-    if(this.userLogIn){
-      this.userNotUndefined=true
-      console.log("lol")
-    }
-  }
+
 
 
   logout() {
     this.auth.signOut();
     this.nameUser=undefined
     this.photoUrl=undefined
+    this.userLogIn=false
+    this.userNotUndefined=false
     this.nameState="Loggin"
   }
 
-  initFrameRegistre(){
-    this.modal.open("registreForm");
-  }
-  closeFrameRegistre(){
-    this.modal.close("registreForm");
-  }
-
   controllerAuth(){
-    this.authServ.checkExistingUser(this.nameUser).then((val)=>{
-      console.log("here0")
-      console.log(val)
-      console.log("here1")
       if(typeof(this.nameUser)==="string" && this.authServ.checkExistingUser(this.nameUser)){
-        this.userNotUndefined=val as boolean
-      }}
-
-    )
+        this.userNotUndefined=true
+      }
   }
 
+  ngAfterViewInit(){
+    Promise.resolve().then(()=>{
+      if(this.userLogIn)
+        if(typeof(this.nameUser)==="string" && !this.authServ.checkExistingUser(this.nameUser)){
+          console.log("user doesnt Exist")
+          this.userNotUndefined=true}
+        else
+          console.log("user exists or name of user is not string")
+    })
+  }
 
+  openModal(id: string) {
+    this.modalService.open(id);
+}
 
-
+  closeModal(id: string) {
+      this.modalService.close(id);
+  }
 }

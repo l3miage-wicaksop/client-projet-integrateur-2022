@@ -4,16 +4,25 @@
 <pre>
   <app-authentification></app-authentification>
 </pre>
+<button (click)="this.openModal('AllVisites')" class="btn btn-default">
+  Show all visites
+</button>
+<app-table-vue [decider]="'Chamis'" [tableChamis]="this.authentif.getChamis()" (posEventTab)="this.setPosition($event)"></app-table-vue>
 
-<app-table-vue [decider]="'Chamis'"></app-table-vue>
+<app-table-vue [decider]="'Defis'" [tableDefis]="this.authentif.getDefis()"></app-table-vue>
 
-<app-table-vue [decider]="'Defis'"></app-table-vue>
+<jw-modal [id]="'AllVisites'">
+  <app-table-vue [visites]="allVisites" [decider]="'Visites'"></app-table-vue>
+  <button (click)="this.closeModal('AllVisites')">
+    Close
+  </button>
+</jw-modal>
 
 <label>
   Afficher le cercle
   <input type="checkbox" [(ngModel)]="displayCircle" />
 </label>
-<div style="height: 300px;"
+<div style="height: 500px;"
      leaflet
      [leafletOptions]="options"
      [leafletLayers]="otherLayers">
@@ -22,3 +31,30 @@
 
 </div>
 
+<footer>
+Some footer
+</footer>
+<!--Cannot use it in component Visite (because of we have to initilize the component before use it ,bu i wanted to initilise the component after clicking on button )-->
+<jw-modal [id]="'allVisitesDeDefi'">
+  <table>
+    <tr *ngFor="let visite of this.visites.visiteOfDefi(this.visites.tempDefi!)">
+      <td>{{visite.idVisite}}</td>
+      <td>{{visite.defi.idDefi}}</td>
+      <td>{{visite.dateDeVisite}}</td>
+      <td>{{visite.mode}}</td>
+      <td>{{visite.points}}</td>
+      <td>{{visite.score}}</td>
+      <td>{{visite.status}}</td>
+      <td>{{visite.temps}}</td><br/>
+    </tr>
+  </table>
+  <button (click)="closeModal('allVisitesDeDefi')" class="btn btn-default" data-dismiss="modal">Close</button>
+</jw-modal>
+
+<!-- <app-visites [defi]="this.visites.tempDefi"
+              (posEvent)="this.setPosition($event)"
+              [allVisites]="this.visites.allVisites"
+></app-visites> -->
+<app-visites
+(posEvent)="this.setPosition($event)"
+></app-visites>

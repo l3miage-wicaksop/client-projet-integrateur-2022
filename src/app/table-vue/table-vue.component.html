@@ -5,9 +5,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <div class="container"></div>
-
 <div *ngIf="this.decider==='Chamis'">
-
   <h4>Table Chamis</h4>
   <div class="table-responsive">
   <table class="table">
@@ -16,7 +14,6 @@
       <th>Age</th>
       <th>Défis créés</th>
     </tr>
-
     <tr *ngFor="let chami of this.tableChamis">
     <td>{{chami.auteur}}</td>
     <td>{{chami.age}}</td>
@@ -27,10 +24,49 @@
 
 </div>
 
+
+
+
+
+<div *ngIf="this.decider==='Visites'">
+  <h4>Table Visite</h4>
+  <div class="table-responsive">
+  <table class="table" *ngFor="let visite of this.getVisites()">
+    <tr>
+      <th>Your id of visite</th>
+      <th>Defi</th>
+      <th>Date</th>
+      <th>Mode</th>
+      <th>Points</th>
+      <th>Score</th>
+      <th>Status</th>
+      <th>Temp</th>
+    </tr>
+    <tr >
+    <td>{{visite.idVisite}}</td>
+    <!-- <td>{{visite.defi.idDefi}}</td> uncomment because the data inst good-->
+    <td>{{visite.dateDeVisite}}</td>
+    <td>{{visite.mode}}</td>
+    <td>{{visite.points}}</td>
+    <td>{{visite.score}}</td>
+    <td>{{visite.status}}</td>
+    <td>{{visite.temps}}</td><br/>
+    </tr>
+    Commentaire: {{visite.commentaire}}
+  </table>
+</div >
+</div>
+
+
+<div *ngIf="this.decider==='MesDefis'">
+
+
+</div>
+
+
+
 <div *ngIf="this.decider==='Defis'">
-
   <h4>Table de defi</h4>
-
   <table>
     <tr>
       <th>Défi</th>
@@ -38,43 +74,35 @@
       <th>Date de création</th>
       <th>Auteur</th>
     </tr>
-
     <tr *ngFor="let defi of this.tableDefis">
       <td>
-
-
-
-
   <!-- Trigger the modal with a button -->
-  <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >{{defi.idDefi}}
-
-  </button>
-
-      <jw-modal  [id]="defi.idDefi" [defiAffichage]="defi.description">
-        <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Accept</button>
-          <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-
-      </jw-modal>
-
-
-
-
-
-
-
+      <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >
+        {{defi.idDefi}}
+      </button>
+          <jw-modal  [id]="defi.idDefi" [defiAffichage]="defi.description">
+            <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi.description)}} </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Je veux repondre aux questions</button>
+              <button (click)="this.visiteServ.isUserOnPlace(defi)?this.openModalParticulier('Visite',defi):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
+              <button (click)="this.openModalParticulier('allVisitesDeDefi',defi)"class="btn btn-default">Voir les visites de ce Defi</button>
+              <button (click)="closeModal(defi.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+          </jw-modal>
       </td>
-
      <td>{{defi.titre}}</td>
     <td>{{defi.dateCreation}}</td>
-    <td>{{defi.auteur}}</td>
-     <!-- <td>{{defi.description}}</td> -->
-
+    <td>{{defi.auteur.login}}</td>
     </tr>
   </table>
-
 </div>
+<!-- <div *ngIf="this.visiteServ.accesVisite">
+  <app-visites [defi]="this.visiteServ.tempDefi"></app-visites>
+</div> -->
 
-
+<!-- <div *ngIf="this.visiteWithDefi">
+  <app-visites [defi]="this.visiteServ.tempDefi"
+(posEvent)="this.passToParentPosition($event)"
+[allVisites]="this.visiteServ.allVisites"
+></app-visites>
+</div> -->
