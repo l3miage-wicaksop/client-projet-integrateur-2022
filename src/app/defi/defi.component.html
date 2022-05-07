@@ -1,14 +1,91 @@
 <jw-modal  [id]="defi!.idDefi" [defiAffichage]="defi!.description">
   <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi!.description)}} </div>
   <div class="modal-footer">
-    <button (click)="this.openEtape()" type="button" class="btn btn-default" data-dismiss="modal">Commencez ce defi</button>
-    <button (click)="this.visiteServ.isUserOnPlace(defi!)?this.openModalParticulier('Visite',defi!):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Faire la visite(je suis sur place)</button>
+    <button (click)="this.openEtape()" type="button" class="btn btn-default" data-dismiss="modal">Commencez ce defi sans enregistration</button>
+    <button (click)="this.visiteServ.isUserOnPlace(defi!)?this.openModalParticulier('Visite',defi!):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Je veux enregistrer ma visite</button>
     <button (click)="this.openModalParticulier('allVisitesDeDefi',defi!)"class="btn btn-default">Voir les visites de ce Defi</button>
     <button (click)="closeModal(defi!.idDefi)" class="btn btn-default" data-dismiss="modal">Close</button>
   </div>
 </jw-modal>
 
+
 <div *ngFor="let etape of this.defi?.etapes">
     <app-etape [etape]="etape" [defiOfEtape]="this.defi"
     ></app-etape>
 </div>
+
+
+<jw-modal [id]="defi!.idDefi+'-edit'">
+  <form [formGroup]="DefiForm!" >
+    <p>
+      <label for="titre">Titre </label>
+      <input type="text" id="titre" name="titre" formControlName="titre">
+    </p>
+    <p>
+      <label for="description">Description </label>
+      <input type="text" id="description" name="description" formControlName="description">
+    </p>
+    <p>
+      <label for="arret">Arret </label>
+      <input type="text" id="arret" name="arret" formControlName="arret">
+    </p>
+    <p>
+      <label for="points">Points </label>
+      <input type="number" id="points" name="points" formControlName="points">
+    </p>
+  </form>
+  <div *ngFor="let etape of defi?.etapes;let index=index">
+    <button (click)="openEditEtape(index+1)">Etape {{index+1}}</button>
+    <div *ngIf="this.etapesEditing()[index]">
+      <form [formGroup]="EtapeForm!">
+        <p>
+          <label for="descriptionE">Descrtipion of Etape </label>
+          <input type="text" id="descriptionE" name="descriptionE" formControlName="description">
+        </p>
+        <p>
+          <label for="question">Question </label>
+          <input type="text" id="question" name="question" formControlName="question">
+        </p>
+        <p>
+          <label for="solution">Solution </label>
+          <input type="text" id="solution" name="solution" formControlName="solution">
+        </p>
+        <p>
+          <label for="pointForSolution">Point for solution </label>
+          <input type="text" id="pointForSolution" name="pointForSolution" formControlName="pointForSolution">
+        </p>
+        <p>
+          <label for="reponses">Reponses </label>
+          <input type="text" id="reponses" name="reponses" formControlName="reponses">
+        </p>
+        <p>
+          <label for="indice">Clue </label>
+          <input type="text" id="indice" name="indice" formControlName="indice">
+        </p>
+        <p>
+          <label for="pointForIndice">Point for Clue </label>
+          <input type="text" id="pointForIndice" name="pointForIndice" formControlName="pointForIndice">
+        </p>
+        <p>
+          <label for="imageE">Image </label>
+          <input type="text" id="imageE" name="imageE" formControlName="image">
+        </p>
+        <p>
+          <label for="videoE">Image </label>
+          <input type="text" id="videoE" name="videoE" formControlName="video">
+        </p>
+      </form>
+    </div>
+  </div>
+  <button (click)="this.onSubmit()">
+    Save info
+  </button>
+  <button (click)="this.closeModalEdit(defi!.idDefi+'-edit')"
+  >Close (Your modification wont be saved)
+  </button>
+
+</jw-modal>
+
+<jw-modal [id]="'DefiCreation'">
+
+</jw-modal>

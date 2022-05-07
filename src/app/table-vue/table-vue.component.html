@@ -1,89 +1,91 @@
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<div class="container"></div>
-<div *ngIf="this.decider==='Chamis'">
-  <h4>Table Chamis</h4>
-  <div class="table-responsive">
-  <table class="table">
-    <tr>
-      <th>Auteur</th>
-      <th>Age</th>
-      <th>Défis créés</th>
-    </tr>
-    <tr *ngFor="let chami of this.tableChamis">
-    <td>{{chami.login}}</td>
-    <td>{{chami.age}}</td>
-    <td>{{chami.defis.length}}</td>
-    </tr>
-  </table>
-</div >
 
-</div>
-
-
-
-
-
-<div *ngIf="this.decider==='Visites'">
-  <h4>Table Visite</h4>
-  <div class="table-responsive">
-  <table class="table" *ngFor="let visite of this.visites">
-    <tr>
-      <th>Your id of visite</th>
-      <th>Defi</th>
-      <th>Date</th>
-      <th>Mode</th>
-      <th>Points</th>
-      <th>Score</th>
-      <th>Status</th>
-      <th>Temp</th>
-    </tr>
-    <tr >
-    <td>{{visite.idVisite}}</td>
-    <td>{{visite.dateDeVisite}}</td>
-    <td>{{visite.mode}}</td>
-    <td>{{visite.points}}</td>
-    <td>{{visite.score}}</td>
-    <td>{{visite.status}}</td>
-    <td>{{visite.temps}}</td><br/>
-    </tr>
-    Commentaire: {{visite.commentaire}}
-  </table>
-</div >
-</div>
-
-
-<div *ngIf="this.decider==='MesDefis'">
-
-
-</div>
-
-
-
-<div *ngIf="this.decider==='Defis'">
-  <h4>Table de defi</h4>
-  <table>
-    <tr>
-      <th>Défi</th>
-      <th>Titre</th>
-      <th>Date de création</th>
-      <th>Auteur</th>
-    </tr>
-    <tr *ngFor="let defi of this.tableDefis">
-      <td>
-      <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >
-        {{defi.idDefi}}
-      </button>
-          <app-defi [defi]="defi"> </app-defi>
-      </td>
-     <td>{{defi.titre}}</td>
-    <td>{{defi.dateCreation}}</td>
-    <td>{{defi.auteur.login}}</td>
-    </tr>
-  </table>
-</div>
+<container-element
+  [ngSwitch]="this.decider">
+  <div *ngSwitchCase="'Chamis'">
+      <h4>Table Chamis</h4>
+      <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Auteur</th>
+          <th>Age</th>
+          <th>Défis créés</th>
+          <th>Points Total</th>
+        </tr>
+        <tr *ngFor="let chami of this.tableChamis">
+        <td>{{chami.login}}</td>
+        <td>{{chami.age}}</td>
+        <td>{{chami.defis.length}}</td>
+        <td>{{chami.pointTotal}}</td>
+        </tr>
+      </table>
+    </div >
+  </div>
+  <div *ngSwitchCase="'Visites'">
+    <h4>Table Visite</h4>
+      <div class="table-responsive">
+        <table class="table" *ngFor="let visite of this.visites">
+          <tr>
+            <th>Your id of visite</th>
+            <th>Defi</th>
+            <th>Date</th>
+            <th>Mode</th>
+            <th>Score</th>
+            <th>Status</th>
+            <th>Temp</th>
+          </tr>
+          <tr >
+          <td>{{visite.idVisite}}</td>
+          <td>{{visite.defi}}</td> defi.idHere
+          <td>{{visite.dateDeVisite}}</td>
+          <td>{{visite.mode}}</td>
+          <td>{{visite.score}}</td>
+          <td>{{visite.status}}</td>
+          <td>{{visite.temps}}</td><br/>
+          </tr>
+          Commentaire: {{visite.commentaire}}
+        </table>
+    </div >
+  </div>
+  <div *ngSwitchCase="'Defis'">
+    <h4>Table de defi</h4>
+      <table>
+        <tr>
+          <th>Défi</th>
+          <th>Titre</th>
+          <th>Date de création</th>
+          <th>Auteur</th>
+        </tr>
+        <tr *ngFor="let defi of this.tableDefis">
+          <td>
+          <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >
+            {{defi.idDefi}}
+          </button>
+              <app-defi [defi]="defi"> </app-defi>
+          </td>
+        <td>{{defi.titre}}</td>
+        <td>{{defi.dateCreation}}</td>
+        <td>{{defi.auteur.login}}</td>
+        </tr>
+      </table>
+  </div>
+  <div *ngSwitchCase="'MesDefis'">
+    <h4>Table of your Defis</h4>
+    <table>
+      <tr>
+        <th>Defi</th>
+        <th>Titre</th>
+        <th>Date de creation</th>
+        <th>Number of visites</th>
+      </tr>
+      <tr *ngFor="let defi of this.authServ.usersDefi(this.authServ.loginUser!)">
+        <td>{{defi.idDefi}}</td>
+        <td>{{defi.titre}}</td>
+        <td>{{defi.dateCreation}}</td>
+        <td>{{defi.visite.length}}</td>
+        <app-defi [defi]="defi"> </app-defi>
+        <button (click)="this.openModalEdit(defi.idDefi+'-edit')" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >Want to modify?</button>
+      </tr>
+    </table>
+  </div>
+</container-element>
 

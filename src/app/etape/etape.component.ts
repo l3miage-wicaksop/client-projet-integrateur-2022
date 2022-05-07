@@ -1,4 +1,5 @@
-import { AuthentificationComponent } from './../authentification/authentification.component';
+import { Timestamp } from 'firebase/firestore';
+
 import { VisitesService } from './../services/visites.service';
 import { Defi, Etape, Visite } from './../iterfaces';
 import { Component, Input, OnInit } from '@angular/core';
@@ -15,8 +16,12 @@ export class EtapeComponent implements OnInit {
   @Input() etape:Etape|undefined
 
   usingIndice=false
-  visiteServInEtape: any;
-  constructor(private modal: ModalService,private auth:AuthServiceService) { }
+  visiteServInEtape: Visite|undefined;
+  registrationYourVisite:boolean=false
+
+  constructor(public modal: ModalService,private auth:AuthServiceService,private visiteServ:VisitesService) {
+    this.visiteServ.currentVisite?this.visiteServInEtape=this.visiteServ.currentVisite:console.log()
+  }
 
   ngOnInit(): void {
   }
@@ -43,7 +48,7 @@ export class EtapeComponent implements OnInit {
   getPreviousId(){
     if(this.defiOfEtape?.etapes.indexOf(this.etape!)===0){
       console.log("the first etape")
-      //output the last etape
+      //output the first etape
       return "first"
     }
     const last=this.defiOfEtape!.etapes.indexOf(this.etape!)-1
@@ -65,4 +70,23 @@ export class EtapeComponent implements OnInit {
   incorrectAnswer(pointMinus:number){
     this.auth.UpdatePointOfUser(pointMinus,false)
   }
+
+  close(){
+    if(this.visiteServInEtape){
+      this.registrationYourVisite=true
+      this.modal.open('TempForVisiteRegistre')
+      this.registrationYourVisite=false
+    }
+    else{
+      this.modal.close(this.getCurrentIdEtape())
+      this.visiteServ.updatingTimePoints(this.auth.pointsOfCurrentUser)
+    }
+  }
+
+  changingInfoVisite(){
+    this.modal.close('TempForVisiteRegistre')
+    this.visiteServ.updatingTimePoints(this.auth.pointsOfCurrentUser)
+    this.modal.open('Visite')
+  }
+
 }

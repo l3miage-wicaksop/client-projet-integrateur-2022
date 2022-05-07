@@ -26,7 +26,7 @@ export class RegstrationFrameComponent implements OnInit,AfterViewInit {
 
 
   @Input() trigger:string | undefined;
-  constructor(private post :PostService,private modalService: ModalService,private formBuilder: FormBuilder,) { }
+  constructor(private post :PostService,private modalService: ModalService,private formBuilder: FormBuilder) { }
 
   ngOnInit() {
       this.bodyText = 'Thanks for your information';

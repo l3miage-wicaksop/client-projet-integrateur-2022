@@ -16,7 +16,7 @@ export class AuthServiceService {
   allDefis:Defi[]=[]
 
   loginUser:string|undefined
-
+  pointsOfCurrentUser=0
   httpOptions = {
     headers: new HttpHeaders({
       'Content-type':  'application/json'
@@ -94,10 +94,12 @@ getCurrentUser(){
     if(this.loginUser){
       const curretnUser=this.getCurrentUser()
       if(curretnUser!=null){
-        if(increase)
+        if(increase){
           curretnUser.pointTotal=curretnUser.pointTotal+point
-        else
+          this.pointsOfCurrentUser+=point}
+        else{
           curretnUser.pointTotal=curretnUser.pointTotal-point
+          this.pointsOfCurrentUser-=point}
         this.put.updateUser(curretnUser.login,curretnUser).then(response=>{
           response?console.log("user have been updated with new points "):console.log("error occured while updating users points ")
         })

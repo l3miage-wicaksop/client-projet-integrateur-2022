@@ -41,7 +41,6 @@ Some footer
       <td>{{visite.defi.idDefi}}</td>
       <td>{{visite.dateDeVisite}}</td>
       <td>{{visite.mode}}</td>
-      <td>{{visite.points}}</td>
       <td>{{visite.score}}</td>
       <td>{{visite.status}}</td>
       <td>{{visite.temps}}</td><br/>
@@ -50,10 +49,6 @@ Some footer
   <button (click)="closeModal('allVisitesDeDefi')" class="btn btn-default" data-dismiss="modal">Close</button>
 </jw-modal>
 
-<!-- <app-visites [defi]="this.visites.tempDefi"
-              (posEvent)="this.setPosition($event)"
-              [allVisites]="this.visites.allVisites"
-></app-visites> -->
 <app-visites
 (posEvent)="this.setPosition($event)"
 ></app-visites>

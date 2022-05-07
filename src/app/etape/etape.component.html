@@ -14,4 +14,19 @@
   </div>
   <button *ngIf="this.getNextId()!='last'" (click)="this.next()">Next</button>
   <button *ngIf="this.getNextId()!='first'"(click)="this.previous()">Previous</button>
+  <button (click)="this.close()"> Close </button>
 </jw-modal>
+
+<div *ngIf="this.registrationYourVisite">
+  <jw-modal [id]="'TempForVisiteRegistre'">
+    <p>Hey how about to chage your opinion on this defi?</p>
+    <h1>^_^</h1>
+    <button (click)="this.changingInfoVisite()">
+      Ok,I would like to change my opinion
+    </button>
+    <button (click)="this.modal.close(this.getCurrentIdEtape())">
+      Nah,I am good
+    </button>
+  </jw-modal>
+<div>
+

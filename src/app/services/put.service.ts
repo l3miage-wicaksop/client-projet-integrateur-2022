@@ -29,11 +29,26 @@ export class PutService {
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
       if(R.status==200){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime
-        console.log("observable in postingUsers with value ",R)
+        console.log("observable in PUTINTG USER with value ",R)
         return true}
       return false
     } catch (err) {
       console.error("Error postingUsers", userLogin, "\n", err);
+      return false;
+    }
+  }
+
+  async updateDefi(defiId:string,toUpdate:any): Promise<boolean> {
+    try {
+      const R = await lastValueFrom( this.http.post(this.defiPut+defiId,toUpdate,this.httpOptions) );
+      // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
+      if(R.status==200){
+        this.post.Refreshrequired.next()//to get trigger for updating in realtime
+        console.log("observable in PUTING DEFI with value ",R)
+        return true}
+      return false
+    } catch (err) {
+      console.error("Error postingUsers", this.defiPut, "\n", err);
       return false;
     }
   }

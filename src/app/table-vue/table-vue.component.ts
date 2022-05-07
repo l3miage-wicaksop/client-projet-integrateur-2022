@@ -1,3 +1,4 @@
+import { DefiService } from './../services/defi.service';
 import { VisitesService } from './../services/visites.service';
 import { Chami, Defi, Position, Visite } from './../iterfaces';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
@@ -28,7 +29,8 @@ export class TableVueComponent implements OnInit {
   constructor(
     public authServ: AuthServiceService,
     private modal: ModalService,
-    public visiteServ:VisitesService
+    public visiteServ:VisitesService,
+    private defiServ:DefiService
   ) {}
 
   ngOnInit() {
@@ -43,6 +45,12 @@ export class TableVueComponent implements OnInit {
   openModal(defiName: string) {
     this.modal.open(defiName);
   }
+
+  openModalEdit(editId: string) {
+    this.defiServ.editingDefi=true
+    this.modal.open(editId);//the same sing as above ,(dont know how to verify an editing id since,we dont it know ,so I just keep it  in this way)
+  }
+
 
   openModalParticulier(visiteID:string,defi:Defi) {
     if(visiteID==="allVisitesDeDefi"){
@@ -70,6 +78,7 @@ export class TableVueComponent implements OnInit {
   passToParentPosition(position:Position){
     this.posEventTab.emit(position)
   }
+
 
 
 }

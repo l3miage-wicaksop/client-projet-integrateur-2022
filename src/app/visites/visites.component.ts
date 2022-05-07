@@ -3,8 +3,9 @@ import { PostService } from './../services/post.service';
 import { ModalService } from './../services/modal.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Defi, Visite,Position, Chami } from '../iterfaces';
+import { Defi, Visite,Position, Chami, TypeMode } from '../iterfaces';
 import { Timestamp } from 'firebase/firestore';
+
 
 
 @Component({
@@ -36,11 +37,18 @@ export class VisitesComponent implements OnInit {
     public visiteServ:VisitesService) {
     }
 
- async ngOnInit() {
-      this.bodyText = 'Thanks for your visite';
-      this.allVisites=this.visiteServ.getVisites()
-      this.createVisite(this.defi!!)
-      this.outPutEventPosition()
+  ngOnInit() {
+    this.post.Refreshrequired.subscribe(
+      response=>{
+        if(this.visiteServ.currentVisite){
+          this.createVisite(this.defi!!)
+        }
+        else{
+          this.visite=this.visiteServ.currentVisite
+        }})
+    this.bodyText = 'Thanks for your visite';
+    this.allVisites=this.visiteServ.getVisites()
+    this.outPutEventPosition()
   }
 
   openModal(id: string) {
@@ -62,8 +70,7 @@ export class VisitesComponent implements OnInit {
       respose?console.log("ok,we posted visite in db"):console.log("error ,post viste doesnt have status 200")
     })
     this.visiteForm.reset();
-    if(this.visite?.idVisite)
-      this.closeModal(this.visite?.idVisite)//this.trigger
+    this.closeModal('Visite')
   }
 
   async createVisite(defi:Defi)
@@ -73,17 +80,19 @@ export class VisitesComponent implements OnInit {
       var visiteNum=Number(temp)+1
       var visiteStr=this.allVisites!.length===0?'V1':String(visiteNum)
       const time=Timestamp.now()
-      this.visite={chami:this.chami!,indice:"",commentaire:"",defi:defi,idVisite:visiteStr,dateDeVisite:time,points:1,score:0,temps:'0',mode:false,status:true}
+      this.visite={chami:this.chami!,indice:"",commentaire:"",defi:defi,idVisite:visiteStr,dateDeVisite:time,pointsTotal:0,score:0,temps:'0',mode:TypeMode.distanciel,status:false}
+      //status ->finished not ->finished.Pour l'instant seulment distanciel mode
       this.setCurrentVisite(this.visite!)
     }
     catch{
-      console.log("Havent been created because visites have not created")
+      console.log("Havent been created because visites are not created")
     }
 
   }
 
   setCurrentVisite(visite:Visite){
     this.visite=visite
+    this.visiteServ.currentVisite=visite
   }
 
   setCommentVisite(comment:string){

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Defi, Visite } from '../iterfaces';
 import { lastValueFrom, Observable } from 'rxjs';
+import { Timestamp } from 'firebase/firestore';
 
 
 @Injectable({
@@ -119,5 +120,20 @@ export class VisitesService {
       return []//in the case when defi have no visites
     return this.allVisites.filter(function(element){return element.defi===defi})
    }
+
+   updateVisite(timeInSec:string){
+     if(this.currentVisite){
+      this.currentVisite.temps=timeInSec
+      this.postServ.postingVisitePromise(this.currentVisite)
+     }
+   }
+   updatingTimePoints(points:number){
+    const timeBack=this.currentVisite!.dateDeVisite
+    const timeNow=Timestamp.now()
+    const ecartTime=timeNow.seconds-timeBack!.seconds
+      //points
+    this.currentVisite!.pointsTotal=points
+    this.updateVisite(ecartTime.toString())
+  }
 
 }

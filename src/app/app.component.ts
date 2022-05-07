@@ -144,8 +144,9 @@ export class AppComponent implements OnInit{
 
   getUsers() {
     this.authentif.getResponseUsers2().subscribe(result=>{
-      this.allChamis=result as Chami[];
-      this.authentif.allUsers=result as Chami[]
+      let data=result as Chami[]
+      this.allChamis=data.sort((el,el2)=>{return el2.pointTotal-el.pointTotal});
+      this.authentif.allUsers=this.allChamis
     })
   }
   getDefis() {
@@ -160,6 +161,7 @@ export class AppComponent implements OnInit{
   getVisites(){
     this.visites.getResponseVisites2().subscribe(result=>{
       this.allVisites=result as Visite[]
+      this.allVisites.sort((el,el2)=>{return el2.score - el.score;})
     })
   }
 }

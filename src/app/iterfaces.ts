@@ -1,5 +1,15 @@
 import { Timestamp } from "firebase/firestore";
 
+export enum TypeDefi {
+  enigme,
+  challenge
+}
+
+export enum TypeMode {
+  distanciel,
+  presentiel
+}
+
 export interface Chami{
   age:number;
   login:string;
@@ -9,7 +19,7 @@ export interface Chami{
   prenom:string;
   defis:Defi[]
   visites:Visite[]
-  pointTotal:number
+  pointTotal:number,
 }
 
 
@@ -21,6 +31,9 @@ export interface Defi{
   auteur:Chami
   arret:Arret
   etapes:Etape[]
+  points:number
+  visite:Visite[]
+  typeDefi:TypeDefi
 }
 
 export interface Arret{
@@ -44,14 +57,14 @@ export interface Visite{
   idVisite:string
   defi:Defi
   dateDeVisite:Timestamp
-  mode:boolean
-  points:number
+  mode:TypeMode
   score:number
   status:boolean
   temps:string
   indice:string
   commentaire:string
   chami:Chami
+  pointsTotal:number
 }
 export interface Position{
   lat:number
@@ -61,7 +74,6 @@ export interface Position{
 export interface Etape{
   description:string
   indice:Indice
-  image:string
   question:Question
   indication:Indication
 }
