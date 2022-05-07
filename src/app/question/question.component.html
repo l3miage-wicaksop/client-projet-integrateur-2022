@@ -1,10 +1,13 @@
 <p>question works!</p>
 <p>{{this.question!.sujet}}</p>
-<section class="example-section" [formGroup]="toppings!">
+<section  [formGroup]="toppings!">
 <h4>Select one answer possible</h4>
 <div *ngFor="let reponse of this.question!.reponses">
-  <p><mat-checkbox  formControlName={{reponse}} value="" color="primary">{{reponse}</mat-checkbox>
+  <p>
+    <mat-checkbox formControlName="{{reponse}}" color="primary">{{reponse}}</mat-checkbox>
   </p>
-
 </div>
+<button (click)="this.checkAnswer()">
+  Submit
+</button>
 </section>

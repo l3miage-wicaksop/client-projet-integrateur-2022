@@ -2,7 +2,6 @@ import { VisitesService } from './../services/visites.service';
 import { Chami, Defi, Position, Visite } from './../iterfaces';
 import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthServiceService } from '../services/auth-service.service';
-import { AuteurVue } from '../iterfaces';
 import { ModalService } from '../services/modal.service';
 
 @Component({

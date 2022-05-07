@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Indication } from './../iterfaces';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-indication',
@@ -6,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./indication.component.scss']
 })
 export class IndicationComponent implements OnInit {
-
+  @Input() indication:Indication | undefined
   constructor() { }
 
   ngOnInit(): void {

@@ -38,8 +38,10 @@ export class DefiComponent implements OnInit {
     this.modal.close(name);
   }
 
-  openEtape(idOfEtapeAndDefi:string){//defi.idDefi+'-'+numero de l'etape
-    this.modal.open(idOfEtapeAndDefi)
+  openEtape(){//defi.idDefi+'-'+index de l'etape
+    this.modal.open(this.defi!.idDefi+'-'+0)
     this.closeModal(this.defi!.idDefi)
   }
+
+
 }

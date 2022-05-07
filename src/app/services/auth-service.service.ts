@@ -90,11 +90,14 @@ getCurrentUser(){
       return this.allDefis!.filter(function(element){return element.auteur.login===name})
   }
 
-  decreasePointOfUser(point:number){
+  UpdatePointOfUser(point:number,increase:boolean){
     if(this.loginUser){
       const curretnUser=this.getCurrentUser()
       if(curretnUser!=null){
-        curretnUser.pointTotal=curretnUser.pointTotal-point
+        if(increase)
+          curretnUser.pointTotal=curretnUser.pointTotal+point
+        else
+          curretnUser.pointTotal=curretnUser.pointTotal-point
         this.put.updateUser(curretnUser.login,curretnUser).then(response=>{
           response?console.log("user have been updated with new points "):console.log("error occured while updating users points ")
         })

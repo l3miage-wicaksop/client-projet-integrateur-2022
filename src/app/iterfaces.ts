@@ -12,11 +12,6 @@ export interface Chami{
   pointTotal:number
 }
 
-export interface AuteurVue{
-  auteur:string
-  age:number
-  defiCreated:number
-}
 
 export interface Defi{
   idDefi:string
@@ -25,6 +20,7 @@ export interface Defi{
   dateCreation:Timestamp
   auteur:Chami
   arret:Arret
+  etapes:Etape[]
 }
 
 export interface Arret{
@@ -67,6 +63,7 @@ export interface Etape{
   indice:Indice
   image:string
   question:Question
+  indication:Indication
 }
 export interface Question{
   sujet:string
@@ -77,4 +74,10 @@ export interface Question{
 export interface Indice{
   indice:string
   point :number
+}
+
+export interface Indication{
+  indication:string
+  srcVideo:string
+  srcImage:string
 }
