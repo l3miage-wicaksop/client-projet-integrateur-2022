@@ -127,12 +127,14 @@ export class VisitesService {
       this.postServ.postingVisitePromise(this.currentVisite)
      }
    }
+
    updatingTimePoints(points:number){
     const timeBack=this.currentVisite!.dateDeVisite
     const timeNow=Timestamp.now()
     const ecartTime=timeNow.seconds-timeBack!.seconds
       //points
     this.currentVisite!.pointsTotal=points
+    this.currentVisite!.score<=points?this.currentVisite!.score=points:
     this.updateVisite(ecartTime.toString())
   }
 

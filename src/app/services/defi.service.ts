@@ -11,6 +11,8 @@ export class DefiService {
   currentDefi:Defi|undefined
   editingDefi:boolean=false
   etapesEditing:boolean[]=[]
+  creatingDefi:boolean=false
+
   constructor(private post :PostService,private put :PutService) {}
 
   initEditingEtapes(numEtapes:number){
@@ -19,5 +21,15 @@ export class DefiService {
 
   switchingEditEtape(indexEtape:number){
     this.etapesEditing[indexEtape]?!this.etapesEditing[indexEtape]:this.etapesEditing[indexEtape]
+  }
+
+  updateDefi(defi:Defi){
+    this.put.updateDefi(this.currentDefi!.idDefi,defi)
+    this.currentDefi=defi
+  }
+
+  addDefi(defi:Defi){
+    this.post.postingDefiPromise(defi)
+    this.creatingDefi=false
   }
 }

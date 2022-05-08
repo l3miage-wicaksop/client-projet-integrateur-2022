@@ -28,7 +28,8 @@ export class VisitesComponent implements OnInit {
 
   visiteForm = this.formBuilder.group({
     indice: '',
-    comment: ''
+    comment: '',
+    typeMode:''
   });
 
 
@@ -66,6 +67,7 @@ export class VisitesComponent implements OnInit {
     const commentAndVisite=this.visiteForm.value
     this.setCommentVisite(commentAndVisite.comment)
     this.setIndiceVisite(commentAndVisite.indice)
+    this.visite!.mode=this.getMode(commentAndVisite.mode)
     this.post.postingVisitePromise(this.visite!!).then(respose=>{
       respose?console.log("ok,we posted visite in db"):console.log("error ,post viste doesnt have status 200")
     })
@@ -73,9 +75,8 @@ export class VisitesComponent implements OnInit {
     this.closeModal('Visite')
   }
 
-  async createVisite(defi:Defi)
-  { try{
-
+  async createVisite(defi:Defi){
+    try{
       const temp=this.allVisites![this.allVisites!.length-1].idVisite.substring(1)
       var visiteNum=Number(temp)+1
       var visiteStr=this.allVisites!.length===0?'V1':String(visiteNum)
@@ -87,7 +88,6 @@ export class VisitesComponent implements OnInit {
     catch{
       console.log("Havent been created because visites are not created")
     }
-
   }
 
   setCurrentVisite(visite:Visite){
@@ -108,6 +108,12 @@ export class VisitesComponent implements OnInit {
     const long=this.visiteServ.userLong
     const temp={lat,long} as Position
     this.posEvent.emit(temp)
+  }
+
+  getMode(mode:string){
+    if(mode.toLowerCase()==='dist')
+      return TypeMode.distanciel
+    return TypeMode.presentiel
   }
 
 }

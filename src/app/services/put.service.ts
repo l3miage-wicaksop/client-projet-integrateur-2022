@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom } from 'rxjs';
-import { Chami } from '../iterfaces';
 import { PostService } from './post.service';
 
 @Injectable({

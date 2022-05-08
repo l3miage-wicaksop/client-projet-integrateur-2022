@@ -1,8 +1,9 @@
 import { Timestamp } from "firebase/firestore";
 
+
 export enum TypeDefi {
   enigme,
-  challenge
+  challenge,
 }
 
 export enum TypeMode {
@@ -32,7 +33,7 @@ export interface Defi{
   arret:Arret
   etapes:Etape[]
   points:number
-  visite:Visite[]
+  visites:Visite[]
   typeDefi:TypeDefi
 }
 

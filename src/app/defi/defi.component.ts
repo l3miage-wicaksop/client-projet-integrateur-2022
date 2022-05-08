@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+import { Etape, TypeDefi, Question, Indice, Indication, Visite } from './../iterfaces';
 import { DefiService } from './../services/defi.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
@@ -18,12 +20,21 @@ export class DefiComponent implements OnInit {
   EtapeForm:FormGroup|undefined
   EtapesForm:FormArray|undefined
   editingEtape:boolean=false
+
+  numOfEtapesToCreate=0
+  tempArray: number[]=[]
   constructor(public visiteServ:VisitesService,private modal: ModalService,private formBuilder: FormBuilder,
     private defiServ:DefiService) { }
 
   ngOnInit(): void {
+    if(this.numOfEtapesToCreate!=0)
+      this.defiServ.creatingDefi=true
+      this.tempArray.fill(this.numOfEtapesToCreate)
     this.defiServ.currentDefi=this.defi!
-    this.defiServ.initEditingEtapes(this.defi!.etapes.length)
+    if(this.defiServ.editingDefi || this.defiServ.creatingDefi){
+      this.initEdit()
+    }
+    //this.defiServ.initEditingEtapes(this.defi!.etapes.length)
   }
 
   initEdit(){
@@ -32,7 +43,17 @@ export class DefiComponent implements OnInit {
       description: this.defi!.description,
       arret: this.defi!.arret.nomArret,
       points : this.defi!.points,
+      typeDefi:'',
+      etapes:new FormArray([])
     });
+    if(!this.defiServ.creatingDefi)
+      for (let i =1;i<=this.defi!.etapes.length;i++){
+        this.etapesFormArray.push(this.openEditEtape(i))
+      }
+    else{
+      for (let i =1;i<=this.numOfEtapesToCreate;i++){
+        this.etapesFormArray.push(this.createEtape())
+      }}
   }
 
 
@@ -49,7 +70,7 @@ export class DefiComponent implements OnInit {
     this.modal.open(visiteID);
     this.modal.close(defi.idDefi);
     this.visiteServ.tempDefi=defi
-    this.openEtape()
+    this.openEtape()//I hope it will open after registration visite close
   }
 
   closeModal(name: string) {
@@ -76,24 +97,100 @@ export class DefiComponent implements OnInit {
       indice:acces!.indice.indice,
       pointForIndice:acces!.indice.point,
       image:acces!.indication.srcImage,
-      video:acces!.indication.srcVideo
+      video:acces!.indication.srcVideo,
+      indication:acces!.indication.indication
     })
+    return this.EtapeForm
   }
 
-  onSubmit(){
-    let tempDefi=this.defi
-    tempDefi
-
+  createEtape(){
+    this.EtapeForm=this.formBuilder.group({
+      description:'',
+      question:'',
+      solution:'',
+      pointForSolution:'',
+      reponses:'',
+      indice:'',
+      pointForIndice:'',
+      image:'',
+      video:'',
+      indication:''
+    })
+    return this.EtapeForm
   }
+
+  onSubmitEdit(){
+    let tempDefi=this.DefiForm!.value //as Defi
+    tempDefi.idDefi=this.defi!.idDefi
+    tempDefi.dateCreation=this.defi!.dateCreation
+    tempDefi.visites=this.defi!.visites
+    tempDefi=this.installEtapes(tempDefi)
+    //put
+    this.defiServ.updateDefi(tempDefi)
+    this.closeModalEdit(this.defi!.idDefi+'-edit')
+  }
+
+  onSubmitCreate(){
+    let tempDefi=this.DefiForm!.value
+    tempDefi.dateCreation=Timestamp.now()
+    tempDefi.visites=[] as Visite[]
+    tempDefi=this.installEtapes(tempDefi)
+    //post
+    this.defiServ.addDefi(tempDefi)
+    this.closeModalCreating()
+  }
+
+  installEtapes(tempDefi:any){
+    let tempType=TypeDefi.challenge
+    if(tempDefi.typeDefi.toLowerCase()==="enigme")
+       tempType =TypeDefi.enigme
+    tempDefi.typeDefi=tempType
+    let etapesG:Etape[]=[]
+    tempDefi.etapes.forEach((element:
+      {description: any,question:any,indice:any,
+      solution :any,pointForIndice:any,
+      pointForSolution:any,reponses:any,
+      indication:any,srcVideo:any,srcImage:any }) =>
+      {
+        const question={sujet:element.question,solution:element.solution,point:element.pointForSolution,reponses:element.reponses} as Question
+        const indice ={indice:element.indice,point:element.pointForIndice} as Indice
+        const indication={indication:element.indication,srcVideo:element.srcVideo,srcImage:element.srcImage} as Indication
+        const etape={description :element.description,question:question,indice:indice,indication:indication} as Etape
+        etapesG.push(etape)
+    });
+    //Arret
+    tempDefi.arret={nomArret:tempDefi.arret}
+    //Should I write an algo to get the code of arret from Db?
+    tempDefi=tempDefi as Defi
+    tempDefi.etapes=etapesG
+    this.etapesFormArray.clear()
+    this.EtapeForm!.reset()
+    return tempDefi
+  }
+
 
   closeModalEdit(editId: string) {
     this.defiServ.editingDefi=false
-    this.modal.close(editId);//the same sing as above ,(dont know how to verify an editing id since,we dont it know ,so I just keep it  in this way)
+    this.modal.close(editId);
+  }
+
+  closeModalCreating(){
+    this.defiServ.creatingDefi=false
+    this.numOfEtapesToCreate=0
+    this.modal.close("DefiCreation")
   }
   isEditing(){
     return this.defiServ.editingDefi
   }
   etapesEditing(){
     return this.defiServ.etapesEditing
+  }
+
+  get etapesFormArray(){
+    return this.DefiForm!.get('etapes') as FormArray
+  }
+
+  isCreating(){
+    this.defiServ.creatingDefi;
   }
 }
