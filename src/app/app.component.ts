@@ -9,8 +9,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { Defi, InfoDefi, Visite, Position, Chami } from './iterfaces';
 import * as L from 'leaflet';
-import * as Rx from "rxjs";
-import { ThisReceiver } from '@angular/compiler';
+
 //import { rejects } from 'assert';
 
 // TODO: Add SDKs for Firebase products that you want to use

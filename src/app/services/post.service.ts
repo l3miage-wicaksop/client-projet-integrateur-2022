@@ -16,7 +16,7 @@ export class PostService {
     headers: new HttpHeaders({
       'Content-type':  'application/json'
     }),
-    observe:'resposnse' as 'response'
+    observe:'response' as 'response'
 
   };
 

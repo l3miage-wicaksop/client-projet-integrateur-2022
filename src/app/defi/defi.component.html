@@ -9,7 +9,7 @@
 </jw-modal>
 
 
-<div *ngFor="let etape of this.defi?.etapes">
+<div *ngFor="let etape of this.defi!.etapes">
     <app-etape [etape]="etape" [defiOfEtape]="this.defi"
     ></app-etape>
 </div>
@@ -38,13 +38,12 @@
       <input type="text" id="typeDefi" name="typeDefi" formControlName="typeDefi">
       Challange or Enigme
     </p>
-  </form>
-  <div *ngFor="let etape of defi?.etapes;let index=index">
+  <div *ngFor="let etape of defi!.etapes;let index=index">
     <button (click)="openEditEtape(index+1)">Etape {{index+1}}</button>
-    <ng-container formArrayName="EtapesForm"
+    <div formArrayName="etapes"
     >
     <div *ngIf="this.etapesEditing()[index]">
-      <form [formGroup]="openEditEtape(index+1)!">
+      <form [formGroup]="openEditEtape(index+1)!"><!--- Maybe it doesnt work [formGroupName]="j" *ngFor="let etape of this.etapesFormArrayCreating.controls;let j=index-->
         <!-- I am not sure that it works -->
         <p>
           <label for="descriptionE">Descrtipion of Etape </label>
@@ -52,27 +51,27 @@
         </p>
         <p>
           <label for="question">Question </label>
-          <input type="text" id="question" name="question" formControlName="question">
+          <input type="text" id="questionE" name="questionE" formControlName="question">
         </p>
         <p>
-          <label for="solution">Solution </label>
-          <input type="text" id="solution" name="solution" formControlName="solution">
+          <label for="solutionE">Solution </label>
+          <input type="text" id="solutionE" name="solutionE" formControlName="solution">
         </p>
         <p>
-          <label for="pointForSolution">Point for solution </label>
-          <input type="text" id="pointForSolution" name="pointForSolution" formControlName="pointForSolution">
+          <label for="pointForSolutionE">Point for solution </label>
+          <input type="text" id="pointForSolutionE" name="pointForSolutionE" formControlName="pointForSolution">
         </p>
         <p>
-          <label for="reponses">Reponses </label>
-          <input type="text" id="reponses" name="reponses" formControlName="reponses">
+          <label for="reponsesE">Reponses </label>
+          <input type="text" id="reponsesE" name="reponsesE" formControlName="reponses">
         </p>
         <p>
-          <label for="indiceDefi">Clue </label>
-          <input type="text" id="indiceDefi" name="indiceDefi" formControlName="indice">
+          <label for="indiceDefiE">Clue </label>
+          <input type="text" id="indiceDefiE" name="indiceDefi" formControlName="indice">
         </p>
         <p>
-          <label for="pointForIndice">Point for Clue </label>
-          <input type="text" id="pointForIndice" name="pointForIndice" formControlName="pointForIndice">
+          <label for="pointForIndiceE">Point for Clue </label>
+          <input type="text" id="pointForIndiceE" name="pointForIndiceE" formControlName="pointForIndice">
         </p>
         <p>
           <label for="indicationE">Indication </label>
@@ -88,22 +87,24 @@
         </p>
       </form>
     </div>
-  </ng-container>
+  </div>
   </div>
   <button (click)="this.onSubmitEdit()">
     Save info
   </button>
+</form>
   <button (click)="this.closeModalEdit(defi!.idDefi+'-edit')"
   >Close (Your modification wont be saved)
   </button>
 </jw-modal>
 
 <jw-modal [id]="'DefiCreation'">
-  <p>Creation of Defi</p>
+  <h1>Creation of Defi</h1>
   <label for="numOfEtapeToCreate">How many etapes would u like to create?</label>
-  <input id="numOfEtapeToCreate" [(ngModel)]="numOfEtapesToCreate"/>
+  <input type="number" id="numOfEtapeToCreate" [(ngModel)]="numOfEtapesToCreate" (ngModelChange)="this.ngOnInit()"/>
+  <!-- <button (click)="this.changeCreating()"> Create </button> -->
   <div *ngIf="this.isCreating()">
-    <form [formGroup]="DefiForm!" >
+    <form [formGroup]="DefiCreating" >
       <p>
         <label for="titre">Titre </label>
         <input type="text" id="titre" name="titre" formControlName="titre">
@@ -125,61 +126,63 @@
         <input type="text" id="typeDefi" name="typeDefi" formControlName="typeDefi">
         Challange or Enigme
       </p>
-    </form>
-      <div *ngFor="let i of this.tempArray;let index=index">
+      <!-- <div *ngFor="let i of this.tempArray;let index=index;trackBy:trackByIndex"> -->
         <!-- <button (click)="openEditEtape(index+1)">Etape {{index+1}}</button> -->
-        <ng-container formArrayName="EtapesForm"
+        <div formArrayName="etapes"
         >
-          <form [formGroup]="createEtape()">
+          <form [formGroupName]="j" *ngFor="let etape of this.etapesFormArrayCreating.controls;let j=index">
             <!-- I am not sure that it works -->
+            <h3><div><p>Your Etape {{j+1}}</p></div></h3>
+            <input type="text" id="descriptionC" name="descriptionC" formControlName="descriptionC"/>
             <p>
-              <label for="descriptionE">Descrtipion of Etape </label>
-              <input type="text" id="descriptionE" name="descriptionE" formControlName="description">
+              <label for="descriptionC">Descrtipion of Etape </label>
+              <input type="text" id="descriptionC" name="descriptionC" formControlName="descriptionC">
             </p>
             <p>
-              <label for="question">Question </label>
-              <input type="text" id="question" name="question" formControlName="question">
+              <label for="questionC">Question </label>
+              <input type="text" id="questionC" name="questionC" formControlName="question">
             </p>
             <p>
-              <label for="solution">Solution </label>
-              <input type="text" id="solution" name="solution" formControlName="solution">
+              <label for="solutionC">Solution </label>
+              <input type="text" id="solutionC" name="solutionC" formControlName="solution">
             </p>
             <p>
-              <label for="pointForSolution">Point for solution </label>
-              <input type="text" id="pointForSolution" name="pointForSolution" formControlName="pointForSolution">
+              <label for="pointForSolutionC">Point for solution </label>
+              <input type="text" id="pointForSolutionC" name="pointForSolutionC" formControlName="pointForSolution">
             </p>
             <p>
-              <label for="reponses">Reponses </label>
-              <input type="text" id="reponses" name="reponses" formControlName="reponses">
+              <label for="reponsesC">Reponses </label>
+              <input type="text" id="reponsesC" name="reponsesC" formControlName="reponses">
             </p>
             <p>
-              <label for="indice">Clue </label>
-              <input type="text" id="indice" name="indice" formControlName="indice">
+              <label for="indiceC">Clue </label>
+              <input type="text" id="indiceC" name="indiceC" formControlName="indice">
             </p>
             <p>
-              <label for="pointForIndice">Point for Clue </label>
-              <input type="text" id="pointForIndice" name="pointForIndice" formControlName="pointForIndice">
+              <label for="pointForIndiceC">Point for Clue </label>
+              <input type="text" id="pointForIndiceC" name="pointForIndiceC" formControlName="pointForIndice">
             </p>
             <p>
-              <label for="indicationE">Indication </label>
-              <input type="text" id="indicationE" name="indicationE" formControlName="indication">
+              <label for="indicationC">Indication </label>
+              <input type="text" id="indicationC" name="indicationC" formControlName="indication">
             </p>
             <p>
-              <label for="imageE">Image </label>
-              <input type="text" id="imageE" name="imageE" formControlName="image">
+              <label for="imageC">Image </label>
+              <input type="text" id="imageC" name="imageC" formControlName="image">
             </p>
             <p>
-              <label for="videoE">Image </label>
-              <input type="text" id="videoE" name="videoE" formControlName="video">
+              <label for="videoC">Image </label>
+              <input type="text" id="videoC" name="videoC" formControlName="video">
             </p>
           </form>
-          <button (click)="this.onSubmitCreate()">
-            Create Defi
-          </button>
-          <button (click)="this.closeModalCreating()">
-            Close (w/o save)
-          </button>
-        </ng-container>
-      </div>
+        </div>
+      <!-- </div> -->
+      <button (click)="this.onSubmitCreate()">
+        Create Defi
+      </button>
+    </form>
    </div>
+   <button (click)="this.closeModalCreating()">
+    Close (w/o save)
+  </button>
 </jw-modal>
