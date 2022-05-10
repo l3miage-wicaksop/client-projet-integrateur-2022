@@ -15,6 +15,7 @@ import { TableVueComponent } from './table-vue/table-vue.component';
 import { RegstrationFrameComponent } from './regstration-frame/regstration-frame.component';
 import { ModalComponent } from './modal/modal.component';
 import { VisitesComponent } from './visites/visites.component';
+import { DefisComponent } from './defis/defis.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { VisitesComponent } from './visites/visites.component';
     TableVueComponent,
     RegstrationFrameComponent,
     ModalComponent,
-    VisitesComponent
+    VisitesComponent,
+    DefisComponent
   ],
   imports: [
     BrowserModule,
