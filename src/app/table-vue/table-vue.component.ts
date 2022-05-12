@@ -30,7 +30,7 @@ export class TableVueComponent implements OnInit {
     public authServ: AuthServiceService,
     private modal: ModalService,
     public visiteServ:VisitesService,
-    private defiServ:DefiService
+    public defiServ:DefiService
   ) {}
 
   ngOnInit() {

@@ -87,7 +87,12 @@ getCurrentUser(){
   }
 
   usersDefi(name:string){
+    try{//for case when the user doesnt have been loggin
       return this.allDefis!.filter(function(element){return element.auteur.login===name})
+    }
+    catch(Ex){
+      return []
+    }
   }
 
   UpdatePointOfUser(point:number,increase:boolean){
@@ -109,4 +114,6 @@ getCurrentUser(){
       alert("you are not loggin your points would be count bitch")
     }
   }
+
+
 }

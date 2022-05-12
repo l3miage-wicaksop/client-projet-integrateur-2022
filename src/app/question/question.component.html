@@ -1,12 +1,17 @@
 <p>question works!</p>
-<p>{{this.question!.sujet}}</p>
+<p>{{this.question!.questionText}}</p>
 <section  [formGroup]="toppings!">
 <h4>Select one answer possible</h4>
-<div *ngFor="let reponse of this.question!.reponses">
-  <p>
-    <mat-checkbox formControlName="{{reponse}}" color="primary">{{reponse}}</mat-checkbox>
-  </p>
+<div *ngFor="let reponse of this.question!.choixPossibles">
+  <label for="choixPos">{{reponse.choix}}</label>
+  <input type="checkbox" id="choixPos">
 </div>
+<button (click)="useIndice()">Want to use Indice?</button>
+  <div *ngIf="this.usingIndice">
+    <p>
+      {{question!.indice.indiceText}}
+    </p>
+  </div>
 <button (click)="this.checkAnswer()">
   Submit
 </button>

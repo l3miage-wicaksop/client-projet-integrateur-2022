@@ -1,19 +1,15 @@
-<jw-modal  [id]="this.getCurrentIdEtape()">
+<jw-modal  [id]="this.currentEtapeId">
   <p>{{etape!.description}}</p>
   <app-question [question]="etape!.question"
   (correctAnswer)="this.correctAnswer($event)"
   (incorrectAnswer)="this.incorrectAnswer($event)"
   ></app-question>
-  <button (click)="useIndice()"></button>
-  <app-indication [indication]="this.etape?.indication">
-  </app-indication>
-  <div *ngIf="this.usingIndice">
-    <p>
-      {{etape!.indice}}
-    </p>
+  <div *ngIf="this.firstEtape">
+    <button  (click)="this.next()">Next</button>
   </div>
-  <button *ngIf="this.getNextId()!='last'" (click)="this.next()">Next</button>
-  <button *ngIf="this.getNextId()!='first'"(click)="this.previous()">Previous</button>
+  <div *ngIf="this.lastEtape">
+    <button (click)="this.previous()">Previous</button>
+  </div>
   <button (click)="this.close()"> Close </button>
 </jw-modal>
 

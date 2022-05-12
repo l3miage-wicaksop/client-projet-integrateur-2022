@@ -18,7 +18,7 @@ export interface Chami{
   nom:string;
   ville:string;
   prenom:string;
-  defis:Defi[]
+  //defis:Defi[]
   visites:Visite[]
   pointTotal:number,
 }
@@ -73,24 +73,29 @@ export interface Position{
 }
 
 export interface Etape{
+  idEtape:String
   description:string
-  indice:Indice
   question:Question
   indication:Indication
 }
 export interface Question{
-  sujet:string
-  reponses:string[]
+  questionText:string
+  choixPossibles:ChoixPossible[]
   solution:string
   point :number
+  indice:Indice
 }
 export interface Indice{
-  indice:string
+  indiceText:string
   point :number
 }
 
 export interface Indication{
-  indication:string
+  indicationText:string
   srcVideo:string
   srcImage:string
+}
+
+export interface ChoixPossible{
+  choix:string
 }

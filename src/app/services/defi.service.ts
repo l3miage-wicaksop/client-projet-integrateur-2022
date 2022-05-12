@@ -1,3 +1,4 @@
+import { DeleteService } from './delete.service';
 import { PutService } from './put.service';
 import { PostService } from './post.service';
 import { Injectable } from '@angular/core';
@@ -13,7 +14,7 @@ export class DefiService {
   etapesEditing:boolean[]=[]
   creatingDefi:boolean=false
 
-  constructor(private post :PostService,private put :PutService) {}
+  constructor(private post :PostService,private put :PutService,private deleting:DeleteService) {}
 
   initEditingEtapes(numEtapes:number){
     this.etapesEditing.fill(false,0,numEtapes)
@@ -32,4 +33,9 @@ export class DefiService {
     this.post.postingDefiPromise(defi)
     this.creatingDefi=false
   }
+  deleteDefi(defi:Defi){
+    this.deleting.deleteDefi(defi.idDefi)
+  }
+
+
 }

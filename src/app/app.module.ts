@@ -19,6 +19,7 @@ import { DefiComponent } from './defi/defi.component';
 import { EtapeComponent } from './etape/etape.component';
 import { QuestionComponent } from './question/question.component';
 import { IndicationComponent } from './indication/indication.component';
+import { ChoixPossibleComponent } from './choix-possible/choix-possible.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { IndicationComponent } from './indication/indication.component';
     DefiComponent,
     EtapeComponent,
     QuestionComponent,
-    IndicationComponent
+    IndicationComponent,
+    ChoixPossibleComponent
   ],
   imports: [
     BrowserModule,

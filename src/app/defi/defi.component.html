@@ -63,8 +63,22 @@
         </p>
         <p>
           <label for="reponsesE">Reponses </label>
-          <input type="text" id="reponsesE" name="reponsesE" formControlName="reponses">
+          <input type="text" id="reponsesE" name="reponsesE" formControlName="choixPossibles">
         </p>
+        <div formArrayName="ChoixPossiblesForm">
+          <form [formGroupName]="choixIndex" *ngFor="let choix of this.ChoixPossiblesForm.controls;let choixIndex=index">
+            <p>
+              <label for="choixE">Choix {{choixIndex+1}}</label>
+              <input type="text" id="choixE" name="choixE" formControlName="choixPossibles">
+            </p>
+          </form>
+
+          <button>Add choix</button>
+          <label for="toDeleteEtape"></label>
+          <input type="text" id="toDeleteEtape" name="toDeleteEtape">
+          <button>Delete choix</button>
+
+        </div>
         <p>
           <label for="indiceDefiE">Clue </label>
           <input type="text" id="indiceDefiE" name="indiceDefi" formControlName="indice">
@@ -86,6 +100,12 @@
           <input type="text" id="videoE" name="videoE" formControlName="video">
         </p>
       </form>
+
+      <button>Add etape</button>
+      <label for="toDeleteEtape"></label>
+      <input type="text" id="toDeleteEtape" name="toDeleteEtape">
+      <button>Delete etape </button>
+
     </div>
   </div>
   </div>
@@ -151,9 +171,19 @@
               <input type="text" id="pointForSolutionC" name="pointForSolutionC" formControlName="pointForSolution">
             </p>
             <p>
-              <label for="reponsesC">Reponses </label>
-              <input type="text" id="reponsesC" name="reponsesC" formControlName="reponses">
+              <label for="reponsesE">Reponses </label>
+              <input type="text" id="reponsesE" name="reponsesE" formControlName="choixPossibles">
             </p>
+          <!-- <p>
+            <label for="sentences">How many sentences you want? </label>
+            <input type="text" id="sentences" name="sentences" [(ngModel)]="this.numChoixPossible">
+          </p> -->
+
+          <!-- <input type="text" id="sentences" name="sentences" [(ngModel)]="this.numChoixPossible">
+          <div *ngIf="this.numChoixPossible!=0"> -->
+            <app-choix-possible [numChoixPossible]="this.numChoixPossible" (sendingBack)="setChoixPossible($event)"></app-choix-possible>
+          <!-- </div> -->
+
             <p>
               <label for="indiceC">Clue </label>
               <input type="text" id="indiceC" name="indiceC" formControlName="indice">

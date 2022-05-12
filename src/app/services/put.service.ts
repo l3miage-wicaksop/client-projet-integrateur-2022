@@ -24,7 +24,7 @@ export class PutService {
 
   async updateUser(userLogin:string,toUpdate:any): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.post(this.userPut+userLogin,toUpdate,this.httpOptions) );
+      const R = await lastValueFrom( this.http.put(this.userPut+userLogin,toUpdate,this.httpOptions) );
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
       if(R.status==200){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime
@@ -39,7 +39,7 @@ export class PutService {
 
   async updateDefi(defiId:string,toUpdate:any): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.post(this.defiPut+defiId,toUpdate,this.httpOptions) );
+      const R = await lastValueFrom( this.http.put(this.defiPut+defiId,toUpdate,this.httpOptions) );
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
       if(R.status==200){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime

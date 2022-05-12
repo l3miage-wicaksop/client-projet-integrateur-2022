@@ -1,0 +1,12 @@
+<p>choix-possible works!</p>
+<input type="text" id="sentences" name="sentences" [(ngModel)]="this.numChoixPossible" (ngModelChange)="this.ngOnInit()">
+<label for="sentences">How many sentences you want? </label>
+<form [formGroup]="ChoixFormArr">
+  <div formArrayName="choices">
+	<form [formGroupName]="i" *ngFor="let choix of fill.controls; let i=index">
+    <label for="choixPossible">Give me your reponse</label>
+	  <input type="text" formControlName="choix" id="choixPossible">
+	</form>
+  <button (click)="saveEditing()">Accept</button>
+  </div>
+</form>

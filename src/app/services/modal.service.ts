@@ -27,8 +27,8 @@ export class ModalService {
     modal.close();
   }
   next(idCurrent:string,idNext:string){
-    this.open(idNext)
     this.close(idCurrent)
+    this.open(idNext)
   }
   previous(idCurrent:string,idPrevious:string){
     this.close(idCurrent)
