@@ -6,6 +6,7 @@ import { Form, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Defi } from '../iterfaces';
 import { ModalService } from '../services/modal.service';
 import { VisitesService } from '../services/visites.service';
+import { ThisReceiver } from '@angular/compiler';
 declare var jQuery:any;
 
 
@@ -105,6 +106,14 @@ export class DefiComponent implements OnInit {
       description: this.defi!.description,
       arret: this.defi!.arret.nomArret,
       points : this.defi!.points,
+      typeDefi:'',
+      etapes:new FormArray([])
+    });
+    this.DefiCreating=this.formBuilder.group({
+      titre: '',
+      description: '',
+      arret: '',
+      points : '',
       typeDefi:'',
       etapes:new FormArray([])
     });

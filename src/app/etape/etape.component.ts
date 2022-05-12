@@ -108,8 +108,16 @@ export class EtapeComponent implements OnInit {
       this.registrationYourVisite=false
     }
     else{
-      this.modal.close(this.getCurrentIdEtape())
-      this.visiteServ.updatingTimePoints(this.auth.pointsOfCurrentUser)
+      if(this.defiOfEtape!.etapes.indexOf(this.etape!)-2==0){
+        this.modal.close(this.defiOfEtape!.idDefi+"-"+"first")}
+      else{
+        this.modal.close(this.currentEtapeId!)}
+      try{
+        this.visiteServ.updatingTimePoints(this.auth.pointsOfCurrentUser)
+      }
+      catch{
+        console.log("error in saving visite of defi")
+      }
     }
   }
 
