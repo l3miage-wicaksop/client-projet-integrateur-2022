@@ -1,3 +1,4 @@
+import { DefiService } from './../services/defi.service';
 import { VisitesService } from './../services/visites.service';
 import { Defi, Etape, Visite } from './../iterfaces';
 import { Component, Input, AfterViewInit, OnInit } from '@angular/core';
@@ -22,7 +23,8 @@ export class EtapeComponent implements OnInit {
   firstEtapeRef:String|undefined
   lastEtapeRef:String|undefined
   currentEtapeId:string|undefined
-  constructor(public modal: ModalService,private auth:AuthServiceService,private visiteServ:VisitesService) {
+
+  constructor(public modal: ModalService,private auth:AuthServiceService,private visiteServ:VisitesService,public defiServ:DefiService) {
     this.visiteServ.currentVisite?this.visiteServInEtape=this.visiteServ.currentVisite:console.log()
   }
 
@@ -40,14 +42,10 @@ export class EtapeComponent implements OnInit {
   }
 
   getCurrentIdEtape(){
-    console.log("getting currentEtape", this.defiOfEtape?.idDefi+'-'+this.defiOfEtape?.etapes.indexOf(this.etape!))
     return this.defiOfEtape?.idDefi+'-'+this.defiOfEtape?.etapes.indexOf(this.etape!)
   }
 
   getNextId(){
-    console.log("wtf ???")
-    console.log("zdes ",this.defiOfEtape?.etapes.indexOf(this.etape!))
-    console.log("tuta",this.defiOfEtape!.etapes.length-1)
     if(this.defiOfEtape?.etapes.indexOf(this.etape!)===this.defiOfEtape!.etapes.length-1){
       // -1 for create the nextEtape in jw-modal ;-2 for make possible to open the last model
       //Ex: [E1,E2] E1=idE1-first in modal E2=idE2-last in modal
@@ -112,13 +110,9 @@ export class EtapeComponent implements OnInit {
         this.modal.close(this.defiOfEtape!.idDefi+"-"+"first")}
       else{
         this.modal.close(this.currentEtapeId!)}
-      try{
-        this.visiteServ.updatingTimePoints(this.auth.pointsOfCurrentUser)
+        if(this.defiServ.registre)
+          this.visiteServ.updatingTimePoints(this.auth.pointsOfCurrentUser)
       }
-      catch{
-        console.log("error in saving visite of defi")
-      }
-    }
   }
 
   changingInfoVisite(){

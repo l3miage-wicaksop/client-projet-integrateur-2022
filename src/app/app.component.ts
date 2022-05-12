@@ -107,12 +107,17 @@ export class AppComponent implements OnInit{
   }
 
   initDefisOnMap(defis:Defi[]){
-    defis.forEach(element=>{
-      const temp= L.marker([element.arret.latitude, element.arret.longitude],{icon:this.defiIcon}).on("mouseover",event=>{
-        event.target.bindPopup(element.idDefi).openPopup()
-      }).on("mouseover",event=>event.target.closePopup())
-      this.otherLayers.push(temp)
-    })
+    try{
+      defis.forEach(element=>{
+        const temp= L.marker([element.arret.latitude, element.arret.longitude],{icon:this.defiIcon}).on("mouseover",event=>{
+          event.target.bindPopup(element.idDefi).openPopup()
+        }).on("mouseover",event=>event.target.closePopup())
+        this.otherLayers.push(temp)
+      })
+    }
+    catch{
+      console.log("passing initDefiOnMap")
+    }
   }
 
   async currentLocation(){

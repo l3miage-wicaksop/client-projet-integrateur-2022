@@ -23,6 +23,7 @@ export class DeleteService {
   async deleteDefi(defiId:string): Promise<boolean> {
     try {
       const R = await lastValueFrom( this.http.delete(this.defiDelete+defiId,this.httpOptions) );
+
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
       if (R.status==200){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime

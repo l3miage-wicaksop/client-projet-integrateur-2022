@@ -57,7 +57,7 @@ export interface InfoDefi{
 export interface Visite{
   idVisite:string
   defi:Defi
-  dateDeVisite:Timestamp
+  dateDebut:Timestamp
   mode:TypeMode
   score:number
   status:boolean
@@ -66,6 +66,7 @@ export interface Visite{
   commentaire:string
   chami:Chami
   pointsTotal:number
+
 }
 export interface Position{
   lat:number

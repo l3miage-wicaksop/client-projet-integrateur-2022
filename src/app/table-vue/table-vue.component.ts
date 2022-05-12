@@ -12,7 +12,7 @@ import { ModalService } from '../services/modal.service';
 })
 
 export class TableVueComponent implements OnInit {
-
+  objetText:String|Chami|undefined
 
   @Input() tableChamis: Chami[]|undefined ;
   @Input() tableDefis: Defi[] |undefined;
@@ -21,9 +21,11 @@ export class TableVueComponent implements OnInit {
   visiteWithDefi:boolean|undefined
   @Input() decider = '';
   @Input() visites:Visite[]|undefined
+
   @Input() mesDefis:Defi[]|undefined//we can optimise it but later
   @Input() mesVisites:Visite[]|undefined
-
+  lastName:String|undefined
+  allNames:String[]=[]
   @Output() posEventTab = new EventEmitter<Position>();
 
   constructor(
@@ -34,6 +36,7 @@ export class TableVueComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.visiteWithDefi=false
   }
 
@@ -80,5 +83,9 @@ export class TableVueComponent implements OnInit {
   }
 
 
-
+  checkStr(defi:any){
+    if(typeof defi.auteur ==='string')
+      return true
+    return false
+  }
 }

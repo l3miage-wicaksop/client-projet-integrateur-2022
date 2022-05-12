@@ -1,3 +1,4 @@
+import { DefiService } from './../services/defi.service';
 import { VisitesService } from './../services/visites.service';
 import { PostService } from './../services/post.service';
 import { ModalService } from './../services/modal.service';
@@ -5,6 +6,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Defi, Visite,Position, Chami, TypeMode } from '../iterfaces';
 import { Timestamp } from 'firebase/firestore';
+import { AuthServiceService } from '../services/auth-service.service';
 
 
 
@@ -35,14 +37,14 @@ export class VisitesComponent implements OnInit {
 
 
   constructor(private formBuilder: FormBuilder,private modalService:ModalService,private post:PostService,
-    public visiteServ:VisitesService) {
+    public visiteServ:VisitesService,private defiServ:DefiService,private auth:AuthServiceService) {
     }
 
   ngOnInit() {
     this.post.Refreshrequired.subscribe(
       response=>{
         if(this.visiteServ.currentVisite){
-          this.createVisite(this.defi!!)
+          this.createVisite(this.defi!)
         }
         else{
           this.visite=this.visiteServ.currentVisite
@@ -57,6 +59,8 @@ export class VisitesComponent implements OnInit {
   }
 
   closeModal(id: string) {
+      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA ,",this.defi)
+      this.defiServ.openEtape(this.defiServ.currentDefi!.idDefi)
       this.modalService.close(id);
   }
 
@@ -81,7 +85,7 @@ export class VisitesComponent implements OnInit {
       var visiteNum=Number(temp)+1
       var visiteStr=this.allVisites!.length===0?'V1':String(visiteNum)
       const time=Timestamp.now()
-      this.visite={chami:this.chami!,indice:"",commentaire:"",defi:defi,idVisite:visiteStr,dateDeVisite:time,pointsTotal:0,score:0,temps:'0',mode:TypeMode.distanciel,status:false}
+      this.visite={chami:this.chami!,indice:"",commentaire:"",defi:defi,idVisite:visiteStr,dateDebut:time,pointsTotal:0,score:0,temps:'0',mode:TypeMode.distanciel,status:false}
       //status ->finished not ->finished.Pour l'instant seulment distanciel mode
       this.setCurrentVisite(this.visite!)
     }

@@ -1,5 +1,5 @@
 <jw-modal  [id]="defi!.idDefi" [defiAffichage]="defi!.description">
-  <div style="width: 500px;white-space: pre-line">{{ treatementDefis(defi!.description)}} </div>
+  <div style="width: 500px;white-space: pre-line">{{ defi!.description}} </div>
   <div class="modal-footer">
     <button (click)="this.openEtape()" type="button" class="btn btn-default" data-dismiss="modal">Commencez ce defi sans enregistration</button>
     <button (click)="this.visiteServ.isUserOnPlace(defi!)?this.openModalParticulier('Visite',defi!):this.visiteServ.notification('You are not near the defi')" class="btn btn-default">Je veux enregistrer ma visite</button>

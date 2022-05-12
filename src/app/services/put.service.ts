@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { user } from '@angular/fire/auth';
 import { lastValueFrom } from 'rxjs';
 import { PostService } from './post.service';
 
@@ -24,7 +25,18 @@ export class PutService {
 
   async updateUser(userLogin:string,toUpdate:any): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.put(this.userPut+userLogin,toUpdate,this.httpOptions) );
+      let temp=""
+      for(let i=0;i<userLogin.length;i++){
+        if(userLogin[i]===' '){
+          temp+='%20'
+        }
+        else
+          temp+=userLogin[i]
+      }
+      console.log("temp in put pls",this.userPut+temp)
+      console.log(toUpdate)
+      const R = await lastValueFrom( this.http.put(this.userPut+temp,toUpdate,this.httpOptions) );
+
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
       if(R.status==200){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime
@@ -40,6 +52,7 @@ export class PutService {
   async updateDefi(defiId:string,toUpdate:any): Promise<boolean> {
     try {
       const R = await lastValueFrom( this.http.put(this.defiPut+defiId,toUpdate,this.httpOptions) );
+
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
       if(R.status==200){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime

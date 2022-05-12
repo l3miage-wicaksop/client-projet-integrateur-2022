@@ -85,10 +85,6 @@ export class DefiComponent implements OnInit {
     console.log("tempArr")
     if(this.numOfEtapesToCreate!=0 &&this.numOfEtapesToCreate>0 ){
       this.defiServ.creatingDefi=true
-      //this.tempArray=new Array(this.numOfEtapesToCreate)
-      //this.tempArray=Array.from(Array(this.numOfEtapesToCreate).keys())
-      //console.log("creating temp Array",this.numOfEtapesToCreate)
-      //console.log(this.tempArray)
     }
     else{
       this.defiServ.creatingDefi=false
@@ -141,12 +137,15 @@ export class DefiComponent implements OnInit {
   openModalParticulier(visiteID:string,defi:Defi) {
     if(visiteID==="allVisitesDeDefi"){
       this.visiteWithDefi=true
+      this.defiServ.registre=true
       this.visiteServ.tempDefi=defi
     }
-    this.modal.open(visiteID);
     this.modal.close(defi.idDefi);
+    this.modal.open(visiteID);
+    //this.modal.close(defi.idDefi);
     this.visiteServ.tempDefi=defi
-    this.openEtape()//I hope it will open after registration visite close
+
+    //this.openEtape()//I hope it will open after registration visite close
   }
 
   closeModal(name: string) {

@@ -32,11 +32,38 @@
             <th>Score</th>
             <th>Status</th>
             <th>Temp</th>
+            <th>Visiteur</th>
           </tr>
           <tr >
           <td>{{visite.idVisite}}</td>
-          <td>{{visite.defi}}</td> defi.idHere
-          <td>{{visite.dateDeVisite}}</td>
+          <td>{{visite.defi}}</td>
+          <td>{{visite.dateDebut}}</td>
+          <td>{{visite.mode}}</td>
+          <td>{{visite.score}}</td>
+          <td>{{visite.status}}</td>
+          <td>{{visite.temps}}</td><br/>
+          </tr>
+          Commentaire: {{visite.commentaire}}
+        </table>
+    </div >
+  </div>
+  <div *ngSwitchCase="'MesVisites'">
+    <h4>Table de Mes Visite</h4>
+      <div class="table-responsive">
+        <table class="table" *ngFor="let visite of this.mesVisites">
+          <tr>
+            <th>Your id of visite</th>
+            <th>Defi</th>
+            <th>Date</th>
+            <th>Mode</th>
+            <th>Score</th>
+            <th>Status</th>
+            <th>Temp</th>
+          </tr>
+          <tr >
+          <td>{{visite.idVisite}}</td>
+          <td>{{visite.defi}}</td>
+          <td>{{visite.dateDebut}}</td>
           <td>{{visite.mode}}</td>
           <td>{{visite.score}}</td>
           <td>{{visite.status}}</td>
@@ -55,16 +82,19 @@
           <th>Date de création</th>
           <th>Auteur</th>
         </tr>
-        <tr *ngFor="let defi of this.tableDefis">
+        <tr *ngFor="let defi of this.tableDefis;let i = index">
           <td>
           <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >
             {{defi.idDefi}}
           </button>
-              <app-defi [defi]="defi"> </app-defi>
+              <app-defi [defi]="defi"> <app-visites [defi]="this.defi"></app-visites></app-defi>
           </td>
         <td>{{defi.titre}}</td>
         <td>{{defi.dateCreation}}</td>
-        <td>{{defi.auteur.login}}</td>
+
+        <!-- <td>{{this.authServ.getAllNames()[i]}} -->
+        <td>{{this.checkStr(defi)?defi.auteur:defi.auteur.login}}</td>
+
         </tr>
       </table>
   </div>

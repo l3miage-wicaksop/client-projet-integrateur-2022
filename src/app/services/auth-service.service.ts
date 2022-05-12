@@ -2,7 +2,7 @@ import { PutService } from './put.service';
 import { Injectable, Input } from '@angular/core';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
 import { Chami, Defi } from '../iterfaces';
-import { lastValueFrom, Observable } from 'rxjs';
+import { elementAt, lastValueFrom, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,9 @@ export class AuthServiceService {
 
   allUsers:Chami[]=[]
   allDefis:Defi[]=[]
+
+  lastName:String|undefined
+  allNames:any[]=[]
 
   loginUser:string|undefined
   pointsOfCurrentUser=0
@@ -59,8 +62,13 @@ export class AuthServiceService {
 
 getCurrentUser(){
     try{
-      const CurrentUser=this.allUsers.filter((element)=>element.login=this.loginUser!)
-      return CurrentUser[0]
+      for(let i=0;i<this.allUsers.length;i++){
+        if(this.allUsers[i].login===this.loginUser){
+          return this.allUsers[i]
+        }
+
+      }
+      return null //error
     }
     catch(exception){
         console.log("Error in getChamis ,couldnt set up users ",exception)
@@ -88,7 +96,17 @@ getCurrentUser(){
 
   usersDefi(name:string){
     try{//for case when the user doesnt have been loggin
-      return this.allDefis!.filter(function(element){return element.auteur.login===name})
+
+      return this.allDefis!.filter(function(element){
+        const elementTemp=element.auteur as any
+        if(typeof(element.auteur)=='string'){
+          return element.auteur===name
+        }
+        else{
+          return elementTemp.login===name
+        }
+
+      })
     }
     catch(Ex){
       return []
@@ -97,14 +115,15 @@ getCurrentUser(){
 
   UpdatePointOfUser(point:number,increase:boolean){
     if(this.loginUser){
-      const curretnUser=this.getCurrentUser()
+      const curretnUser=this.getCurrentUser()//Chami
+      console.log("current user is ",curretnUser)
       if(curretnUser!=null){
         if(increase){
           curretnUser.pointTotal=curretnUser.pointTotal+point
-          this.pointsOfCurrentUser+=point}
+          this.pointsOfCurrentUser=this.pointsOfCurrentUser+point}
         else{
           curretnUser.pointTotal=curretnUser.pointTotal-point
-          this.pointsOfCurrentUser-=point}
+          this.pointsOfCurrentUser=this.pointsOfCurrentUser-point}
         this.put.updateUser(curretnUser.login,curretnUser).then(response=>{
           response?console.log("user have been updated with new points "):console.log("error occured while updating users points ")
         })
@@ -115,5 +134,24 @@ getCurrentUser(){
     }
   }
 
+  instanceOfChami(objet:any):objet is Chami{
 
+    try{
+      return 'login' in objet;
+    }
+    catch{
+      return false
+    }
+  }
+  setAllNames(){
+    for(let i=0;i<this.allDefis.length;i++){
+      if(this.instanceOfChami(this.allDefis[i].auteur)){
+        this.allNames.push(this.allDefis[i].auteur.login)
+      }else{
+        this.allNames.push(this.allDefis[i].auteur)}
+    }
+  }
+  getAllNames(){
+    return this.allNames
+  }
 }

@@ -3,6 +3,7 @@ import { PutService } from './put.service';
 import { PostService } from './post.service';
 import { Injectable } from '@angular/core';
 import { Defi } from '../iterfaces';
+import { ModalService } from './modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,10 @@ export class DefiService {
   etapesEditing:boolean[]=[]
   creatingDefi:boolean=false
 
-  constructor(private post :PostService,private put :PutService,private deleting:DeleteService) {}
+  registre:boolean=false
+
+  constructor(private post :PostService,private put :PutService,private deleting:DeleteService,
+    public modal:ModalService) {}
 
   initEditingEtapes(numEtapes:number){
     this.etapesEditing.fill(false,0,numEtapes)
@@ -37,5 +41,11 @@ export class DefiService {
     this.deleting.deleteDefi(defi.idDefi)
   }
 
+  openEtape(idDefi:string){//defi.idDefi+'-'+index de l'etape
+    console.log("openEtap in defi ->",idDefi+'-'+'first')
+    console.log(this.modal)
+    this.modal.open(idDefi+'-'+'first')//this.defiOfEtape?.idDefi+"-"+"first"
+    this.modal.close(idDefi)
+  }
 
 }
