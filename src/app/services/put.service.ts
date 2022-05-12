@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { user } from '@angular/fire/auth';
 import { lastValueFrom } from 'rxjs';
 import { PostService } from './post.service';
 
@@ -33,15 +32,19 @@ export class PutService {
         else
           temp+=userLogin[i]
       }
-      console.log("temp in put pls",this.userPut+temp)
-      console.log(toUpdate)
-      const R = await lastValueFrom( this.http.put(this.userPut+temp,toUpdate,this.httpOptions) );
+      const t={login:toUpdate.login,description:toUpdate.description,age:toUpdate.age,nom:toUpdate.nom,pointTotal:toUpdate.pointTotal,prenom:toUpdate.prenom,ville:toUpdate.ville}
+      this.http.put(this.userPut+temp,t).subscribe(
+        result=>{
+          this.post.Refreshrequired.next()
+          return true
+      },err=>{return false})//not 200
+      // const R = await lastValueFrom( this.http.put(this.userPut+temp,toUpdate,this.httpOptions) );
 
-      // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      if(R.status==200){
-        this.post.Refreshrequired.next()//to get trigger for updating in realtime
-        console.log("observable in PUTINTG USER with value ",R)
-        return true}
+      // // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
+      // if(R.status==200){
+      //   this.post.Refreshrequired.next()//to get trigger for updating in realtime
+      //   console.log("observable in PUTINTG USER with value ",R)
+      //   return true}
       return false
     } catch (err) {
       console.error("Error postingUsers", userLogin, "\n", err);
@@ -51,10 +54,10 @@ export class PutService {
 
   async updateDefi(defiId:string,toUpdate:any): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.put(this.defiPut+defiId,toUpdate,this.httpOptions) );
-
+      const R = await lastValueFrom( this.http.put(this.defiPut+defiId,toUpdate) )
+      //httpOption gives un error
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      if(R.status==200){
+      if(R){
         this.post.Refreshrequired.next()//to get trigger for updating in realtime
         console.log("observable in PUTING DEFI with value ",R)
         return true}

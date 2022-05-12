@@ -20,7 +20,7 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "@asymmetrik/ngx-leaflet": "^13.0.2",
-    "firebase": "^9.6.11",
+    "firebase": "^9.8.1",
     "jquery": "^3.6.0",
     "leaflet": "^1.7.1",
     "materials": "^1.1.3",

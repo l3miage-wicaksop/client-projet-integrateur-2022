@@ -1,25 +1,14 @@
 {
   "targets": {
-<<<<<<< HEAD
-    "premierprojet-9c7d8": {
-      "hosting": {
-        "l3m-pi-2022-client": [
-          "premierprojet-9c7d8"
-=======
     "projetintegrateur-2ed35": {
       "hosting": {
         "l3m-pi-2022-client": [
           "projetintegrateur-2ed35"
->>>>>>> origin/Nurbek
         ]
       }
     }
   },
   "projects": {
-<<<<<<< HEAD
-    "default": "premierprojet-9c7d8"
-=======
     "default": "projetintegrateur-2ed35"
->>>>>>> origin/Nurbek
   }
 }

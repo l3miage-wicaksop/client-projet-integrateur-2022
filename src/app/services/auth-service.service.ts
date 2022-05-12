@@ -77,16 +77,6 @@ getCurrentUser(){
     }
   }
 
-
-  countForEachAuthor(auteur:string ,age:number,chamis:Chami[]){
-    let defiCreated=0
-    for(let i=0;i<chamis.length;i++){
-      if(chamis[i].login===auteur)
-        defiCreated++
-    }
-    return {auteur,age,defiCreated}
-  }
-
   getDefis(){
     return this.allDefis;
   }
@@ -96,17 +86,9 @@ getCurrentUser(){
 
   usersDefi(name:string){
     try{//for case when the user doesnt have been loggin
-
       return this.allDefis!.filter(function(element){
         const elementTemp=element.auteur as any
-        if(typeof(element.auteur)=='string'){
-          return element.auteur===name
-        }
-        else{
-          return elementTemp.login===name
-        }
-
-      })
+        return typeof(element.auteur)=='string'? element.auteur===name: elementTemp.login===name})
     }
     catch(Ex){
       return []
@@ -130,27 +112,10 @@ getCurrentUser(){
       }
     }
     else{
-      alert("you are not loggin your points would be count bitch")
+      alert("you are not loggin your points would be count")
     }
   }
 
-  instanceOfChami(objet:any):objet is Chami{
-
-    try{
-      return 'login' in objet;
-    }
-    catch{
-      return false
-    }
-  }
-  setAllNames(){
-    for(let i=0;i<this.allDefis.length;i++){
-      if(this.instanceOfChami(this.allDefis[i].auteur)){
-        this.allNames.push(this.allDefis[i].auteur.login)
-      }else{
-        this.allNames.push(this.allDefis[i].auteur)}
-    }
-  }
   getAllNames(){
     return this.allNames
   }

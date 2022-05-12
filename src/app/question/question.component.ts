@@ -18,7 +18,7 @@ export class QuestionComponent implements OnInit {
 
   answers:boolean[]=[]
   usingIndice=false
-  toppings: FormGroup|undefined;
+
   constructor(private fb: FormBuilder,private auth:AuthServiceService) {
 
    }
@@ -40,8 +40,7 @@ export class QuestionComponent implements OnInit {
         this.correctAnswer.emit(this.question?.point)
       }
     else {
-      if(this.question)
-        this.incorrectAnswer.emit(this.question.point/this.question.choixPossibles.length)
+        this.incorrectAnswer.emit(this.question!.point/this.question!.choixPossibles.length)
     }
   }
 
@@ -51,6 +50,7 @@ export class QuestionComponent implements OnInit {
     //do - points in visites
     this.auth.UpdatePointOfUser(this.question!.indice.point,false)
   }
+
   getAnswer(){
     let i=0
     while(i<this.answers.length){
@@ -62,6 +62,6 @@ export class QuestionComponent implements OnInit {
   }
   setAnswer(index:number){
     console.log("seting answer on this index ",index)
-    this.answers[index]=true
+    this.answers[index]?this.answers[index]=false:this.answers[index]=true
   }
 }
