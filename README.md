@@ -3,6 +3,21 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.3.
 
+## Membres du  Groupe 9
+- CRIVOI Dmitrii
+- SEVENIER Jonathan
+- NASYROV Takir
+- SERZHANOV Nurbek
+- TCHANA Franck
+- WICAKSONO Pradityo Adi
+
+## Description des interactions avec les autres services web (Firebase, Metro, …)
+### Arrets du tram
+Nous n'avons pas utilisées des services web de la Metromobilité TAG mais nous avons utilisées les arrets Tramway de Grenoble que nous avons trouvées sur la page wikipedia, utilisé un scraper pour recuperer les coordonnées et nom d'arret et puis les stockées dans serveur (/api/arrets)
+
+### Authentification (Firebase)
+Nous avons utilisé le service authentification de Firebase comme on a vu dans TP ToDoList de l'UE CL-IHM.
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
