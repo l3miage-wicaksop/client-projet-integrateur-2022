@@ -138,4 +138,12 @@ export class VisitesService {
     this.updateVisite(ecartTime.toString())
   }
 
+  isAnonyVisite(visite:any){
+    try{
+      return visite.visiteur.login
+    }
+    catch{
+      return "Anonyme"
+    }
+  }
 }

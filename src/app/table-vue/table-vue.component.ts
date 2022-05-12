@@ -50,8 +50,9 @@ export class TableVueComponent implements OnInit {
   }
 
   openModalEdit(editId: string) {
+    this.modal.close('mesDefis')
     this.defiServ.editingDefi=true
-    this.modal.open(editId);//the same sing as above ,(dont know how to verify an editing id since,we dont it know ,so I just keep it  in this way)
+    this.modal.open(editId);//the same thing as above ,(dont know how to verify an editing id since,we dont it know ,so I just keep it  in this way)
   }
 
 
@@ -88,4 +89,5 @@ export class TableVueComponent implements OnInit {
       return true
     return false
   }
+
 }

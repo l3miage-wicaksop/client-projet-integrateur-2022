@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { Timestamp } from 'firebase/firestore';
 import { Etape, TypeDefi, Question, Indice, Indication, Visite, ChoixPossible } from './../iterfaces';
 import { DefiService } from './../services/defi.service';
@@ -18,6 +19,8 @@ declare var jQuery:any;
 export class DefiComponent implements OnInit {
   @ViewChild('choices') el:ElementRef|undefined;
   @Input() defi:Defi|undefined
+
+
   visiteWithDefi:boolean|undefined
 
   DefiForm:FormGroup=this.formBuilder.group({
@@ -64,6 +67,8 @@ export class DefiComponent implements OnInit {
     indication:''
   })
 
+  arrets$:Observable<any>|undefined
+
   EtapesForm:FormArray|undefined
   public EtapesCreatingForm:FormArray=new FormArray([])
   //Cannot use the same form
@@ -77,12 +82,15 @@ export class DefiComponent implements OnInit {
   tempArray:number[]=[]
 
   constructor(public visiteServ:VisitesService,private modal: ModalService,private formBuilder: FormBuilder,
-    private defiServ:DefiService) { }
+    public defiServ:DefiService) {
+      this.arrets$=this.defiServ.getAllArretes()
+     }
 
   ngOnInit(): void {
 
     console.log("numChoixPossible",this.numChoixPossible)
     console.log("tempArr")
+    console.log(this.defiServ.editingDefi)
     if(this.numOfEtapesToCreate!=0 &&this.numOfEtapesToCreate>0 ){
       this.defiServ.creatingDefi=true
     }
@@ -90,8 +98,10 @@ export class DefiComponent implements OnInit {
       this.defiServ.creatingDefi=false
     }
     this.defiServ.currentDefi=this.defi!
+    //this.initEdit()
     if(this.defiServ.editingDefi || this.defiServ.creatingDefi){
       this.initEdit()
+      //console.log("initEdit")
     }
     //this.defiServ.initEditingEtapes(this.defi!.etapes.length)
   }
@@ -102,7 +112,7 @@ export class DefiComponent implements OnInit {
       description: this.defi!.description,
       arret: this.defi!.arret.nomArret,
       points : this.defi!.points,
-      typeDefi:'',
+      typeDefi:this.defi!.typeDefi,
       etapes:new FormArray([])
     });
     this.DefiCreating=this.formBuilder.group({
@@ -113,6 +123,7 @@ export class DefiComponent implements OnInit {
       typeDefi:'',
       etapes:new FormArray([])
     });
+
     if(!this.defiServ.creatingDefi){
       for (let i =1;i<=this.defi!.etapes.length;i++){
         this.etapesFormArray.push(this.openEditEtape(i))
@@ -165,6 +176,7 @@ export class DefiComponent implements OnInit {
     this.defiServ.switchingEditEtape(numEtape)
     this.editingEtape?this.editingEtape=false:this.editingEtape=true
     const acces =this.defi?.etapes[numEtape-1]
+    console.log("acces",acces,numEtape)
     this.choixPossible=acces!.question.choixPossibles;
     this.EtapeForm=this.formBuilder.group({
       description:acces!.description,
@@ -178,6 +190,15 @@ export class DefiComponent implements OnInit {
       video:acces!.indication.srcVideo,
       indication:acces!.indication.indicationText
     })
+    // const choixPossForm=acces!.question.choixPossibles
+    // for(let i=0;i<choixPossForm.length;i++){
+    //   const choixForm=this.formBuilder.group({
+    //     choix:choixPossForm[i].choix
+    //   })
+    //   console.log("editing choix",choixPossForm[i])
+    //   this.ChoixPossiblesForm.push(choixForm)
+    // }
+    // this.EtapeForm.patchValue({choixPossibles:this.ChoixPossiblesForm})
     return this.EtapeForm
   }
 
@@ -206,16 +227,18 @@ export class DefiComponent implements OnInit {
     tempDefi.visites=this.defi!.visites
     tempDefi=this.installEtapes(tempDefi)
     //put
+    console.log("goint go be updated bleat",tempDefi)
     this.defiServ.updateDefi(tempDefi)
     this.closeModalEdit(this.defi!.idDefi+'-edit')
   }
 
   onSubmitCreate(){
-    let tempDefi=this.DefiForm!.value
+    let tempDefi=this.DefiCreating!.value
     tempDefi.dateCreation=Timestamp.now()
     tempDefi.visites=[] as Visite[]
     tempDefi=this.installEtapes(tempDefi)
     //post
+    console.log("goint go be add bleat",tempDefi)
     this.defiServ.addDefi(tempDefi)
     this.closeModalCreating()
   }
@@ -232,7 +255,6 @@ export class DefiComponent implements OnInit {
       pointForSolution:any,
       indication:any,srcVideo:any,srcImage:any }) =>
       {
-
         const indice ={indiceText:element.indice,point:element.pointForIndice} as Indice
         const question={indice:indice,questionText:element.question,solution:element.solution,point:element.pointForSolution,choixPossibles:this.choixPossible} as Question
         const indication={indicationText:element.indication,srcVideo:element.srcVideo,srcImage:element.srcImage} as Indication
@@ -290,6 +312,11 @@ export class DefiComponent implements OnInit {
 
   setChoixPossible(choixPossible:ChoixPossible[]){
     this.choixPossible=choixPossible
+  }
+
+  selectChangeHandler(event:any)
+  {
+    this.DefiCreating.patchValue({arret:event})
   }
 
 }

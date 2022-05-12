@@ -14,17 +14,17 @@ export class ChoixPossibleComponent implements OnInit {
   @Input()numChoixPossible:number=0
   @Output() sendingBack=new EventEmitter<ChoixPossible[]>()
 
-  ChoixForm=this.formBuilder.group({
-    choix:""
-  })
   ChoixFormArr = this.formBuilder.group({
     choices: new FormArray([])
 });
   currentChoices:ChoixPossible[]=[]
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {
+
+  }
 
   ngOnInit(): void {
     this.initFormCreating()
+
   }
 
 
@@ -32,7 +32,10 @@ export class ChoixPossibleComponent implements OnInit {
   initFormCreating(){
     this.fill.clear()
     for(let i=0;i<this.numChoixPossible;i++){
-      this.fill.push(this.ChoixForm)
+      const tempForm=this.formBuilder.group({
+        choix:""
+      })
+      this.fill.push(tempForm)
   }
 }
 
@@ -41,9 +44,10 @@ export class ChoixPossibleComponent implements OnInit {
   }
 
   saveEditing(){
-    //ZAKONCHIT SAVE EDITING SDELAT EDIT DEFI CHEKNUT VSE ETO POSMOTER VISITI
 
+    //ZAKONCHIT SAVE EDITING SDELAT EDIT DEFI CHEKNUT VSE ETO POSMOTER VISITI
     let tempChoixArr=this.ChoixFormArr.value
+    console.log("Editing choices",tempChoixArr)
     tempChoixArr.choices.forEach((element: { choix: any; }) => {
       let choixTemp={choix:element.choix} as ChoixPossible
       this.currentChoices.push(choixTemp)

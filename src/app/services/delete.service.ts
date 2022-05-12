@@ -22,16 +22,24 @@ export class DeleteService {
 
   async deleteDefi(defiId:string): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.delete(this.defiDelete+defiId,this.httpOptions) );
+      const R = await lastValueFrom( this.http.delete(this.defiDelete+defiId) );
 
+      //Error by using httpOptions in delte
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      if (R.status==200){
-        this.post.Refreshrequired.next()//to get trigger for updating in realtime
-        console.log("observable in deleting DEFI with value ",R)
-        return true}
-      return false
+      // if (R){
+      //   this.post.Refreshrequired.next()//to get trigger for updating in realtime
+      //   console.log("observable in deleting DEFI with value ",R)
+      //   return true}
+
+      return true
     } catch (err) {
       console.error("Error postingUsers", this.defiDelete, "\n", err);
+      let temp=err as any
+      if(temp.status===200){
+        console.log("defi deleted even we got error in Response")
+        this.post.Refreshrequired.next()
+        return true
+      }
       return false;
     }
   }

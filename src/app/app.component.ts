@@ -81,12 +81,12 @@ export class AppComponent implements OnInit{
 
 
   visitesButton:boolean=false;
-  choixPossibleTemp:ChoixPossible={choix:'fastfood'}
-  ChoixPossibleTemp:ChoixPossible[]=[this.choixPossibleTemp]
-  etapT:Etape={ description:"etapT",idEtape: '16', indication: { indicationText: "dirige toi vers le roi", srcImage: "httpqjfiqzjfquzon", srcVideo: "hthththth" }, question: { choixPossibles:this.ChoixPossibleTemp,questionText: "dans quel type de restaurant travail bob l'eponge", solution: "fastfood", point: 5, indice: {  point: 4, indiceText: "wow" } } }
-  etapT2:Etape={ description :"etapT2",idEtape: '17', indication: {  indicationText: "", srcImage: "httpqjfiqzjfquzon", srcVideo: "hthththth" }, question: { choixPossibles:this.ChoixPossibleTemp, questionText: "qui est le meilleur ami de bob", solution: "patrick", point: 5, indice: {  point: 4, indiceText: "étoile rose"}}}
-  etapesTemp:Etape[]=[this.etapT,this.etapT2]
-  tempAllDefi={ idDefi: "D1", titre: "Defis noob", typeDefi: TypeDefi.enigme, description: "bob l'eponge", dateCreation: Timestamp.now(), points: 0, auteur: { login: "Nurbek Ss", age: 23, description: "checking", ville: "GRENOBLE", prenom: "Nurbek ", nom: "Serzhanov", pointTotal: 0, visites: [] }, arret: { codeArret: "23", nomArret: "Victor Hugo", ville: "Grenoble", openstreetmap: "https://www.openstreetmap.org/#map=19/45.189851/5.725127", googlemap: "https://www.google.com/maps/@45.189851,5.725127,19z", longitude: 5.725127, latitude: 45.189851, defis: ["D1"] }, visites: [], etapes:this.etapesTemp  }  as Defi
+  // choixPossibleTemp:ChoixPossible={choix:'fastfood'}
+  // ChoixPossibleTemp:ChoixPossible[]=[this.choixPossibleTemp]
+  // etapT:Etape={ description:"etapT",idEtape: '16', indication: { indicationText: "dirige toi vers le roi", srcImage: "httpqjfiqzjfquzon", srcVideo: "hthththth" }, question: { choixPossibles:this.ChoixPossibleTemp,questionText: "dans quel type de restaurant travail bob l'eponge", solution: "fastfood", point: 5, indice: {  point: 4, indiceText: "wow" } } }
+  // etapT2:Etape={ description :"etapT2",idEtape: '17', indication: {  indicationText: "", srcImage: "httpqjfiqzjfquzon", srcVideo: "hthththth" }, question: { choixPossibles:this.ChoixPossibleTemp, questionText: "qui est le meilleur ami de bob", solution: "patrick", point: 5, indice: {  point: 4, indiceText: "étoile rose"}}}
+  // etapesTemp:Etape[]=[this.etapT,this.etapT2]
+  //tempAllDefi={ idDefi: "D1", titre: "Defis noob", typeDefi: TypeDefi.enigme, description: "bob l'eponge", dateCreation: Timestamp.now(), points: 0, auteur: { login: "Nurbek Ss", age: 23, description: "checking", ville: "GRENOBLE", prenom: "Nurbek ", nom: "Serzhanov", pointTotal: 0, visites: [] }, arret: { codeArret: "23", nomArret: "Victor Hugo", ville: "Grenoble", openstreetmap: "https://www.openstreetmap.org/#map=19/45.189851/5.725127", googlemap: "https://www.google.com/maps/@45.189851,5.725127,19z", longitude: 5.725127, latitude: 45.189851, defis: ["D1"] }, visites: [], etapes:this.etapesTemp  }  as Defi
   allDefis:Defi[]|undefined//[this.tempAllDefi]
   constructor(public auth: AngularFireAuth,public authentif:AuthServiceService,public visites:VisitesService,
     private modal:ModalService,private post:PostService)  {

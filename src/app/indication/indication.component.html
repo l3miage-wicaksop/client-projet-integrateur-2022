@@ -2,7 +2,9 @@
 <p>
   {{this.indication?.indicationText}}
 </p>
-<img src={{this.indication?.srcImage}} alt="Girl in a jacket" width="500" height="600">
-<iframe width="420" height="315"
-src={{this.indication?.srcVideo}}>
-</iframe>
+<img [src]="this.indication!.srcImage|safe" alt="Girl in a jacket" width="500" height="600">
+<p>Video</p>
+<!-- <iframe width="420" height="315"
+[src]="this.indication!.srcVideo">
+</iframe> -->
+

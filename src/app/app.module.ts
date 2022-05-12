@@ -20,6 +20,7 @@ import { EtapeComponent } from './etape/etape.component';
 import { QuestionComponent } from './question/question.component';
 import { IndicationComponent } from './indication/indication.component';
 import { ChoixPossibleComponent } from './choix-possible/choix-possible.component';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ChoixPossibleComponent } from './choix-possible/choix-possible.componen
     EtapeComponent,
     QuestionComponent,
     IndicationComponent,
-    ChoixPossibleComponent
+    ChoixPossibleComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,7 @@
 <jw-modal  [id]="this.currentEtapeId">
   <p>{{etape!.description}}</p>
+  <p>Some resource to help you</p>
+  <app-indication [indication]="this.etape?.indication"></app-indication>
   <app-question [question]="etape!.question"
   (correctAnswer)="this.correctAnswer($event)"
   (incorrectAnswer)="this.incorrectAnswer($event)"

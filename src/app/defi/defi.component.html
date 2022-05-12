@@ -16,10 +16,11 @@
 
 
 <jw-modal [id]="defi!.idDefi+'-edit'">
+  <input type="button"  (click)="this.ngOnInit()" value="Press if you want to continue">
   <form [formGroup]="DefiForm!" >
     <p>
       <label for="titre">Titre </label>
-      <input type="text" id="titre" name="titre" formControlName="titre">
+      <input type="text" id="titre" name="titre" formControlName="titre" [value]="'dasda'">
     </p>
     <p>
       <label for="description">Description </label>
@@ -39,15 +40,17 @@
       Challange or Enigme
     </p>
   <div *ngFor="let etape of defi!.etapes;let index=index">
-    <button (click)="openEditEtape(index+1)">Etape {{index+1}}</button>
+
     <div formArrayName="etapes"
     >
-    <div *ngIf="this.etapesEditing()[index]">
-      <form [formGroup]="openEditEtape(index+1)!"><!--- Maybe it doesnt work [formGroupName]="j" *ngFor="let etape of this.etapesFormArrayCreating.controls;let j=index-->
+    <!-- openEditEtape(index+1)! -->
+
+      <form [formGroupName]="j" *ngFor="let etape of this.etapesFormArray.controls;let j=index"><!--- Maybe it doesnt work [formGroupName]="j" *ngFor="let etape of this.etapesFormArrayCreating.controls;let j=index-->
         <!-- I am not sure that it works -->
         <p>
           <label for="descriptionE">Descrtipion of Etape </label>
-          <input type="text" id="descriptionE" name="descriptionE" formControlName="description">
+          {{etape.value}}
+          <input type="text" id="descriptionE" name="descriptionE" formControlName="description" >
         </p>
         <p>
           <label for="question">Question </label>
@@ -61,11 +64,8 @@
           <label for="pointForSolutionE">Point for solution </label>
           <input type="text" id="pointForSolutionE" name="pointForSolutionE" formControlName="pointForSolution">
         </p>
-        <p>
-          <label for="reponsesE">Reponses </label>
-          <input type="text" id="reponsesE" name="reponsesE" formControlName="choixPossibles">
-        </p>
-        <div formArrayName="ChoixPossiblesForm">
+
+        <!-- <div formArrayName="ChoixPossiblesForm">
           <form [formGroupName]="choixIndex" *ngFor="let choix of this.ChoixPossiblesForm.controls;let choixIndex=index">
             <p>
               <label for="choixE">Choix {{choixIndex+1}}</label>
@@ -78,7 +78,7 @@
           <input type="text" id="toDeleteEtape" name="toDeleteEtape">
           <button>Delete choix</button>
 
-        </div>
+        </div> -->
         <p>
           <label for="indiceDefiE">Clue </label>
           <input type="text" id="indiceDefiE" name="indiceDefi" formControlName="indice">
@@ -108,7 +108,7 @@
 
     </div>
   </div>
-  </div>
+
   <button (click)="this.onSubmitEdit()">
     Save info
   </button>
@@ -134,8 +134,13 @@
         <input type="text" id="description" name="description" formControlName="description">
       </p>
       <p>
-        <label for="arret">Arret </label>
-        <input type="text" id="arret" name="arret" formControlName="arret">
+        <label for="select-arret">Select Arret</label>
+      <select name="arretSelected" id="arretSelectedId" (change)="selectChangeHandler($event)">
+        <option *ngFor="let arret of this.arrets$|async"
+        [value]="arret">
+          {{arret}}
+        </option>
+      </select>
       </p>
       <p>
         <label for="points">Points </label>
@@ -153,7 +158,6 @@
           <form [formGroupName]="j" *ngFor="let etape of this.etapesFormArrayCreating.controls;let j=index">
             <!-- I am not sure that it works -->
             <h3><div><p>Your Etape {{j+1}}</p></div></h3>
-            <input type="text" id="descriptionC" name="descriptionC" formControlName="descriptionC"/>
             <p>
               <label for="descriptionC">Descrtipion of Etape </label>
               <input type="text" id="descriptionC" name="descriptionC" formControlName="descriptionC">
