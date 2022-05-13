@@ -1,3 +1,4 @@
+import { PutService } from './services/put.service';
 import { PostService } from './services/post.service';
 import { ModalService } from './services/modal.service';
 import { VisitesService } from './services/visites.service';
@@ -89,7 +90,7 @@ export class AppComponent implements OnInit{
   //tempAllDefi={ idDefi: "D1", titre: "Defis noob", typeDefi: TypeDefi.enigme, description: "bob l'eponge", dateCreation: Timestamp.now(), points: 0, auteur: { login: "Nurbek Ss", age: 23, description: "checking", ville: "GRENOBLE", prenom: "Nurbek ", nom: "Serzhanov", pointTotal: 0, visites: [] }, arret: { codeArret: "23", nomArret: "Victor Hugo", ville: "Grenoble", openstreetmap: "https://www.openstreetmap.org/#map=19/45.189851/5.725127", googlemap: "https://www.google.com/maps/@45.189851,5.725127,19z", longitude: 5.725127, latitude: 45.189851, defis: ["D1"] }, visites: [], etapes:this.etapesTemp  }  as Defi
   allDefis:Defi[]|undefined//[this.tempAllDefi]
   constructor(public auth: AngularFireAuth,public authentif:AuthServiceService,public visites:VisitesService,
-    private modal:ModalService,private post:PostService)  {
+    private modal:ModalService,private post:PostService,private put:PutService)  {
 
 
   }
@@ -100,6 +101,11 @@ export class AppComponent implements OnInit{
     this.post.Refreshrequired.subscribe(
       response=>{
         this.getAll()
+      }
+    )
+    this.put.Refreshrequired.subscribe(
+      reponse=>{
+        this.getUsers()
       }
     )
     this.currentLocation()

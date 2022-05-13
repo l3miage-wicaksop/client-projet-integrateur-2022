@@ -62,7 +62,7 @@
         </p>
         <p>
           <label for="pointForSolutionE">Point for solution </label>
-          <input type="text" id="pointForSolutionE" name="pointForSolutionE" formControlName="pointForSolution">
+          <input type="number" id="pointForSolutionE" name="pointForSolutionE" formControlName="pointForSolution">
         </p>
 
         <!-- <div formArrayName="ChoixPossiblesForm">
@@ -85,7 +85,7 @@
         </p>
         <p>
           <label for="pointForIndiceE">Point for Clue </label>
-          <input type="text" id="pointForIndiceE" name="pointForIndiceE" formControlName="pointForIndice">
+          <input type="number" id="pointForIndiceE" name="pointForIndiceE" formControlName="pointForIndice">
         </p>
         <p>
           <label for="indicationE">Indication </label>
@@ -146,11 +146,18 @@
         <label for="points">Points </label>
         <input type="number" id="points" name="points" formControlName="points">
       </p>
-      <p>
+      <!-- <p>
         <label for="typeDefi">Type of Defi </label>
         <input type="text" id="typeDefi" name="typeDefi" formControlName="typeDefi">
         Challange or Enigme
-      </p>
+      </p> -->
+      <label for="typeDefi">Type of Defi</label>
+      <select name="typeDefi" id="typeDefi" (change)="selectChangeHandlerTypeDefi($event)">
+        <option *ngFor="let type of allTypesDefi"
+        [value]="type">
+          {{getTypeDefiOnVue(type)}}
+        </option>
+      </select>
       <!-- <div *ngFor="let i of this.tempArray;let index=index;trackBy:trackByIndex"> -->
         <!-- <button (click)="openEditEtape(index+1)">Etape {{index+1}}</button> -->
         <div formArrayName="etapes"
@@ -172,12 +179,9 @@
             </p>
             <p>
               <label for="pointForSolutionC">Point for solution </label>
-              <input type="text" id="pointForSolutionC" name="pointForSolutionC" formControlName="pointForSolution">
+              <input type="number" id="pointForSolutionC" name="pointForSolutionC" formControlName="pointForSolution">
             </p>
-            <p>
-              <label for="reponsesE">Reponses </label>
-              <input type="text" id="reponsesE" name="reponsesE" formControlName="choixPossibles">
-            </p>
+
           <!-- <p>
             <label for="sentences">How many sentences you want? </label>
             <input type="text" id="sentences" name="sentences" [(ngModel)]="this.numChoixPossible">
@@ -194,7 +198,7 @@
             </p>
             <p>
               <label for="pointForIndiceC">Point for Clue </label>
-              <input type="text" id="pointForIndiceC" name="pointForIndiceC" formControlName="pointForIndice">
+              <input type="number" id="pointForIndiceC" name="pointForIndiceC" formControlName="pointForIndice">
             </p>
             <p>
               <label for="indicationC">Indication </label>

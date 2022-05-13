@@ -24,6 +24,12 @@ export class EtapeComponent implements OnInit {
   lastEtapeRef:String|undefined
   currentEtapeId:string|undefined
 
+  correctAns:boolean|undefined=false
+  incorrectAns:boolean|undefined
+
+  pointPlus=0
+  pointMinus=0
+
   constructor(public modal: ModalService,private auth:AuthServiceService,private visiteServ:VisitesService,public defiServ:DefiService) {
     this.visiteServ.currentVisite?this.visiteServInEtape=this.visiteServ.currentVisite:console.log()
   }
@@ -93,10 +99,16 @@ export class EtapeComponent implements OnInit {
   }
 
   correctAnswer(pointPlus:number){
+    this.pointPlus=pointPlus
     this.auth.UpdatePointOfUser(pointPlus,true)
+    this.correctAns=true
+    this.incorrectAns=false
   }
   incorrectAnswer(pointMinus:number){
+    this.pointMinus=pointMinus
     this.auth.UpdatePointOfUser(pointMinus,false)
+    this.incorrectAns=true
+    this.correctAns=false
   }
 
   close(){

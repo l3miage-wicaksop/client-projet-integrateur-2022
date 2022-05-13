@@ -52,14 +52,14 @@ export class VisitesService {
 
   //Cheking the distance between defi and user
   isUserOnPlace(defi:Defi){
-    let place=defi.arret
-    let distance=this.getDistanceFromLatLonInKm(place.latitude,place.longitude,this.userLat,this.userLong)
-    this.setToZero()
-     if(distance>0.1) //10 meters
-       return false
-     console.log(distance)
-    this.accesVisite=true
-    this.tempDefi=defi
+     let place=defi.arret
+     let distance=this.getDistanceFromLatLonInKm(place.latitude,place.longitude,this.userLat,this.userLong)
+     this.setToZero()
+      if(distance>0.1) //10 meters
+        return false
+      console.log(distance)
+     this.accesVisite=true
+     this.tempDefi=defi
     return true
   }
 

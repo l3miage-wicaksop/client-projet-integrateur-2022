@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, Subject } from 'rxjs';
 import { PostService } from './post.service';
 
 @Injectable({
@@ -19,6 +19,11 @@ export class PutService {
 
   };
 
+  private _refreshrequired = new Subject<void>();
+
+  get Refreshrequired() {
+    return this._refreshrequired;
+  }
   constructor(private http : HttpClient,private post:PostService) //its gonna be more simple if we just goint to trigger the post subject to update info
   { }
 
@@ -35,7 +40,7 @@ export class PutService {
       const t={login:toUpdate.login,description:toUpdate.description,age:toUpdate.age,nom:toUpdate.nom,pointTotal:toUpdate.pointTotal,prenom:toUpdate.prenom,ville:toUpdate.ville}
       this.http.put(this.userPut+temp,t).subscribe(
         result=>{
-          this.post.Refreshrequired.next()
+          this.Refreshrequired.next()
           return true
       },err=>{return false})//not 200
       // const R = await lastValueFrom( this.http.put(this.userPut+temp,toUpdate,this.httpOptions) );

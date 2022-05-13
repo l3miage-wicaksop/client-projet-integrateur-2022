@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { Defi } from '../iterfaces';
 import { ModalService } from './modal.service';
 import { map, filter, tap } from 'rxjs/operators'
+import { AuthServiceService } from './auth-service.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class DefiService {
   registre:boolean=false
 
   constructor(private post :PostService,private put :PutService,private deleting:DeleteService,
-    public modal:ModalService,private http:HttpClient) {}
+    public modal:ModalService,private http:HttpClient,private auth:AuthServiceService) {}
 
   initEditingEtapes(numEtapes:number){
     this.etapesEditing.fill(false,0,numEtapes)
@@ -39,6 +40,8 @@ export class DefiService {
   }
 
   addDefi(defi:Defi){
+    const temp=defi
+    temp.auteur={login:this.auth.loginUser!}
     this.post.postingDefiPromise(defi)
     this.creatingDefi=false
   }

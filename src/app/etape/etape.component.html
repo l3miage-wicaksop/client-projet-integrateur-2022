@@ -6,6 +6,12 @@
   (correctAnswer)="this.correctAnswer($event)"
   (incorrectAnswer)="this.incorrectAnswer($event)"
   ></app-question>
+  <div *ngIf="this.correctAns">
+    You got {{this.pointPlus}}
+  </div>
+  <div *ngIf="this.incorrectAns">
+    You got -{{this.pointMinus}}
+  </div>
   <div *ngIf="this.firstEtape">
     <button  (click)="this.next()">Next</button>
   </div>

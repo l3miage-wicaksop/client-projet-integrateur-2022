@@ -29,7 +29,7 @@ export interface Defi{
   titre:string
   description:string
   dateCreation:Timestamp
-  auteur:Chami
+  auteur:{login:string}
   arret:Arret
   etapes:Etape[]
   points:number

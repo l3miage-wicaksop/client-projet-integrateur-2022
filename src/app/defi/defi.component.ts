@@ -1,3 +1,4 @@
+import { AuthServiceService } from './../services/auth-service.service';
 import { Observable } from 'rxjs';
 import { Timestamp } from 'firebase/firestore';
 import { Etape, TypeDefi, Question, Indice, Indication, Visite, ChoixPossible } from './../iterfaces';
@@ -69,6 +70,8 @@ export class DefiComponent implements OnInit {
 
   arrets$:Observable<any>|undefined
 
+  allTypesDefi:TypeDefi[]=[TypeDefi.challenge,TypeDefi.enigme]
+
   EtapesForm:FormArray|undefined
   public EtapesCreatingForm:FormArray=new FormArray([])
   //Cannot use the same form
@@ -82,7 +85,7 @@ export class DefiComponent implements OnInit {
   tempArray:number[]=[]
 
   constructor(public visiteServ:VisitesService,private modal: ModalService,private formBuilder: FormBuilder,
-    public defiServ:DefiService) {
+    public defiServ:DefiService,private auth:AuthServiceService) {
       this.arrets$=this.defiServ.getAllArretes()
      }
 
@@ -146,6 +149,9 @@ export class DefiComponent implements OnInit {
     return temp;
   }
   openModalParticulier(visiteID:string,defi:Defi) {
+    if(this.auth.loginUser){
+      alert("You are not sign up ,your visite wouldnt be scored")
+    }
     if(visiteID==="allVisitesDeDefi"){
       this.visiteWithDefi=true
       this.defiServ.registre=true
@@ -153,6 +159,7 @@ export class DefiComponent implements OnInit {
     }
     this.modal.close(defi.idDefi);
     this.modal.open(visiteID);
+
     //this.modal.close(defi.idDefi);
     this.visiteServ.tempDefi=defi
 
@@ -234,7 +241,7 @@ export class DefiComponent implements OnInit {
 
   onSubmitCreate(){
     let tempDefi=this.DefiCreating!.value
-    tempDefi.dateCreation=Timestamp.now()
+    tempDefi.dateCreation=new Date();//Timestamp.now()
     tempDefi.visites=[] as Visite[]
     tempDefi=this.installEtapes(tempDefi)
     //post
@@ -245,9 +252,9 @@ export class DefiComponent implements OnInit {
 
   installEtapes(tempDefi:any){
     let tempType=TypeDefi.challenge
-    if(tempDefi.typeDefi.toLowerCase()==="enigme")
-       tempType =TypeDefi.enigme
-    tempDefi.typeDefi=tempType
+    // if(tempDefi.typeDefi.toLowerCase()==="enigme")
+    //    tempType =TypeDefi.enigme
+    // tempDefi.typeDefi=tempType
     let etapesG:Etape[]=[]
     tempDefi.etapes.forEach((element:
       {descriptionC: any,question:any,indice:any,
@@ -316,7 +323,19 @@ export class DefiComponent implements OnInit {
 
   selectChangeHandler(event:any)
   {
-    this.DefiCreating.patchValue({arret:event})
+    this.DefiCreating.patchValue({arret:event.target.value})
   }
 
+  selectChangeHandlerTypeDefi(event:any)
+  {
+    if(event.target.value==='1'){
+      this.DefiCreating.patchValue({typeDefi:'challenge'})}
+    else{
+      this.DefiCreating.patchValue({typeDefi:'enigme'})}
+  }
+  getTypeDefiOnVue(type:TypeDefi){
+    if(type===TypeDefi.challenge)
+      return "challenge"
+    return "enigme"
+  }
 }

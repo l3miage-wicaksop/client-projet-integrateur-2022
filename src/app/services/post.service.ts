@@ -3,13 +3,14 @@ import { Chami, Visite } from '../iterfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { lastValueFrom, Subject, tap } from 'rxjs';
+import { AuthServiceService } from './auth-service.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
   userPost="https://projet-integrateur-2022.herokuapp.com/api/chamis/"
-  visitePost="https://projet-integrateur-2022.herokuapp.com/api/visite/"
+  visitePost="https://projet-integrateur-2022.herokuapp.com/api/visites/"
   defiPost="https://projet-integrateur-2022.herokuapp.com/api/defis/"
 
   private httpOptions = {
@@ -57,7 +58,7 @@ export class PostService {
 
 
 
-  postingVisite(visite:Visite){
+  postingVisite(visite:any){
     console.log("vnutri postingVisite")
     this.http.post(this.visitePost,visite,this.httpOptions).subscribe((val)=>{
       console.log("observable in postingVisite with value ",val)
@@ -73,6 +74,8 @@ export class PostService {
 
   async postingDefiPromise(defi:Defi): Promise<boolean> {
     try {
+      // const defiToUpdate=defi
+      // defiToUpdate.auteur={login:this.auth.loginUser!}
       let R = await lastValueFrom( this.http.post(this.defiPost,defi,this.httpOptions) );
       // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
 
@@ -87,15 +90,19 @@ export class PostService {
     }
   }
 
-  async postingVisitePromise(visite:Visite): Promise<boolean> {
+  async postingVisitePromise(visite:any): Promise<boolean> {
     try {
-      const R = await lastValueFrom( this.http.post(this.visitePost,visite,this.httpOptions) );
-      // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
-      if(R.status==200){
-        this.Refreshrequired.next()
-        console.log("observable in postingVisite with value ",R)
-        return true}
-      return false
+      this.http.post(this.visitePost,visite).subscribe((val)=>{
+        console.log("obsevable in visite",val)
+
+      })
+      // const R = await lastValueFrom( this.http.post(this.visitePost,visite) );
+      // // Il faudrait vérifier qu'on reçoit bien un code HTTP 200 dans la réponse...
+      // if(R.status==200){
+      //   this.Refreshrequired.next()
+      //   console.log("observable in postingVisite with value ",R)
+      //   return true}
+      return true
     } catch (err) {
       console.error("Error postingUsers", visite, "\n", err);
       return false;

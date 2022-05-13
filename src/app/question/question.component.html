@@ -8,6 +8,7 @@
 </div>
 <button (click)="useIndice()">Want to use Indice?</button>
   <div *ngIf="this.usingIndice">
+    You got - {{this.pointIndice}} for clue <br/>
     <p>
       {{question!.indice.indiceText}}
     </p>

@@ -21,10 +21,12 @@ export class VisitesComponent implements OnInit {
   bodyText: string | undefined;
   @Input() chami:Chami|undefined
   @Input() allVisites:Visite[]|undefined
-  visite:Visite | undefined
+  visite:any | undefined
 
   commentVisite:string|undefined
   indiceVisite:string|undefined
+
+  dateStart:any|undefined
 
   @Input() defi:Defi|undefined
 
@@ -59,7 +61,6 @@ export class VisitesComponent implements OnInit {
   }
 
   closeModal(id: string) {
-      console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA ,",this.defi)
       this.defiServ.openEtape(this.defiServ.currentDefi!.idDefi)
       this.modalService.close(id);
   }
@@ -69,10 +70,17 @@ export class VisitesComponent implements OnInit {
     console.warn('Your order has been submitted', this.visiteForm.value);
 
     const commentAndVisite=this.visiteForm.value
-    this.setCommentVisite(commentAndVisite.comment)
-    this.setIndiceVisite(commentAndVisite.indice)
-    this.visite!.mode=this.getMode(commentAndVisite.mode)
-    this.post.postingVisitePromise(this.visite!!).then(respose=>{
+    // this.setCommentVisite(commentAndVisite.comment)
+    // this.setIndiceVisite(commentAndVisite.indice)
+    let temp=this.visiteForm.value
+    temp.mode="distanciel"
+    let dateDebut=new Date()
+    this.dateStart=dateDebut
+    let dateFin=new Date()
+    const visiting={defi:{idDefi:this.defiServ.currentDefi!.idDefi},titre:temp.titre,visiteur:{login:this.auth.loginUser},dateDebut:dateDebut,dateFin:dateFin,mode:true,comment:temp.comment,indice:temp.indice,status:false,temp:"Visite instantané"}
+    //this.visite!.mode=TypeMode.distanciel// this.getMode(commentAndVisite.mode)
+    console.log("visite to be created",visiting)
+    this.post.postingVisitePromise(visiting).then(respose=>{
       respose?console.log("ok,we posted visite in db"):console.log("error ,post viste doesnt have status 200")
     })
     this.visiteForm.reset();
@@ -81,20 +89,22 @@ export class VisitesComponent implements OnInit {
 
   async createVisite(defi:Defi){
     try{
-      const temp=this.allVisites![this.allVisites!.length-1].idVisite.substring(1)
-      var visiteNum=Number(temp)+1
-      var visiteStr=this.allVisites!.length===0?'V1':String(visiteNum)
-      const time=Timestamp.now()
-      this.visite={chami:this.chami!,indice:"",commentaire:"",defi:defi,idVisite:visiteStr,dateDebut:time,pointsTotal:0,score:0,temps:'0',mode:TypeMode.distanciel,status:false}
+      let temp=this.visiteForm.value
+      temp.mode="distanciel"
+      let dateDebut=this.dateStart
+      let dateFin=new Date()
+      const visiting={defi:{idDefi:this.defiServ.currentDefi!.idDefi},titre:temp.titre,visiteur:{login:this.auth.loginUser},dateDebut:dateDebut,dateFin:dateFin,mode:true,comment:temp.comment,indice:temp.indice,status:false,temp:"Visite instantané"}
+      //const visiting={defi:{idDefi:this.defiServ.currentDefi!.idDefi},titre:temp.titre,visiteur:{login:this.auth.loginUser},dateDebut:dateDebut,dateFin:dateFin,mode:true,comment:temp.comment,indice:temp.indice,status:false,temp:"Visite instantané"}
+        //this.visite={chami:this.chami!,indice:"",commentaire:"",defi:defi,idVisite:visiteStr,dateDebut:time,pointsTotal:0,score:0,temps:'0',mode:TypeMode.distanciel,status:false}
       //status ->finished not ->finished.Pour l'instant seulment distanciel mode
-      this.setCurrentVisite(this.visite!)
+      this.setCurrentVisite(this.visite)
     }
     catch{
       console.log("Havent been created because visites are not created")
     }
   }
 
-  setCurrentVisite(visite:Visite){
+  setCurrentVisite(visite:any){
     this.visite=visite
     this.visiteServ.currentVisite=visite
   }
@@ -114,10 +124,10 @@ export class VisitesComponent implements OnInit {
     this.posEvent.emit(temp)
   }
 
-  getMode(mode:string){
-    if(mode.toLowerCase()==='dist')
+   getMode(mode:string){
+     if(mode==='dist')
       return TypeMode.distanciel
-    return TypeMode.presentiel
-  }
+     return TypeMode.presentiel
+   }
 
 }

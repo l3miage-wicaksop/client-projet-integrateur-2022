@@ -18,7 +18,7 @@ export class QuestionComponent implements OnInit {
 
   answers:boolean[]=[]
   usingIndice=false
-
+  pointIndice=0
   constructor(private fb: FormBuilder,private auth:AuthServiceService) {
 
    }
@@ -48,6 +48,7 @@ export class QuestionComponent implements OnInit {
   useIndice(){
     this.usingIndice=true
     //do - points in visites
+    this.pointIndice=this.question!.indice.point
     this.auth.UpdatePointOfUser(this.question!.indice.point,false)
   }
 

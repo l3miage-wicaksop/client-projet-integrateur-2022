@@ -88,7 +88,8 @@
           <button   (click)="openModal(defi.idDefi)" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" >
             {{defi.idDefi}}
           </button>
-              <app-defi [defi]="defi"> <app-visites [defi]="this.defi"></app-visites></app-defi>
+              <app-defi [defi]="defi"> <app-visites [defi]="defi"></app-visites></app-defi>
+              <!-- <app-visites [defi]="defi"></app-visites> -->
           </td>
         <td>{{defi.titre}}</td>
         <td>{{defi.dateCreation}}</td>
